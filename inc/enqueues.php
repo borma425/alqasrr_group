@@ -103,8 +103,7 @@ if( !is_admin() ) {
     wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css', [], $ver, 'all' );
     wp_enqueue_style( 'base-css', asset_url('base.css', '/css/main/'), [], $ver, 'all' );
     wp_enqueue_style( 'components-css', asset_url('components.css', '/css/main/'), [], $ver, 'all' );
-    wp_enqueue_style( 'tailwind-css', asset_url('tailwind.css', '/css/'), [], $ver, 'all' );
-
+    wp_enqueue_style( 'animations-css', asset_url('animations.css', '/css/main/'), [], $ver, 'all' );
 
 
 
@@ -113,8 +112,10 @@ if( !is_admin() ) {
     wp_enqueue_script("carousel-base", asset_url('carousel-base.js', '/js/main/'), [], $ver, true );
     wp_enqueue_script("parent-js", asset_url('main.js', '/js/main/'), [], $ver, true );
    
+    wp_enqueue_script("parent-js", asset_url('main.js', '/js/main/'), [], $ver, true );
 
-    
+    wp_enqueue_script("animations-js", asset_url('animations.js', '/js/main/'), [], $ver, true );
+
     // Load all.css and all.js only on homepage
     if (is_front_page()) {
         wp_enqueue_script("projects-carousel-js", asset_url('projects-carousel.js', '/js/home/'), [], $ver, true );
@@ -178,6 +179,7 @@ if( !is_admin() ) {
     }
 
 
+    wp_enqueue_style( 'tailwind-css', asset_url('tailwind.css', '/css/'), [], $ver, 'all' );
 
 
 

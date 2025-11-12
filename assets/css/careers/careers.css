@@ -82,6 +82,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(0deg, rgba(250, 245, 242, 1) 0%, rgba(250, 245, 242, 1) 100%),
+        url('https://c.animaapp.com/mhpmp2eaNKgPlW/img/frame-71.png');
     background-size: cover;
     background-position: center;
     padding: 8rem 1.25rem 4rem;

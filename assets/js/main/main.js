@@ -90,14 +90,3 @@
 })();
 // End Menu Toggle Functionality
 
-// Load Scroll Animations
-(function() {
-  'use strict';
-  
-  // Load animations.js dynamically
-  const script = document.createElement('script');
-  script.src = 'assets/js/main/animations.js?v=1.0.0';
-  script.async = true;
-  document.head.appendChild(script);
-})();
-
