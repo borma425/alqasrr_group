@@ -112,7 +112,8 @@
 }
 
 .menu-icon {
-    background: none;
+    background-image: url('../../img/main/vuesax-linear-textalign-right.svg');
+
     border: none;
     cursor: pointer;
     padding: 0;
