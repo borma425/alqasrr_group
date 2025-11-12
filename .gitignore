@@ -4,8 +4,8 @@ package-lock.json
 yarn.lock
 
 # Build outputs
-assets/css/tailwind.css
-assets/css/tailwind.css.map
+#assets/css/tailwind.css
+#assets/css/tailwind.css.map
 
 # OS files
 .DS_Store
