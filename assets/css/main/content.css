@@ -1,0 +1,747 @@
+/* ===================================
+   Editor Content Styles
+   WordPress / Text Editor Content Styling
+   Reusable for any page with editor content
+   
+   Usage: Add one of these classes to your container:
+   - .article-body
+   - .content-body
+   - .editor-content
+   - .wp-content
+   - .entry-content
+   =================================== */
+
+/* Define common selector group */
+.article-body,
+.content-body,
+.editor-content,
+.wp-content,
+.entry-content {
+    font-family: var(--body-font-family);
+    color: var(--text-gray);
+    line-height: 1.7;
+}
+
+/* Paragraphs */
+.article-body p,
+.content-body p,
+.editor-content p,
+.wp-content p,
+.entry-content p {
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--text-gray);
+    margin: 0 0 24px 0;
+    text-align: right;
+}
+
+.article-body p:last-child,
+.content-body p:last-child,
+.editor-content p:last-child,
+.wp-content p:last-child,
+.entry-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Headings */
+.article-body h1,
+.content-body h1,
+.editor-content h1,
+.wp-content h1,
+.entry-content h1 {
+    font-family: var(--font-aktiv);
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1.2;
+    color: var(--primary);
+    margin: 40px 0 24px 0;
+    text-align: right;
+}
+
+.article-body h2,
+.content-body h2,
+.editor-content h2,
+.wp-content h2,
+.entry-content h2 {
+    font-family: var(--font-aktiv);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.3;
+    color: var(--primary);
+    margin: 36px 0 20px 0;
+    text-align: right;
+}
+
+.article-body h3,
+.content-body h3,
+.editor-content h3,
+.wp-content h3,
+.entry-content h3 {
+    font-family: var(--font-aktiv);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--primary);
+    margin: 32px 0 18px 0;
+    text-align: right;
+}
+
+.article-body h4,
+.content-body h4,
+.editor-content h4,
+.wp-content h4,
+.entry-content h4 {
+    font-family: var(--font-aktiv);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--primary);
+    margin: 28px 0 16px 0;
+    text-align: right;
+}
+
+.article-body h5,
+.content-body h5,
+.editor-content h5,
+.wp-content h5,
+.entry-content h5 {
+    font-family: var(--font-aktiv);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--primary);
+    margin: 24px 0 14px 0;
+    text-align: right;
+}
+
+.article-body h6,
+.content-body h6,
+.editor-content h6,
+.wp-content h6,
+.entry-content h6 {
+    font-family: var(--font-aktiv);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--primary);
+    margin: 20px 0 12px 0;
+    text-align: right;
+}
+
+/* Links */
+.article-body a,
+.content-body a,
+.editor-content a,
+.wp-content a,
+.entry-content a {
+    color: var(--primary);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.article-body a:hover,
+.content-body a:hover,
+.editor-content a:hover,
+.wp-content a:hover,
+.entry-content a:hover {
+    color: var(--secondary);
+}
+
+/* Lists */
+.article-body ul,
+.content-body ul,
+.editor-content ul,
+.wp-content ul,
+.entry-content ul,
+.article-body ol,
+.content-body ol,
+.editor-content ol,
+.wp-content ol,
+.entry-content ol {
+    margin: 24px 0;
+    padding-right: 30px;
+    text-align: right;
+}
+
+.article-body ul,
+.content-body ul,
+.editor-content ul,
+.wp-content ul,
+.entry-content ul {
+    list-style-type: disc;
+}
+
+.article-body ol,
+.content-body ol,
+.editor-content ol,
+.wp-content ol,
+.entry-content ol {
+    list-style-type: decimal;
+}
+
+.article-body li,
+.content-body li,
+.editor-content li,
+.wp-content li,
+.entry-content li {
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--text-gray);
+    margin-bottom: 12px;
+}
+
+.article-body li:last-child,
+.content-body li:last-child,
+.editor-content li:last-child,
+.wp-content li:last-child,
+.entry-content li:last-child {
+    margin-bottom: 0;
+}
+
+.article-body ul ul,
+.content-body ul ul,
+.editor-content ul ul,
+.wp-content ul ul,
+.entry-content ul ul,
+.article-body ol ol,
+.content-body ol ol,
+.editor-content ol ol,
+.wp-content ol ol,
+.entry-content ol ol,
+.article-body ul ol,
+.content-body ul ol,
+.editor-content ul ol,
+.wp-content ul ol,
+.entry-content ul ol,
+.article-body ol ul,
+.content-body ol ul,
+.editor-content ol ul,
+.wp-content ol ul,
+.entry-content ol ul {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+/* Images */
+.article-body img,
+.content-body img,
+.editor-content img,
+.wp-content img,
+.entry-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 32px auto;
+    border-radius: 4px;
+}
+
+.article-body figure,
+.content-body figure,
+.editor-content figure,
+.wp-content figure,
+.entry-content figure {
+    margin: 32px 0;
+    text-align: center;
+}
+
+.article-body figcaption,
+.content-body figcaption,
+.editor-content figcaption,
+.wp-content figcaption,
+.entry-content figcaption {
+    font-size: 16px;
+    color: var(--gray-dark);
+    margin-top: 12px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Blockquotes */
+.article-body blockquote,
+.content-body blockquote,
+.editor-content blockquote,
+.wp-content blockquote,
+.entry-content blockquote {
+    margin: 32px 0;
+    padding: 24px 32px;
+    border-right: 4px solid var(--secondary);
+    background: rgba(190, 117, 90, 0.05);
+    font-style: italic;
+    color: var(--paragraph-grey);
+    text-align: right;
+}
+
+.article-body blockquote p,
+.content-body blockquote p,
+.editor-content blockquote p,
+.wp-content blockquote p,
+.entry-content blockquote p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.article-body blockquote cite,
+.content-body blockquote cite,
+.editor-content blockquote cite,
+.wp-content blockquote cite,
+.entry-content blockquote cite {
+    display: block;
+    margin-top: 16px;
+    font-size: 15px;
+    font-style: normal;
+    color: var(--text-gray);
+}
+
+/* Tables */
+.article-body table,
+.content-body table,
+.editor-content table,
+.wp-content table,
+.entry-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.article-body thead,
+.content-body thead,
+.editor-content thead,
+.wp-content thead,
+.entry-content thead {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.article-body th,
+.content-body th,
+.editor-content th,
+.wp-content th,
+.entry-content th {
+    padding: 16px 20px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.article-body td,
+.content-body td,
+.editor-content td,
+.wp-content td,
+.entry-content td {
+    padding: 16px 20px;
+    text-align: right;
+    font-size: 16px;
+    border: 1px solid #eaeaea;
+    color: var(--text-gray);
+}
+
+.article-body tbody tr:nth-child(even),
+.content-body tbody tr:nth-child(even),
+.editor-content tbody tr:nth-child(even),
+.wp-content tbody tr:nth-child(even),
+.entry-content tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.article-body tbody tr:hover,
+.content-body tbody tr:hover,
+.editor-content tbody tr:hover,
+.wp-content tbody tr:hover,
+.entry-content tbody tr:hover {
+    background: rgba(190, 117, 90, 0.05);
+}
+
+/* Code */
+.article-body code,
+.content-body code,
+.editor-content code,
+.wp-content code,
+.entry-content code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    color: var(--primary);
+}
+
+.article-body pre,
+.content-body pre,
+.editor-content pre,
+.wp-content pre,
+.entry-content pre {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 24px 0;
+    border-right: 4px solid var(--secondary);
+}
+
+.article-body pre code,
+.content-body pre code,
+.editor-content pre code,
+.wp-content pre code,
+.entry-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Horizontal Rule */
+.article-body hr,
+.content-body hr,
+.editor-content hr,
+.wp-content hr,
+.entry-content hr {
+    border: none;
+    border-top: 2px solid #eaeaea;
+    margin: 40px 0;
+}
+
+/* Strong & Emphasis */
+.article-body strong,
+.content-body strong,
+.editor-content strong,
+.wp-content strong,
+.entry-content strong,
+.article-body b,
+.content-body b,
+.editor-content b,
+.wp-content b,
+.entry-content b {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.article-body em,
+.content-body em,
+.editor-content em,
+.wp-content em,
+.entry-content em,
+.article-body i,
+.content-body i,
+.editor-content i,
+.wp-content i,
+.entry-content i {
+    font-style: italic;
+}
+
+/* Subscript & Superscript */
+.article-body sub,
+.content-body sub,
+.editor-content sub,
+.wp-content sub,
+.entry-content sub,
+.article-body sup,
+.content-body sup,
+.editor-content sup,
+.wp-content sup,
+.entry-content sup {
+    font-size: 14px;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+.article-body sup,
+.content-body sup,
+.editor-content sup,
+.wp-content sup,
+.entry-content sup {
+    top: -0.5em;
+}
+
+.article-body sub,
+.content-body sub,
+.editor-content sub,
+.wp-content sub,
+.entry-content sub {
+    bottom: -0.25em;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .article-body p,
+    .content-body p,
+    .editor-content p,
+    .wp-content p,
+    .entry-content p {
+        font-size: 15px;
+        line-height: 26px;
+    }
+
+    .article-body h1,
+    .content-body h1,
+    .editor-content h1,
+    .wp-content h1,
+    .entry-content h1 {
+        font-size: 30px;
+    }
+
+    .article-body h2,
+    .content-body h2,
+    .editor-content h2,
+    .wp-content h2,
+    .entry-content h2 {
+        font-size: 26px;
+    }
+
+    .article-body h3,
+    .content-body h3,
+    .editor-content h3,
+    .wp-content h3,
+    .entry-content h3 {
+        font-size: 22px;
+    }
+
+    .article-body h4,
+    .content-body h4,
+    .editor-content h4,
+    .wp-content h4,
+    .entry-content h4 {
+        font-size: 20px;
+    }
+
+    .article-body table,
+    .content-body table,
+    .editor-content table,
+    .wp-content table,
+    .entry-content table {
+        font-size: 15px;
+    }
+
+    .article-body th,
+    .content-body th,
+    .editor-content th,
+    .wp-content th,
+    .entry-content th,
+    .article-body td,
+    .content-body td,
+    .editor-content td,
+    .wp-content td,
+    .entry-content td {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .article-body p,
+    .content-body p,
+    .editor-content p,
+    .wp-content p,
+    .entry-content p {
+        font-size: 16px;
+        line-height: 28px;
+        margin-bottom: 20px;
+    }
+
+    .article-body h1,
+    .content-body h1,
+    .editor-content h1,
+    .wp-content h1,
+    .entry-content h1 {
+        font-size: 28px;
+        margin-top: 32px;
+        margin-bottom: 20px;
+    }
+
+    .article-body h2,
+    .content-body h2,
+    .editor-content h2,
+    .wp-content h2,
+    .entry-content h2 {
+        font-size: 24px;
+        margin-top: 28px;
+        margin-bottom: 16px;
+    }
+
+    .article-body h3,
+    .content-body h3,
+    .editor-content h3,
+    .wp-content h3,
+    .entry-content h3 {
+        font-size: 20px;
+        margin-top: 24px;
+        margin-bottom: 14px;
+    }
+
+    .article-body h4,
+    .content-body h4,
+    .editor-content h4,
+    .wp-content h4,
+    .entry-content h4 {
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 12px;
+    }
+
+    .article-body h5,
+    .content-body h5,
+    .editor-content h5,
+    .wp-content h5,
+    .entry-content h5 {
+        font-size: 16px;
+    }
+
+    .article-body h6,
+    .content-body h6,
+    .editor-content h6,
+    .wp-content h6,
+    .entry-content h6 {
+        font-size: 15px;
+    }
+
+    .article-body ul,
+    .content-body ul,
+    .editor-content ul,
+    .wp-content ul,
+    .entry-content ul,
+    .article-body ol,
+    .content-body ol,
+    .editor-content ol,
+    .wp-content ol,
+    .entry-content ol {
+        padding-right: 24px;
+        margin: 20px 0;
+    }
+
+    .article-body li,
+    .content-body li,
+    .editor-content li,
+    .wp-content li,
+    .entry-content li {
+        font-size: 16px;
+        line-height: 28px;
+        margin-bottom: 10px;
+    }
+
+    .article-body blockquote,
+    .content-body blockquote,
+    .editor-content blockquote,
+    .wp-content blockquote,
+    .entry-content blockquote {
+        padding: 20px 24px;
+        margin: 24px 0;
+    }
+
+    .article-body blockquote p,
+    .content-body blockquote p,
+    .editor-content blockquote p,
+    .wp-content blockquote p,
+    .entry-content blockquote p {
+        font-size: 16px;
+        line-height: 28px;
+    }
+
+    .article-body table,
+    .content-body table,
+    .editor-content table,
+    .wp-content table,
+    .entry-content table {
+        font-size: 14px;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .article-body th,
+    .content-body th,
+    .editor-content th,
+    .wp-content th,
+    .entry-content th,
+    .article-body td,
+    .content-body td,
+    .editor-content td,
+    .wp-content td,
+    .entry-content td {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .article-body img,
+    .content-body img,
+    .editor-content img,
+    .wp-content img,
+    .entry-content img {
+        margin: 24px auto;
+    }
+
+    .article-body figure,
+    .content-body figure,
+    .editor-content figure,
+    .wp-content figure,
+    .entry-content figure {
+        margin: 24px 0;
+    }
+
+    .article-body hr,
+    .content-body hr,
+    .editor-content hr,
+    .wp-content hr,
+    .entry-content hr {
+        margin: 32px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-body p,
+    .content-body p,
+    .editor-content p,
+    .wp-content p,
+    .entry-content p {
+        font-size: 15px;
+        line-height: 26px;
+    }
+
+    .article-body h1,
+    .content-body h1,
+    .editor-content h1,
+    .wp-content h1,
+    .entry-content h1 {
+        font-size: 26px;
+    }
+
+    .article-body h2,
+    .content-body h2,
+    .editor-content h2,
+    .wp-content h2,
+    .entry-content h2 {
+        font-size: 22px;
+    }
+
+    .article-body h3,
+    .content-body h3,
+    .editor-content h3,
+    .wp-content h3,
+    .entry-content h3 {
+        font-size: 18px;
+    }
+
+    .article-body blockquote,
+    .content-body blockquote,
+    .editor-content blockquote,
+    .wp-content blockquote,
+    .entry-content blockquote {
+        padding: 16px 20px;
+    }
+
+    .article-body th,
+    .content-body th,
+    .editor-content th,
+    .wp-content th,
+    .entry-content th,
+    .article-body td,
+    .content-body td,
+    .editor-content td,
+    .wp-content td,
+    .entry-content td {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}

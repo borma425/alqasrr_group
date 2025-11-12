@@ -1,0 +1,59 @@
+
+    <!-- News Section -->
+    <section class="news-section">
+        <div class="container-wide">
+            <div class="section-label">
+                {% if news_subtitle %}
+                    <span>{{ news_subtitle }}</span>
+                {% endif %}
+                <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="line-decoration">
+            </div>
+            <h2 class="section-title">
+                {% if news_title %}
+                    {{ news_title }}
+                {% endif %}
+            </h2>
+
+            <div class="news-grid">
+
+
+
+{% for news in news %}
+                <article class="news-card">
+                    <img src="{{ news.thumbnail.src('full') }}" alt="{{ news.title }}" class="news-image">
+                    <div class="news-content">
+                        <time class="news-date">{{ news.date }}</time>
+                        <h3 class="news-title">{{ news.title }}</h3>
+                        <p class="news-excerpt">{{ news.excerpt.read_more(false) }}</p>
+                        <a href="{{ news.link }}" class="news-link">معرفه المزيد</a>
+                    </div>
+                </article>
+
+{% endfor %}
+
+            </div>
+
+            <div class="news-controls">
+                <div class="news-progress">
+                    <div class="news-progress-bar">
+                        <div class="news-progress-fill"></div>
+                    </div>
+                </div>
+                <div class="carousel-buttons">
+                    <button class="carousel-btn prev" aria-label="السابق">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <button class="carousel-btn next" aria-label="التالي">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>

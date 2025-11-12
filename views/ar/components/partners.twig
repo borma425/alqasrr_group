@@ -1,0 +1,32 @@
+
+    <!-- Partners Section -->
+    {% set partners_section_title = function('get_option','partners_section_title')|default('شركاؤنا') %}
+    {% set partners_section_description = function('get_option','partners_section_description') %}
+    {% if is_english %}
+        {% set partners_section_title = function('get_option','partners_section_title_en')|default(partners_section_title ?: 'Our Partners') %}
+        {% set partners_section_description = function('get_option','partners_section_description_en')|default(partners_section_description ?: 'Strategic Partnerships') %}
+    {% endif %}
+    {% set partners_list = function('get_option','partners_list')|default([]) %}
+    <section class="partners-section">
+        <div class="container-wide">
+            <div class="section-label">
+                <span>{{ partners_section_description|default(is_english ? 'Strategic Partnerships' : 'شراكات استراتيجية') }}</span>
+                <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="line-decoration">
+            </div>
+            <h2 class="section-title">{{ partners_section_title }}</h2>
+
+            {% if partners_list and partners_list|length > 0 %}
+            <div class="partners-grid">
+                {% for partner in partners_list %}
+                    {% if partner.image %}
+                    {% set partner_title = partner.name ?: (is_english ? 'Partner' : 'شريك') %}
+                    <div class="partner-logo">
+                        <img src="{{ function('esc_url', partner.image) }}" alt="{{ partner_title }}" class="partner-logo-img">
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+    </section>

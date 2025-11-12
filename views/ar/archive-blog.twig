@@ -1,0 +1,160 @@
+{% extends "ar/base.twig" %}
+
+{% block grid_content %}
+
+
+
+
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="container-wide">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        {% if blog_hero_title %}
+                            {{ blog_hero_title }}
+                        {% else %}
+                            المركز الإعلامي
+                        {% endif %}
+                    </h1>
+                    <p class="hero-description">
+                        {% if blog_hero_description %}
+                            {{ blog_hero_description }}
+                        {% else %}
+                            اكتشف مستقبل سكنك بتجربة فريدة من نوعها عبر شاشتنا الإعلامية المتميزة.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Articles Section -->
+        <section class="featured-section">
+            <div class="container-wide">
+                {% if posts|length > 0 %}
+                <!-- Large Featured Article -->
+                {% set first_post = posts[0] %}
+                <article class="featured-large">
+                    <a href="{{ first_post.link }}" class="featured-link">
+                        <div class="featured-image-wrapper">
+                            {% if first_post.thumbnail %}
+                                <img src="{{ first_post.thumbnail.src('full') }}" alt="{{ first_post.title }}"
+                                    class="featured-image">
+                            {% else %}
+                                <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ first_post.title }}"
+                                    class="featured-image">
+                            {% endif %}
+                            <div class="featured-overlay">
+                                <div class="featured-content">
+                                    <time class="article-date-light">{{ first_post.date('j F Y') }}</time>
+                                    <h2 class="article-title-light">{{ first_post.title }}</h2>
+                                    <p class="article-excerpt-light">
+                                        {% if first_post.excerpt %}
+                                            {{ first_post.excerpt.read_more(false) }}
+                                        {% elseif first_post.content %}
+                                            {{ first_post.content|striptags|slice(0, 150) }}...
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Small Featured Articles -->
+                <div class="featured-small-grid">
+                    {% if posts|length > 1 %}
+                    {% set second_post = posts[1] %}
+                    <article class="featured-small">
+                        <a href="{{ second_post.link }}" class="featured-small-link">
+                            {% if second_post.thumbnail %}
+                                <img src="{{ second_post.thumbnail.src('full') }}" alt="{{ second_post.title }}" class="small-image">
+                            {% else %}
+                                <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ second_post.title }}" class="small-image">
+                            {% endif %}
+                            <div class="small-content">
+                                <time class="article-date">{{ second_post.date('j F Y') }}</time>
+                                <h3 class="article-title-small">
+                                    {{ second_post.title }}
+                                </h3>
+                            </div>
+                        </a>
+                    </article>
+                    {% endif %}
+
+                    {% if posts|length > 2 %}
+                    {% set third_post = posts[2] %}
+                    <article class="featured-small">
+                        <a href="{{ third_post.link }}" class="featured-small-link">
+                            {% if third_post.thumbnail %}
+                                <img src="{{ third_post.thumbnail.src('full') }}" alt="{{ third_post.title }}" class="small-image">
+                            {% else %}
+                                <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ third_post.title }}" class="small-image">
+                            {% endif %}
+                            <div class="small-content">
+                                <time class="article-date">{{ third_post.date('j F Y') }}</time>
+                                <h3 class="article-title-small">
+                                    {{ third_post.title }}
+                                </h3>
+                            </div>
+                        </a>
+                    </article>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Articles Grid -->
+        <section class="articles-section">
+            <div class="container-wide">
+                {% if posts|length > 3 %}
+                <div class="articles-grid">
+                    {% for post in posts %}
+                        {% if loop.index > 3 %}
+                        <article class="article-card">
+                            <a href="{{ post.link }}" class="article-card-link">
+                                {% if post.thumbnail %}
+                                    <img src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}" class="card-image">
+                                {% else %}
+                                    <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ post.title }}" class="card-image">
+                                {% endif %}
+                                <div class="card-content">
+                                    <time class="article-date">{{ post.date('j F Y') }}</time>
+                                    <h3 class="card-title">{{ post.title }}</h3>
+                                    <p class="card-excerpt">
+                                        {% if post.excerpt %}
+                                            {{ post.excerpt.read_more(false) }}
+                                        {% elseif post.content %}
+                                            {{ post.content|striptags|slice(0, 120) }}...
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </a>
+                        </article>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% elseif posts|length == 0 %}
+                <div class="no-posts-message" style="text-align: center; padding: 40px 20px;">
+                    <p style="font-size: 18px; color: #666;">لا توجد مقالات متاحة حالياً.</p>
+                </div>
+                {% endif %}
+            </div>
+     
+     
+{% include 'ar/main/pagination.twig' %}
+     
+     
+        </section>
+
+
+
+
+
+
+
+
+{% endblock %}
+

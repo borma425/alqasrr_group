@@ -1,0 +1,114 @@
+
+
+
+
+
+
+
+
+<section id="respond"  class="bg-white border rounded shadow-sm pt-3 px-3 mb-4">
+			<h2 class="h4 mb-4">Comments</h2>
+		<div>
+
+    {% if post.comments is not empty %}
+        {% for comment in post.comments %}
+
+<div data-comment="#" id="comment-{{ comment.comment_ID }}" class="d-flex mb-3 comment">
+					<div class="text-center flex-shrink-0 mr-2">
+						<img alt="" src="https://secure.gravatar.com/avatar/?s=40&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo avatar-default rounded-circle" height="40" width="40" loading="lazy" decoding="async">					</div>
+					<div class="bg-light flex-grow-1 p-2">
+						<div class="text-break mb-1" data-name="{{ comment.comment_author }}">{{ comment.comment_author }}</div>
+						<div class="small text-break mb-1">{{ comment.comment_content }}</div>
+						<div class="small d-flex">
+							<a class="reply" data-comment-id="{{ comment.comment_ID }}" href="{{ post.link ~ '/?replytocom='~ comment.comment_ID ~'#respond' }}">
+								<span>Reply</span>
+							</a>
+							<span class="mx-2">-</span>
+							<time class="text-muted" datetime="{{ comment.comment_date }}">
+								{{ comment.comment_date }}
+							</time>
+						</div>
+					</div>
+				</div>
+
+
+
+                    {# Display Replies if Available #}
+                    {% if comment.children is not empty %}
+                        <div class="replies ml-4">
+                            {% for reply in comment.children %}
+                                <div data-comment="#" id="comment-{{ reply.comment_ID }}" class="d-flex mb-3 reply">
+                                    <div class="text-center flex-shrink-0 mr-2">
+                                        <img alt="" src="https://secure.gravatar.com/avatar/?s=40&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo avatar-default rounded-circle" height="40" width="40" loading="lazy" decoding="async">
+                                    </div>
+                                    <div class="bg-light flex-grow-1 p-2">
+                                        <div class="text-break mb-1" data-name="{{ reply.comment_author }}">{{ reply.comment_author }}</div>
+                                        <div class="small text-break mb-1">{{ reply.comment_content }}</div>
+                                        <div class="small d-flex">
+                                            <time class="text-muted" datetime="{{ reply.comment_date }}">
+                                                {{ reply.comment_date }}
+                                            </time>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+
+        {% endfor %}
+    {% else %}
+			<h2 class="h4 mb-4">No comments yet.</h2>
+
+    {% endif %}
+
+
+
+		</div>
+			{% if fn('comments_open') %}
+
+				{{ function('comments_template') }}
+
+			{% endif %}
+</section>
+
+<script>
+
+
+document.addEventListener("DOMContentLoaded", function(){
+
+
+
+
+
+
+
+setTimeout( () =>{
+
+current_form = document.getElementById('commentform');
+
+if( current_form && queryParamExistUrl('replytocom') !== false ){
+
+
+
+var current_parent_comment = document.querySelector('#comment-'+ queryParamExistUrl('replytocom') ) ;
+
+var comment_id = ( queryParamExistUrl('replytochild') ) ? queryParamExistUrl('replytochild') : queryParamExistUrl('replytocom') ;
+
+comment_name = document.querySelector('#comment-'+ comment_id);
+comment_name = comment_name.querySelector('div[data-name]').getAttribute("data-name");
+    current_parent_comment.parentNode.insertBefore(current_form, current_parent_comment.nextSibling);
+
+document.querySelector('.form-comment input[id="url"]').value = comment_name;
+
+
+
+}
+
+
+}, 3000);
+
+
+});
+
+</script>

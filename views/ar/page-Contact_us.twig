@@ -1,0 +1,164 @@
+{% block html_head %}
+	{% include 'ar/main/html-head.twig' %}
+{% endblock %}
+
+{% block head %}
+
+</head>{% endblock %}
+<body class="font-aktiv">
+
+{% include 'ar/main/html-header.twig' %}
+
+
+
+
+
+    <!-- Main Content -->
+    <main>
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-layout">
+                    <!-- Right Side - Header and Navigation -->
+                    <div class="contact-right-side">
+                        <!-- Contact Header -->
+                        <div class="contact-header">
+                            <h1 class="section-title">تواصل معنا</h1>
+                            <p class="section-description">سجل بياناتك و سيتم التواصل معك في اقرب وقت</p>
+                        </div>
+
+                        <!-- Navigation Tabs -->
+                        <nav class="contact-nav">
+                            <div class="nav-indicator"></div>
+                            <a href="#form" class="nav-link active">نموذج الاتصال</a>
+                            <a href="#social" class="nav-link">وسائل التواصل</a>
+                            <a href="#map" class="nav-link">الخريطه</a>
+                        </nav>
+                    </div>
+
+                    <!-- Content Wrapper for Left Side Sections -->
+                    <div class="contact-content-wrapper">
+                        <!-- Contact Form -->
+                        <div class="contact-form-wrapper active" id="form">
+                            <h2 class="form-title">نموذج الاتصال</h2>
+
+                            <form class="contact-form" id="contactFormPage">
+                                <div class="form-message" id="contactFormMessage" style="display: none; margin-bottom: 20px; padding: 15px; border-radius: 5px;"></div>
+                                <input type="hidden" name="nonce" value="{{ fn('wp_create_nonce', 'AlQasrGroup_contact_nonce') }}">
+                                <input type="hidden" name="current_language" value="{{ fn('is_english_version') ? 'en' : 'ar' }}">
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            الأسم الاول <span class="required">*</span>
+                                        </label>
+                                        <input type="text" name="first_name" id="first_name" class="form-input" placeholder="مثال : محمد" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            الأسم الاخير <span class="required">*</span>
+                                        </label>
+                                        <input type="text" name="second_name" id="second_name" class="form-input" placeholder="مثال : أحمد" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">بريدك الألكتروني</label>
+                                        <input type="email" name="email" id="email" class="form-input" placeholder="مثال :username@example.com">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            رقم الجوال <span class="required">*</span>
+                                        </label>
+                                        <input type="tel" name="phone" id="phone" class="form-input" placeholder="مثال : +961 125 123 1256" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        الرسالة <span class="required">*</span>
+                                    </label>
+                                    <textarea name="message" id="message" class="form-textarea" placeholder="اكتب ما يأتي في خاطرك" required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-submit" id="contactSubmitBtn">
+                                    <span class="submit-text">ارسال</span>
+                                    <span class="loading-text" style="display: none;">جاري الإرسال...</span>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Social Media Section -->
+                        <div class="social-section" id="social">
+                            <h2 class="form-title">وسائل التواصل</h2>
+
+                            <div class="contact-list">
+                                {% if contact_methods %}
+                                    {% for key, value in contact_methods %}
+                                        <div class="contact-item">
+                                            <span class="contact-label">{{ key }}</span>
+                                            <span class="contact-value">{{ value }}</span>
+                                        </div>
+                                    {% endfor %}
+
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Map Section -->
+                        <div class="map-section" id="map">
+                            <h2 class="form-title">اعثر علينا على الخريطة</h2>
+
+                            <div class="map-wrapper">
+                                {% if contact_map_link %}
+                                    <iframe 
+                                        src="{{ contact_map_link }}" 
+                                        class="map-iframe"
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        title="خريطة الموقع">
+                                    </iframe>
+
+                                {% endif %}
+
+                                {% if contact_company_address %}
+                                    <a href="{{ contact_map_link ? contact_map_link : '#' }}" class="map-address" {% if contact_map_link %}target="_blank"{% endif %}>
+                                        <div class="location-icon"
+                                            style="background-image: url('assets/images/main/location.png')">
+                                        </div>
+                                        <span>{{ contact_company_address }}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Image Section -->
+        <section class="hero-image-section">
+            {% if contact_background_image %}
+                <img src="{{ contact_background_image }}" alt="Hero" class="hero-image">
+            {% endif %}
+        </section>
+
+
+
+
+
+{% include 'ar/components/cta.twig' %}
+
+</main>
+	{% block footer %}
+		{% include 'ar/main/html-footer.twig' %}
+	{% endblock %}
+
+{{ function('wp_footer') }}
+
+</body></html>
+

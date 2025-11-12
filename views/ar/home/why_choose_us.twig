@@ -1,0 +1,44 @@
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-section">
+        <div class="vine-decoration">
+            <img src="{{ asset_url('vine-green-vines-5184631a424b35967d72557c01e11622.png', '/img/home/why-choose/') }}" alt="">
+        </div>
+        <div class="container-wide">
+            <div class="why-choose-grid">
+                <div class="why-choose-content">
+                    <div class="section-label">
+                        {% if why_choose_subtitle %}
+                            <span>{{ why_choose_subtitle }}</span>
+                        {% endif %}
+                        <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="line-decoration">
+                    </div>
+                    <h2 class="section-title">
+                        {% if why_choose_title %}
+                            {{ why_choose_title }}
+
+                        {% endif %}
+                    </h2>
+                    <p class="why-choose-text">
+                        {% if why_choose_description %}
+                            {{ why_choose_description }}
+                        {% endif %}
+                    </p>
+                    <div class="why-choose-images">
+                        {% if why_choose_small_image_1 %}
+                            <img src="{{ why_choose_small_image_1 }}" alt="" class="why-image-small">
+                        {% endif %}
+                        {% if why_choose_small_image_2 %}
+                            <img src="{{ why_choose_small_image_2 }}" alt="" class="why-image-small">
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="why-choose-image">
+                    {% if why_choose_large_image %}
+                        <img src="{{ why_choose_large_image }}" alt="" class="why-image-main">
+                    {% endif %}
+                </div>
+
+            </div>
+    </section>

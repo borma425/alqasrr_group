@@ -1,0 +1,22 @@
+{
+  "name": "alqasr-group-theme",
+  "version": "1.0.0",
+  "description": "Al Qasr Group WordPress Theme",
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/tailwind.css --watch",
+    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/tailwind.css --minify",
+    "build:dev": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/tailwind.css"
+  },
+  "keywords": [
+    "wordpress",
+    "theme",
+    "tailwindcss"
+  ],
+  "author": "Yehia Elborma",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "tailwindcss": "^4.1.16"
+  }
+}
+

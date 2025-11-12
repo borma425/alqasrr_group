@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Custom CSS Variables */
+@layer base {
+  :root {
+    --primary: rgba(18, 43, 55, 1);
+    --x-2nd: rgba(190, 117, 90, 1);
+    --text-gray: rgba(97, 97, 97, 1);
+    --paragraph-grey: rgba(74, 73, 73, 1);
+    --secandary-color: rgba(237, 134, 59, 1);
+    --gray-400: rgba(152, 162, 179, 1);
+    --gray-500: rgba(102, 112, 133, 1);
+    --gray-600: rgba(71, 84, 103, 1);
+    --gray-300: rgba(208, 213, 221, 1);
+    --gray-4: rgba(189, 189, 189, 1);
+    --gray-3: rgba(130, 130, 130, 1);
+    --gray-5: rgba(224, 224, 224, 1);
+    --white-200: rgba(255, 255, 255, 0.08);
+    --white: rgba(251, 251, 251, 1);
+    --subheading-font-family: "Aktiv Grotesk VF Trial", Helvetica;
+    --subheading-font-weight: 400;
+    --subheading-font-size: 18px;
+    --subheading-letter-spacing: 0px;
+    --subheading-line-height: normal;
+    --subheading-font-style: normal;
+    --heading-font-family: "Aktiv Grotesk VF Trial", Helvetica;
+    --heading-font-weight: 700;
+    --heading-font-size: 40px;
+    --heading-letter-spacing: 0px;
+    --heading-line-height: normal;
+    --heading-font-style: normal;
+    --body-font-family: "Aktiv Grotesk VF Trial", Helvetica;
+    --body-font-weight: 400;
+    --body-font-size: 20px;
+    --body-letter-spacing: 0px;
+    --body-line-height: 34px;
+    --body-font-style: normal;
+  }
+}
+
+/* Custom Components */
+@layer components {
+  /* Add your custom component classes here */
+}
+
+/* Custom Utilities */
+@layer utilities {
+  /* Add your custom utility classes here */
+}
+

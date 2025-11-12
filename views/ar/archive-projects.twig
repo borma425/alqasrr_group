@@ -1,0 +1,164 @@
+{% extends "ar/base.twig" %}
+
+{% block grid_content %}
+
+
+
+
+
+
+
+        <!-- Hero Section -->
+        <section class="hero">
+            {% if projects_background_image %}
+                <img src="{{ projects_background_image }}" alt="" class="hero-bg" />
+            {% else %}
+                <img src="{{ asset_url('image.png', '/img/home/hero/') }}" alt="" class="hero-bg" />
+            {% endif %}
+            <div class="hero-content">
+                <h1 class="hero-title">{{ projects_hero_title|default('مشاريعنا') }}</h1>
+                <p class="hero-subtitle">{{ projects_hero_description|default('مشاريع عقارية متميزة في أسواق عالمية.') }}</p>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="container-wide">
+                <div class="filter-container">
+                    <div class="filter-controls">
+                        <h2 class="filter-title">تصفية حسب</h2>
+                        <div class="filter-dropdowns">
+                            <div class="filter-dropdown-wrapper">
+                                <select id="filter-location" class="filter-dropdown" name="location" data-taxonomy="city">
+                                    <option value="">موقع المشروع</option>
+                                    {% if cities %}
+                                        {% for city in cities %}
+                                            <option value="{{ city.slug }}"{% if selected_city and selected_city == city.slug %} selected="selected"{% endif %}>
+                                                {{ city.name }}
+                                            </option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <img src="{{ asset_url('arrow-down.svg', '/img/main/') }}" alt=""
+                                    class="filter-arrow" />
+                            </div>
+                            <div class="filter-dropdown-wrapper">
+                                <select id="filter-type" class="filter-dropdown" name="type" data-taxonomy="project_type">
+                                    <option value="">نوع المشروع</option>
+                                    {% if project_types %}
+                                        {% for project_type in project_types %}
+                                            <option value="{{ project_type.slug }}"{% if selected_project_type and selected_project_type == project_type.slug %} selected="selected"{% endif %}>
+                                                {{ project_type.name }}
+                                            </option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <img src="{{ asset_url('arrow-down.svg', '/img/main/') }}" alt=""
+                                    class="filter-arrow" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-bar">
+                        <div class="search-input">
+                            <img src="{{ asset_url('search-normal.svg', '/img/main/') }}" alt=""
+                                class="w-6 h-6" />
+                            <input type="text" placeholder="ابحث...." id="search-input" value="{{ search_query|default('') }}" />
+                        </div>
+
+                        <button class="search-button">بحث</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Project -->
+        <section class="featured-project">
+            <div class="container-wide">
+                <div class="project-card-large">
+                    {% if featured_post %}
+                        {% if featured_post.thumbnail %}
+                            <img src="{{ featured_post.thumbnail.src('large') }}" alt="{{ featured_post.title }}"
+                                class="project-image-large" />
+                        {% else %}
+                            <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ featured_post.title }}"
+                                class="project-image-large" />
+                        {% endif %}
+                        <div class="project-overlay">
+                            <div class="project-content-large">
+                                <div class="project-info">
+                                    <div class="project-header">
+                                        {% if featured_post.cities %}
+                                            <span class="project-location">{{ featured_post.cities[0].name }}</span>
+                                        {% endif %}
+                                        <h3 class="project-title-large">{{ featured_post.title }}</h3>
+                                    </div>
+                                    <p class="project-description">
+                                        {{ featured_post.excerpt|default(featured_post.content|excerpt(30)) }}
+                                    </p>
+                                </div>
+                                <a href="{{ featured_post.link }}" class="btn-secondary">
+                                    <span>معرفه المزيد</span>
+                            <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt=""
+                                class="w-6 h-6" />
+                                </a>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="projects-grid">
+            <div class="container-wide">
+                <div class="grid-container">
+                    {% if grid_posts %}
+                        {% for post in grid_posts %}
+                        <article class="project-card" 
+                            data-location="{% if post.cities %}{{ post.cities[0].name }}{% endif %}" 
+                            data-type="{% if post.project_types %}{{ post.project_types[0].name }}{% endif %}">
+                            <div class="project-image-wrapper">
+                                {% if post.thumbnail %}
+                                    <img src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}"
+                                        class="project-image" />
+                                {% else %}
+                                    <img src="{{ asset_url('image-3.png', '/img/home/projects/') }}" alt="{{ post.title }}"
+                                        class="project-image" />
+                                {% endif %}
+                                {% if post.cities %}
+                                    <span class="project-badge">{{ post.cities[0].name }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="project-details">
+                                <div class="project-text">
+                                    <h3 class="project-title">{{ post.title }}</h3>
+                                    <p class="project-desc">
+                                        {{ post.excerpt|default(post.content|excerpt(30)) }}
+                                    </p>
+                                </div>
+                                <a href="{{ post.link }}" class="btn-outline">
+                                    <span>معرفه المزيد</span>
+                                </a>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+
+{% include 'ar/main/pagination.twig' %}
+
+            </div>
+        </section>
+
+
+
+
+
+
+
+{% endblock %}
+

@@ -1,0 +1,75 @@
+<section id="mission" class="py-5 p py-lg-6">
+  <div class="container">
+    <h3 class="mission-titles">
+      {{ fn('get_AlQasrGroup_option', 'mission_section_title_en', 'Mission, vision and value') }}
+    </h3>
+
+    <div class="row g-0 justify-content-center">
+      <!-- Mission -->
+      <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center mv-col">
+        <article class="mv-card h-100 position-relative d-flex flex-column">
+          <div class="mv-hero mv-hero--mission d-flex align-items-center justify-content-center text-white"
+               style="background-image: url('{{ fn('get_AlQasrGroup_option', 'mission_hero_image', 'images/goal.png') }}');">
+            <h4 class="mv-title">
+              {{ fn('get_AlQasrGroup_option', 'mission_title_en', 'Mission') }}
+            </h4>
+          </div>
+          <div class="mv-icon hex hex--cyan"
+               style="background: url('{{ fn('get_AlQasrGroup_option', 'mission_hex_image', 'images/star1.png') }}');">
+            <img src="{{ fn('get_AlQasrGroup_option', 'mission_icon_image', 'images/goal.png') }}" alt="mission icon" width="28" height="28">
+          </div>
+          <div class="prag">
+            <p>
+              {{ fn('get_AlQasrGroup_option', 'mission_content_en', 'At Al Qasr Group, our mission is to empower every voice—spoken or unspoken. By creating deeply empathetic and culturally-grounded technologies, we ensure no individual is silenced by disability ...') }}
+              <a href="{{ site.url }}/en/about" class="text-decoration-none">See More</a>
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Vision -->
+      <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center mv-col">
+        <article class="mv-card h-100 position-relative d-flex flex-column">
+          <div class="mv-hero mv-hero--vision d-flex align-items-center justify-content-center text-white"
+               style="background-image: url('{{ fn('get_AlQasrGroup_option', 'vision_hero_image', 'images/eye.png') }}');">
+            <h4 class="mv-title mb-3">
+              {{ fn('get_AlQasrGroup_option', 'vision_title_en', 'Vision') }}
+            </h4>
+          </div>
+          <div class="mv-icon hex hex--purple"
+               style="background: url('{{ fn('get_AlQasrGroup_option', 'vision_hex_image', 'images/star2.png') }}');">
+            <img src="{{ fn('get_AlQasrGroup_option', 'vision_icon_image', 'images/eye.png') }}" alt="vision icon" width="28" height="28">
+          </div>
+          <div class="prag">
+            <p>
+              {{ fn('get_AlQasrGroup_option', 'vision_content_en', 'We envision a world where communication is universally accessible, where no individual is left voiceless due to disability, language, or cultural barriers. Starting with Arabic-speaking communities....') }}
+              <a href="{{ site.url }}/en/about" class="text-decoration-none">See More</a>
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Value -->
+      <div class="col-12 col-lg-4 d-flex justify-content-md-start mv-col">
+        <article class="mv-card h-100 position-relative d-flex flex-column">
+          <div class="mv-hero mv-hero--value d-flex align-items-center justify-content-center text-white"
+               style="background-image: url('{{ fn('get_AlQasrGroup_option', 'value_hero_image', 'images/jewel.png') }}');">
+            <h4 class="mv-title mb-3">
+              {{ fn('get_AlQasrGroup_option', 'value_title_en', 'Value') }}
+            </h4>
+          </div>
+          <div class="mv-icon hex hex--sky"
+               style="background: url('{{ fn('get_AlQasrGroup_option', 'value_hex_image', 'images/star3.png') }}');">
+            <img src="{{ fn('get_AlQasrGroup_option', 'value_icon_image', 'images/jewel.png') }}" alt="value icon" width="28" height="28">
+          </div>
+          <div class="prag">
+            <p>
+              {{ fn('get_AlQasrGroup_option', 'value_content_en', 'We believe everyone has the right to express themselves — not just those with access, privilege, or ability. We build tools inspired by the depth of Arabic language and lived generic templates....') }}
+              <a href="{{ site.url }}/en/about" class="text-decoration-none">See More</a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

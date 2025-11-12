@@ -1,0 +1,142 @@
+{% extends "ar/base.twig" %}
+
+{% block grid_content %}
+
+<div class="container mx-auto px-4 py-8" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+    <div class="contact-submission-wrapper" style="background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 2rem;">
+        <div class="submission-header" style="border-bottom: 2px solid #007bff; padding-bottom: 1rem; margin-bottom: 2rem;">
+            <h1 class="submission-title" style="font-size: 2rem; font-weight: bold; color: #333; margin: 0;">
+                رسالة اتصال من: {{ post.title }}
+            </h1>
+            <p class="submission-date" style="color: #666; margin-top: 0.5rem; font-size: 0.9rem;">
+                تاريخ الإرسال: {{ post.date('Y-m-d H:i:s') }}
+            </p>
+        </div>
+
+        <div class="submission-content" style="direction: rtl;">
+            {# Display the HTML table from post content #}
+            <div class="contact-table-wrapper" style="overflow-x: auto; margin: 20px 0;">
+                {{ post.content|raw }}
+            </div>
+            
+            {# If content is empty, display from meta fields #}
+            {% if not post.content %}
+            <div class="contact-table-wrapper" style="overflow-x: auto; margin: 20px 0;">
+                <table class="contact-submission-table" style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+                    <tbody>
+                        <tr style="background-color: #f8f9fa;">
+                            <th style="padding: 12px 15px; text-align: right; font-weight: bold; color: #495057; width: 30%; border: 1px solid #dee2e6;">الأسم الأول</th>
+                            <td style="padding: 12px 15px; text-align: right; border: 1px solid #dee2e6;">{{ contact_first_name|escape('html') }}</td>
+                        </tr>
+                        <tr style="background-color: #ffffff;">
+                            <th style="padding: 12px 15px; text-align: right; font-weight: bold; color: #495057; border: 1px solid #dee2e6;">الأسم الأخير</th>
+                            <td style="padding: 12px 15px; text-align: right; border: 1px solid #dee2e6;">{{ contact_second_name|escape('html') }}</td>
+                        </tr>
+                        {% if contact_email %}
+                        <tr style="background-color: #f8f9fa;">
+                            <th style="padding: 12px 15px; text-align: right; font-weight: bold; color: #495057; border: 1px solid #dee2e6;">البريد الإلكتروني</th>
+                            <td style="padding: 12px 15px; text-align: right; border: 1px solid #dee2e6;"><a href="mailto:{{ contact_email|escape('html_attr') }}" style="color: #007bff;">{{ contact_email|escape('html') }}</a></td>
+                        </tr>
+                        {% endif %}
+                        {% if contact_phone %}
+                        <tr style="background-color: #ffffff;">
+                            <th style="padding: 12px 15px; text-align: right; font-weight: bold; color: #495057; border: 1px solid #dee2e6;">رقم الجوال</th>
+                            <td style="padding: 12px 15px; text-align: right; border: 1px solid #dee2e6;"><a href="tel:{{ contact_phone|escape('html_attr') }}" style="color: #007bff;">{{ contact_phone|escape('html') }}</a></td>
+                        </tr>
+                        {% endif %}
+                        {% if contact_message %}
+                        <tr style="background-color: #f8f9fa;">
+                            <th style="padding: 12px 15px; text-align: right; font-weight: bold; color: #495057; vertical-align: top; border: 1px solid #dee2e6;">الرسالة</th>
+                            <td style="padding: 12px 15px; text-align: right; border: 1px solid #dee2e6; white-space: pre-wrap;">{{ contact_message|escape('html')|nl2br }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+
+            {# Additional information section #}
+            <div class="submission-actions" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #dee2e6; display: flex; gap: 1rem; justify-content: flex-start;">
+                {% if contact_email %}
+                <a href="mailto:{{ contact_email|escape('html_attr') }}" class="action-btn" style="display: inline-block; padding: 0.5rem 1.5rem; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 500;">
+                    <span>📧 إرسال بريد إلكتروني</span>
+                </a>
+                {% endif %}
+                
+                {% if contact_phone %}
+                <a href="tel:{{ contact_phone|escape('html_attr') }}" class="action-btn" style="display: inline-block; padding: 0.5rem 1.5rem; background: #28a745; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 500;">
+                    <span>📞 الاتصال</span>
+                </a>
+                {% endif %}
+                
+                <a href="{{ function('admin_url', 'edit.php?post_type=contact_submissions')|escape('html_attr') }}" class="action-btn" style="display: inline-block; padding: 0.5rem 1.5rem; background: #6c757d; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 500;">
+                    <span>← العودة إلى القائمة</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.contact-submission-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+    direction: rtl;
+}
+
+.contact-submission-table th,
+.contact-submission-table td {
+    padding: 12px 15px;
+    text-align: right;
+    border: 1px solid #dee2e6;
+}
+
+.contact-submission-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #495057;
+    width: 30%;
+}
+
+.contact-submission-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.contact-submission-table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.contact-submission-table a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-submission-table a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .contact-submission-table {
+        font-size: 0.9rem;
+    }
+    
+    .contact-submission-table th,
+    .contact-submission-table td {
+        padding: 8px 10px;
+    }
+    
+    .submission-actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+
+{% endblock %}
+

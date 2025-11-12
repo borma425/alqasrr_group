@@ -1,0 +1,116 @@
+<!-- Projects Section -->
+<section class="projects-section">
+    <div class="container-wide">
+        <div class="projects-header">
+            <div class="projects-header-content">
+                <div class="section-label">
+                    {% if projects_subtitle %}
+                        <span>{{ projects_subtitle }}</span>
+                    {% else %}
+                        <span>المجتمعات الجديدة</span>
+                    {% endif %}
+                    <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="line-decoration">
+                </div>
+                <h2 class="section-title">{{ projects_title }}</h2>
+            </div>
+            {% if projects_description %}
+                <p class="projects-description">
+                    {{ projects_description }}
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="projects-carousel-wrapper">
+            <div class="projects-carousel">
+
+
+
+
+
+{% if projects %}
+  {% for post in projects %}
+    <a href="{{ post.link }}" class="project-card">
+        <img src="{{ post.thumbnail.src }}" alt="{{ post.title }}" class="project-image">
+        <div class="project-info">
+            <h3 class="project-title">{{ post.title }}</h3>
+
+            {% set cities = post.terms('city') %}
+            {% if cities %}
+              <p class="project-location">{{ cities|map(c => c.name)|join(', ') }}</p>
+            {% endif %}
+        </div>
+    </a>
+  {% endfor %}
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <div class="carousel-controls">
+                <div class="carousel-progress">
+                    <div class="carousel-progress-bar">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                </div>
+                <div class="carousel-buttons">
+                    <button class="carousel-btn prev" aria-label="السابق">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <button class="carousel-btn next" aria-label="التالي">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- International Projects Section -->
+<section class="international-section">
+    <div class="container-wide">
+        <div class="international-grid">
+            <div class="international-content">
+                <div class="section-label">
+                    {% if international_subtitle %}
+                        <span>{{ international_subtitle }}</span>
+                    {% endif %}
+                    <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="line-decoration">
+                </div>
+                <h2 class="section-title">{{ international_title }}</h2>
+                {% if international_description %}
+                    <p class="international-text">
+                        {{ international_description }}
+                    </p>
+                {% endif %}
+                <a href="{{ site.link ~ '/projects' }}" class="btn-primary">
+                    <span>معرفه المزيد</span>
+                    <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="w-6 h-6">
+                </a>
+            </div>
+
+            <div class="international-map">
+                <img src="{{ asset_url('group-1385.png', '/img/home/international/') }}" alt="خريطة المشاريع الدولية"
+                    class="map-base">
+                <img src="{{ asset_url('group-1387.png', '/img/home/international/') }}" alt="" class="map-marker marker-1">
+                <img src="{{ asset_url('group-1388.png', '/img/home/international/') }}" alt="" class="map-marker marker-2">
+                <img src="{{ asset_url('group-1389.png', '/img/home/international/') }}" alt="" class="map-marker marker-3">
+                <img src="{{ asset_url('group-1390.png', '/img/home/international/') }}" alt="" class="map-marker marker-4">
+            </div>
+        </div>
+    </div>
+</section>

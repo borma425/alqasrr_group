@@ -1,0 +1,204 @@
+{% set homeName = site.name %}
+{% set homeUrl = site.link %}
+{% set homeDescription = fn('get_AlQasrGroup_site_description', 'en') %}
+{% set PostDescription = post.excerpt.length(50).read_more(false) %}
+{% set thumbnail =
+fn('is_home') or
+fn('is_front_page') ? fn('asset_url',"thumnail-1200x630.jpg","/img/default/") :
+post.thumbnail.src
+%}
+
+{% set mainTitle = post.title %}
+
+{% set Title =
+fn('is_post_type_archive','blogs') ? 'Blog' :
+fn('is_page') and post.post_name == 'about' ? 'About Us - ' ~ homeName :
+fn('is_page') and post.post_name == 'contact_us' ? 'Contact Us - ' ~ homeName :
+fn('is_page') and post.post_name == 'product' ? 'Our Products - ' ~ homeName :
+fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_title', 'en') :
+fn('is_singular') ? mainTitle :
+fn('is_search') ? search_query :
+fn('is_404') ? "404 - Not Found: " ~ homeName : homeName
+%}
+
+{% set Description =
+fn('is_post_type_archive','blogs') ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_page') and post.post_name == 'about' ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_page') and post.post_name == 'contact_us' ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_page') and post.post_name == 'product' ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_description', 'en') :
+PostDescription ? PostDescription : homeDescription
+%}
+
+<!-- SEO Meta Tags -->
+
+<!-- Main info -->
+<meta charset='UTF-8'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property='og:locale' content='en_US' />
+<meta property='og:type' content='website' />
+<meta property='og:site_name' content='{{homeName}}' />
+<meta itemprop='name' content='{{homeName}}'/>
+<meta content='unsafe-url' name='referrer'/>
+<meta content='true' name='MSSmartTagsPreventParsing'/>
+
+{% if not fn('is_search') %}
+<meta content='index, follow' name='googlebot'/>
+<meta content='follow, all' name='Googlebot-Image'/>
+<meta content='follow, all' name='msnbot'/>
+<meta content='follow, all' name='Slurp'/>
+<meta content='follow, all' name='ZyBorg'/>
+<meta content='follow, all' name='Scooter'/>
+<meta content='telephone=no,date=no,address=no,email=no,url=no' name='format-detection'/>
+<meta content='index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' name='googlebot'/>
+{% endif %}
+
+<!-- Favicon -->
+<link rel="icon" href="{{ fn('asset_url', 'logo.png', '/img/') }}">
+
+<!-- URL canonical -->
+<meta content='{{ current_url }}' property='og:url'/>
+<link href='{{ current_url }}' rel='canonical'/>
+<meta itemprop='url' content='{{ current_url }}'/>
+
+<!-- Twitter Graph -->
+<meta content='{{ Title }}' name='twitter:title'/>
+<meta content='{{ Description }}' name='twitter:description' property='og:description' itemprop='description'/>
+<meta name='twitter:card' content='summary_large_image' />
+<meta name='twitter:image' content='{{ thumbnail }}' />
+
+<!-- Featured Image -->
+<meta content='{{ thumbnail }}' property='og:image'/>
+<meta content='1200' property='og:image:width'/>
+<meta content='630' property='og:image:height'/>
+<meta property='og:image:alt' content='{{ Description }}' />
+<meta property='og:image:secure_url' content='{{ thumbnail }}' />
+<link href='{{ thumbnail }}' rel='image_src'/>
+
+<!-- Description -->
+<meta content='{{ Description }}' property='og:description'/>
+<meta content='{{ Description }}' name='description'/>
+<!-- Title -->
+<meta content='{{ Title }}' property='og:title'/>
+
+<title>{{ Title }}</title>
+
+{% if fn('is_home') or fn('is_front_page') %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "{{homeUrl}}",
+  "name": "{{homeName}}",
+  "description": "{{homeDescription}}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{homeUrl}}?s={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% endif %}
+
+{% if fn('is_post_type_archive','blogs') %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Blog",
+  "name": "{{homeName}} Blog",
+  "description": "{{Description}}",
+  "url": "{{current_url}}"
+}
+</script>
+{% endif %}
+
+{% if fn('is_singular') and post.post_type == 'blogs' %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{post.title}}",
+  "description": "{{PostDescription}}",
+  "author": {
+    "@type": "Organization",
+    "name": "{{homeName}}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{homeName}}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ fn('asset_url', 'logo.png', '/img/') }}"
+    }
+  },
+  "datePublished": "{{post.date}}",
+  "dateModified": "{{post.modified}}",
+  "image": "{{thumbnail}}",
+  "url": "{{current_url}}"
+}
+</script>
+{% endif %}
+
+{% if fn('is_page') and post.post_name == 'about' %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "AboutPage",
+  "name": "{{post.title}}",
+  "description": "{{Description}}",
+  "url": "{{current_url}}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{homeName}}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ fn('asset_url', 'logo.png', '/img/') }}"
+    }
+  }
+}
+</script>
+{% endif %}
+
+{% if fn('is_page') and post.post_name == 'contact_us' %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "ContactPage",
+  "name": "{{post.title}}",
+  "description": "{{Description}}",
+  "url": "{{current_url}}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{homeName}}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ fn('asset_url', 'logo.png', '/img/') }}"
+    }
+  }
+}
+</script>
+{% endif %}
+
+{% if fn('is_page') and post.post_name == 'product' %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebPage",
+  "name": "{{post.title}}",
+  "description": "{{Description}}",
+  "url": "{{current_url}}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{homeName}}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ fn('asset_url', 'logo.png', '/img/') }}"
+    }
+  }
+}
+</script>
+{% endif %}
+

@@ -1,0 +1,270 @@
+{% extends "ar/base.twig" %}
+
+{% block grid_content %}
+
+
+<!-- Hero Section -->
+<section class="hero min-h-screen">
+    <div class="hero-bg">
+        {% if about_hero_background %}
+            <img src="{{ about_hero_background }}" alt="Hero Background" class="hero-image">
+        {% else %}
+            <img src="{{ asset_url('about-hero.png', '/img/about/hero/') }}" alt="Hero Background" class="hero-image">
+        {% endif %}
+    </div>
+    <div class="hero-content">
+        {% if about_hero_title %}
+            <h1 class="hero-title">{{ about_hero_title }}</h1>
+        {% else %}
+            <h1 class="hero-title">رفاهية تتجاوز الحدود</h1>
+        {% endif %}
+        {% if about_hero_description %}
+            <p class="hero-subtitle">{{ about_hero_description }}</p>
+        {% else %}
+            <p class="hero-subtitle">مشاريع عقارية متميزة في أسواق عالمية.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-content">
+                <img src="{{ asset_url('group-1392.png', '/img/about/about/') }}" alt="Decorative" class="about-decoration">
+                <div class="section-header">
+                    <div class="section-label">
+                        {% if about_us_subtitle %}
+                            <span class="label-text">{{ about_us_subtitle }}</span>
+                        {% else %}
+                            <span class="label-text">من نحن</span>
+                        {% endif %}
+                        <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="label-line">
+                    </div>
+                    {% if about_us_title %}
+                        <h2 class="section-title">{{ about_us_title }}</h2>
+                    {% else %}
+                        <h2 class="section-title">عن القصر العقاريه</h2>
+                    {% endif %}
+                </div>
+                {% if about_us_description %}
+                    <p class="section-description">{{ about_us_description }}</p>
+
+                {% endif %}
+            </div>
+            <div class="about-images">
+                {% if about_us_image_1 %}
+                    <img src="{{ about_us_image_1 }}" alt="About Image 1" class="about-img-1">
+                {% endif %}
+                {% if about_us_image_2 %}
+                    <img src="{{ about_us_image_2 }}" alt="About Image 2" class="about-img-2">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section class="mission-vision-section">
+    <div class="container">
+        <div class="mission-vision-grid">
+            {% if why_choose_identity_items and why_choose_identity_items|length > 0 %}
+                {% for item in why_choose_identity_items %}
+                    <div class="mission-card">
+                        {% if item.icon %}
+                            <div class="card-icon">
+                                <img src="{{ item.icon }}" alt="{{ item.title_ar }}">
+                            </div>
+                        {% else %}
+                            <div class="card-icon">
+                                <img src="{{ asset_url('frame-1.png', '/img/about/mission-vision/') }}" alt="{{ item.title_ar }}">
+                            </div>
+                        {% endif %}
+                        {% if item.title_ar %}
+                            <h3 class="card-title">{{ item.title_ar }}</h3>
+                        {% else %}
+                            <h3 class="card-title">عنوان</h3>
+                        {% endif %}
+                        {% if item.description_ar %}
+                            <p class="card-text">{{ item.description_ar }}</p>
+                        {% else %}
+                            <p class="card-text">الوصف غير متوفر</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="why-choose-section">
+    <div class="container">
+        {# What Makes Us Different Section - الذي يميزنا #}
+        <div class="section-header centered">
+            <div class="section-label">
+                {% if why_choose_subtitle %}
+                    <span class="label-text">{{ why_choose_subtitle }}</span>
+                {% else %}
+                    <span class="label-text">ما الذي يميزنا</span>
+                {% endif %}
+                <img src="{{ asset_url('about-hero.png', '/img/about/hero/') }}" alt="" class="label-line">
+            </div>
+            {% if why_choose_title %}
+                <h2 class="section-title">{{ why_choose_title|nl2br }}</h2>
+            {% else %}
+                <h2 class="section-title">لماذا تختار<br>القصر العقارية؟</h2>
+            {% endif %}
+        </div>
+
+        <div class="why-choose-slider">
+            <div class="slider-wrapper">
+                <div class="slider-content">
+                    {% if why_choose_different_items and why_choose_different_items|length > 0 %}
+                        {% for item in why_choose_different_items %}
+                            <div class="slide {% if loop.first %}active{% endif %}" data-slide-index="{{ loop.index0 }}">
+                                <div class="slide-content">
+                                    <div class="slide-image">
+                                        {% if item.image %}
+                                            <img src="{{ item.image }}" alt="{{ item.title_ar }}">
+                                        {% else %}
+                                            <img src="{{ asset_url('image-13.png', '/img/about/why-choose/') }}" alt="{{ item.title_ar }}">
+                                        {% endif %}
+                                    </div>
+                                    <div class="slide-text">
+                                        <h3 class="slide-title">{{ item.title_ar }}</h3>
+                                        <p class="slide-description">{{ item.description_ar }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    {% endif %}
+                </div>
+
+                <div class="twisted-progress-bar">
+                    <svg class="progress-path" viewBox="0 0 100 600" preserveAspectRatio="none">
+                        <path class="progress-track"
+                            d="M50,0 C30,40 20,80 50,120 C80,160 70,200 50,240 C30,280 20,320 50,360 C80,400 70,440 50,480 C30,520 20,560 50,600"
+                            fill="none" stroke="#D9D9D9" stroke-width="2" />
+                        <path class="progress-fill"
+                            d="M50,0 C30,40 20,80 50,120 C80,160 70,200 50,240 C30,280 20,320 50,360 C80,400 70,440 50,480 C30,520 20,560 50,600"
+                            fill="none" stroke="#282828" stroke-width="2" />
+                    </svg>
+                    <div class="progress-indicators">
+                        {% if why_choose_different_items and why_choose_different_items|length > 0 %}
+                            {% for item in why_choose_different_items %}
+                                <div class="progress-indicator {% if loop.first %}active{% endif %}" data-slide="{{ loop.index0 }}">
+                                    <div class="indicator-circle"></div>
+                                    {% if loop.first %}
+                                        <div class="indicator-rings"></div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {# Fallback indicators #}
+                            {% for i in 0..3 %}
+                                <div class="progress-indicator {% if i == 0 %}active{% endif %}" data-slide="{{ i }}">
+                                    <div class="indicator-circle"></div>
+                                    {% if i == 0 %}
+                                        <div class="indicator-rings"></div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="slider-controls">
+                    <button class="slider-btn next" aria-label="التالي">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+
+                    <div class="slider-counter">
+                        {% if why_choose_different_items and why_choose_different_items|length > 0 %}
+                            <span class="total-slides">{{ "%02d"|format(why_choose_different_items|length) }}</span>
+                        {% else %}
+                            <span class="total-slides">04</span>
+                        {% endif %}
+                        <span class="separator">/</span>
+                        <span class="current-slide">01</span>
+                    </div>
+
+                    <button class="slider-btn prev" aria-label="السابق">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="values-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label">
+                {% if our_values_subtitle %}
+                    <span class="label-text">{{ our_values_subtitle }}</span>
+                {% endif %}
+                <img src="{{ asset_url('line-8.svg', '/img/main') }}" alt="" class="label-line">
+            </div>
+            {% if our_values_title %}
+                <h2 class="section-title">{{ our_values_title }}</h2>
+            {% endif %}
+        </div>
+
+        <div class="values-content">
+            {% if our_values_items and our_values_items|length > 0 %}
+                {% set items_count = our_values_items|length %}
+                {% set first_half = (items_count / 2)|round(0, 'ceil') %}
+                
+                <div class="values-grid">
+                    {% for item in our_values_items|slice(0, first_half) %}
+                        <div class="value-item">
+                            <span class="value-number">{{ "%02d"|format(loop.index) }}</span>
+                            <div class="value-content">
+                                <h3 class="value-title">{{ item.title_ar }}</h3>
+                                <p class="value-text">{{ item.description_ar }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% if our_values_background %}
+                    <img src="{{ our_values_background }}" alt="Values Background" class="values-bg">
+                {% endif %}
+
+                {% if items_count > first_half %}
+                    <div class="values-grid">
+                        {% for item in our_values_items|slice(first_half) %}
+                            <div class="value-item">
+                                <span class="value-number">{{ "%02d"|format(first_half + loop.index) }}</span>
+                                <div class="value-content">
+                                    <h3 class="value-title">{{ item.title_ar }}</h3>
+                                    <p class="value-text">{{ item.description_ar }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% include 'ar/components/partners.twig' %}
+
+
+
+{% endblock %}

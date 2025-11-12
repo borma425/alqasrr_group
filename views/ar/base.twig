@@ -1,0 +1,26 @@
+
+{% set defaultimg = fn('asset_url',"no_image_1200x627.png","/img/default/") | relative %}
+
+{% block html_head %}
+	{% include 'ar/main/html-head.twig' %}
+{% endblock %}
+
+{% block head %}
+
+</head>{% endblock %}
+<body class="font-aktiv">
+
+{% include 'ar/main/html-header.twig' %}
+
+<main>
+{% block grid_content %}{% endblock %}
+{% include 'ar/components/cta.twig' %}
+
+</main>
+	{% block footer %}
+		{% include 'ar/main/html-footer.twig' %}
+	{% endblock %}
+
+{{ function('wp_footer') }}
+
+</body></html>

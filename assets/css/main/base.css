@@ -1,0 +1,239 @@
+/* ===================================
+    Font Face Declarations
+   =================================== */
+
+@font-face {
+    font-family: "Aktiv Grotesk VF Trial";
+    src: url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.eot");
+    src: url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.eot?#iefix")format("embedded-opentype"),
+        url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.woff2")format("woff2"),
+        url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.woff")format("woff"),
+        url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.ttf")format("truetype"),
+        url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.svg#Aktiv Grotesk VF Trial")format("svg");
+}
+
+
+/* ===================================
+   Global Styles & Variables
+   =================================== */
+
+:root {
+    --primary: #282828;
+    --secondary: #FF5A00;
+    --secondary-orange: #FF5A00;
+    --text-gray: #616161;
+    --paragraph-grey: #4A4949;
+    --gray-light: #BDBDBD;
+    --gray-dark: #828282;
+    --white: #FBFBFB;
+    --black: #141415;
+    --secandary-color: rgba(237, 134, 59, 1);
+    --gray-400: rgba(152, 162, 179, 1);
+    --gray-500: rgba(102, 112, 133, 1);
+    --gray-600: rgba(71, 84, 103, 1);
+    --gray-300: rgba(208, 213, 221, 1);
+    --gray-4: rgba(189, 189, 189, 1);
+    --gray-3: rgba(130, 130, 130, 1);
+    --gray-5: rgba(224, 224, 224, 1);
+    --white-200: rgba(255, 255, 255, 0.08);
+    --subheading-font-family: "Aktiv Grotesk VF Trial", Helvetica;
+    --subheading-font-weight: 400;
+    --subheading-font-size: 16px;
+    --subheading-letter-spacing: 0px;
+    --subheading-line-height: normal;
+    --subheading-font-style: normal;
+    --heading-font-family: "Aktiv Grotesk VF Trial", Helvetica;
+    --heading-font-weight: 700;
+    --heading-font-size: 34px;
+    --heading-letter-spacing: 0px;
+    --heading-line-height: normal;
+    --heading-font-style: normal;
+    --body-font-family: "Aktiv Grotesk VF Trial", Helvetica;
+    --body-font-weight: 400;
+    --body-font-size: 16px;
+    --body-letter-spacing: 0px;
+    --body-line-height: 28px;
+    --body-font-style: normal;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+    --spacing-3xl: 6rem;
+    --border-radius: 0;
+    --transition: all 0.3s ease;
+
+    /* Unified Font Sizes - Desktop */
+    --font-size-xl: 65px;
+    --font-size-large: 38px;
+    --font-size-medium: 20px;
+    --font-size-small: 14px;
+
+    /* Unified Font Sizes - Tablet */
+    --font-size-xl-tablet: 55px;
+    --font-size-large-tablet: 32px;
+    --font-size-medium-tablet: 18px;
+    --font-size-small-tablet: 13px;
+
+    /* Unified Font Sizes - Mobile */
+    --font-size-xl-mobile: 35px;
+    --font-size-large-mobile: 24px;
+    --font-size-medium-mobile: 16px;
+    --font-size-small-mobile: 13px;
+}
+
+
+/* ===================================
+   Reset & Base Styles
+   =================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+body {
+    font-family: 'Aktiv Grotesk VF Trial', Helvetica, Arial, sans-serif;
+    color: var(--text-gray);
+    line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ===================================
+   Layout Containers
+   =================================== */
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1296px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 0 40px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding: 0 72px;
+    }
+}
+
+
+.container-wide {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 72px;
+}
+
+@media (max-width: 1024px) {
+    .container-wide {
+        padding: 0 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-wide {
+        padding: 0 20px;
+    }
+}
+
+
+/* ===================================
+   Typography
+   =================================== */
+
+.section-title {
+    font-family: 'Aktiv Grotesk VF Trial', Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: var(--font-size-large);
+    line-height: 1.2;
+    color: var(--primary);
+}
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: var(--font-size-small);
+    color: var(--secondary);
+    margin-bottom: 12px;
+}
+
+.section-label span {
+    white-space: nowrap;
+}
+
+.line-decoration {
+    width: 147px;
+    height: 1px;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: var(--font-size-large-mobile);
+    }
+
+    .section-label {
+        font-size: var(--font-size-small-mobile);
+    }
+}
+
+.section {
+    padding: var(--spacing-3xl) 0;
+}
+
+.section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: start;
+}
+
+.section-grid.reverse {
+    direction: ltr;
+}
+
+.section-grid.reverse>* {
+    direction: rtl;
+}
+
+
+/* ===================================
+   Utility Classes
+   =================================== */
+
+.text-white {
+    color: #ffffff !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+}

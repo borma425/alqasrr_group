@@ -1,0 +1,14 @@
+    <!-- Hero Section -->
+    {% set hero_bg = function('get_option','hero_bg_image') %}
+    {% set hero_title_ar = function('get_option','hero_title_ar') %}
+    {% set hero_subtitle_ar = function('get_option','hero_subtitle_ar') %}
+    <section class="hero-section min-h-screen flex items-center" style="background-image: url('{{ function('esc_url', hero_bg) }}');">
+        <div class="hero-bg">
+            {# في حال رغبتك بالاحتفاظ بعنصر <img> بدلاً من CSS background #}
+            <img src="{{ function('esc_url', hero_bg)|default(asset_url('image.png', '/img/home/hero/')) }}" alt="{{ function('get_bloginfo','name') }}" class="hero-image">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">{{ hero_title_ar|default('رفاهية تتجاوز الحدود') }}</h1>
+            <p class="hero-subtitle">{{ hero_subtitle_ar|default('مشاريع عقارية متميزة في أسواق عالمية.') }}</p>
+        </div>
+    </section>
