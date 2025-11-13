@@ -154,7 +154,7 @@ if( !is_admin() ) {
     }
 
     // Load projects archive page assets (only on archive, not single posts)
-    if (is_post_type_archive('projects')) {
+    if (is_post_type_archive('projects') || is_tax('project_type')) {
         wp_enqueue_style( 'projects-css', asset_url('projects.css', '/css/projects/'), [], $ver, 'all' );
         wp_enqueue_script("projects-filter-js", asset_url('projects-filter.js', '/js/projects/'), [], $ver, true );
     }
