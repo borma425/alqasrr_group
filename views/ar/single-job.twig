@@ -1,0 +1,114 @@
+{% extends "ar/base.twig" %}
+
+{% block grid_content %}
+
+       <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-header">
+                        <h1 class="hero-title">{{ post.title }}</h1>
+                        <div class="hero-location">
+                            <img src="{{ asset_url('location.png', '/img/main/') }}" alt="" class="icon" />
+                            <span>
+                                {{ job_location|default('') }}
+                                {% if job_type %}
+                                    {% if job_location %} • {% endif %}
+                                    {{ job_type }}
+                                {% endif %}
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="{{ job_featured_image }}" alt="{{ post.title }}" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Details Section -->
+        <section class="job-details">
+            <div class="container">
+                <div class="article-body">
+                    {{ post.content|raw }}
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Form Section -->
+        <section class="application-section">
+            <div class="container">
+                <div class="application-wrapper">
+                    <div class="form-header">
+                        <div class="section-label">
+                            <span>{{ job_form_texts.section_label }}</span>
+                            <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="label-line" />
+                        </div>
+                        <h2 class="section-title">{{ job_form_texts.section_title }}</h2>
+                    </div>
+
+                    <div class="form-container">
+                        <form class="application-form" id="applicationForm" method="post" enctype="multipart/form-data" novalidate>
+                            <input type="hidden" name="job_id" value="{{ post.id }}" />
+                            <input type="hidden" name="current_language" value="{{ current_language|default('ar') }}" />
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ job_form_texts.first_name_label }} <span class="required">{{ job_form_texts.required_indicator }}</span>
+                                    </label>
+                                    <input type="text" class="form-input" name="first_name" placeholder="{{ job_form_texts.first_name_placeholder }}" required autocomplete="given-name" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ job_form_texts.last_name_label }} <span class="required">{{ job_form_texts.required_indicator }}</span>
+                                    </label>
+                                    <input type="text" class="form-input" name="last_name" placeholder="{{ job_form_texts.last_name_placeholder }}" required autocomplete="family-name" />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ job_form_texts.phone_label }} <span class="required">{{ job_form_texts.required_indicator }}</span>
+                                    </label>
+                                    <input type="tel" class="form-input" name="phone" placeholder="{{ job_form_texts.phone_placeholder }}"
+                                        required autocomplete="tel" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">{{ job_form_texts.email_label }}</label>
+                                    <input type="email" class="form-input" name="email" placeholder="{{ job_form_texts.email_placeholder }}" dir="ltr"
+                                        style="text-align: right;" autocomplete="email" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">
+                                    {{ job_form_texts.upload_label }} <span class="required">{{ job_form_texts.required_indicator }}</span>
+                                </label>
+                                <div class="file-upload">
+                                    <input type="file" id="cvUpload" name="cv_file" accept=".pdf,.doc,.docx" hidden />
+                                    <label for="cvUpload" class="file-upload-label" id="cvUploadLabel">
+                                        <img src="{{ asset_url('interface---download.png', '/img/main/') }}" alt="" class="upload-icon" />
+                                        <div class="file-upload-text">
+                                            <span class="file-upload-prompt">{{ job_form_texts.upload_placeholder }}</span>
+                                            <span class="file-upload-filename" id="cvFileName"
+                                                aria-live="polite"></span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="icon" />
+                                <span>{{ job_form_texts.submit_label }}</span>
+                            </button>
+                            <div class="form-feedback" id="applicationFeedback" role="status" aria-live="polite"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+{% endblock %}

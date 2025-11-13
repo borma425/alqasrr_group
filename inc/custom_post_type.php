@@ -34,6 +34,34 @@ function AlQasrGroup_register_post_types() {
         'show_in_rest' => false
     ));
 
+    // Job Applications CPT
+    register_post_type('job_applications', array(
+        'labels' => array(
+            'name' => 'طلبات الوظائف',
+            'singular_name' => 'طلب وظيفة',
+            'add_new' => 'إضافة طلب جديد',
+            'add_new_item' => 'إضافة طلب وظيفة جديد',
+            'edit_item' => 'تعديل طلب الوظيفة',
+            'new_item' => 'طلب وظيفة جديد',
+            'view_item' => 'عرض طلب الوظيفة',
+            'search_items' => 'البحث في طلبات الوظائف',
+            'not_found' => 'لم يتم العثور على طلبات',
+            'not_found_in_trash' => 'لا توجد طلبات في سلة المحذوفات',
+            'all_items' => 'جميع طلبات الوظائف'
+        ),
+        'public' => false,
+        'show_ui' => false,
+        'show_in_menu' => false,
+        'show_in_rest' => false,
+        'supports' => array('title'),
+        'capability_type' => 'post',
+        'map_meta_cap' => true,
+        'hierarchical' => false,
+        'rewrite' => false,
+        'has_archive' => false,
+        'query_var' => false
+    ));
+
     // Projects CPT
     register_post_type('projects', array(
         'labels' => array(

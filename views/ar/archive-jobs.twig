@@ -1,0 +1,89 @@
+{% extends "ar/base.twig" %}
+
+{% block grid_content %}
+
+
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">{{ jobs_main_title|default('انضم إلينا') }}</h1>
+                <p class="hero-description">
+                    {{ jobs_main_description|default('اكتشف مستقبلك المهني مع فريق القصر العقارية.') }}
+                </p>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <div class="section-header">
+                            <span class="section-label">
+                                <span class="label-text">{{ jobs_highlight_subtitle|default('العمل في القصر العقارية') }}</span>
+                                <img class="label-line" src="{{ asset_url('line-8.svg', '/img/careers/') }}"
+                                    alt="" />
+                            </span>
+                            <h2 class="section-title">
+                                {{ jobs_highlight_title|default('تفتخر القصر العقارية ببيئة عمل رائدة وملهمة') }}
+                            </h2>
+                        </div>
+                        <p class="section-description">
+                            {{ jobs_highlight_description|default('نؤمن ببناء منظومة عمل متكاملة تُعزز الإبداع وتدعم تطلعات الفريق لتحقيق النجاحات المشتركة.') }}
+                        </p>
+                    </div>
+                    <img class="about-image" src="{{ jobs_highlight_image}}"
+                        alt="{{ jobs_highlight_title|default('العمل في القصر العقارية') }}" />
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Jobs Section -->
+        <section class="jobs-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">
+                        <span class="label-text">انضم الينا</span>
+                        <img class="label-line" src="{{ asset_url('line-8.svg', '/img/careers/') }}" alt="" />
+                    </span>
+                    <h2 class="section-title">الوظائف الشاغره</h2>
+                </div>
+
+                <div class="jobs-list">
+                    {% if jobs and jobs|length %}
+                        {% for job in jobs %}
+                            <article class="job-card">
+                                <div class="job-header">
+                                    <div class="job-info">
+                                        <div class="job-title-row">
+                                            <h3 class="job-title">{{ job.title }}</h3>
+                                            {% if job.job_type %}
+                                                <span class="job-type">{{ job.job_type }}</span>
+                                            {% endif %}
+                                        </div>
+                                        {% if job.job_location %}
+                                            <div class="job-location">
+                                                <img src="{{ asset_url('location.svg', '/img/careers/') }}" alt="" />
+                                                <span>{{ job.job_location }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <a href="{{ job.job_apply_link|default(job.link) }}" class="btn-primary">
+                                        <img src="{{ asset_url('arrow-right.svg', '/img/careers/') }}" alt="" />
+                                        <span>{{ job.job_apply_label|default(jobs_cta_small_title|default('انضم إلينا')) }}</span>
+                                    </a>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-jobs-message">لا توجد وظائف متاحة حالياً، يُرجى التحقق لاحقاً.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+
+{% endblock %}
+

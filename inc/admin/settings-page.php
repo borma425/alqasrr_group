@@ -9,7 +9,8 @@ $files_to_include = [
     'footer-settings.php',
     'home-page-settings.php',
     'blog-settings.php',
-    'projects-settings.php'
+    'projects-settings.php',
+    'jobs-settings.php'
 ];
 
 foreach ($files_to_include as $file) {
@@ -88,6 +89,10 @@ function AlQasrGroup_settings_page() {
         if (function_exists('AlQasrGroup_save_archive_projects_settings')) {
             AlQasrGroup_save_archive_projects_settings();
         }
+
+        if (function_exists('AlQasrGroup_save_jobs_settings')) {
+            AlQasrGroup_save_jobs_settings();
+        }
         
         echo '<div class="notice notice-success"><p>تم حفظ الإعدادات بنجاح!</p></div>';
     }
@@ -106,6 +111,7 @@ function AlQasrGroup_settings_page() {
                 <a href="#footer" class="nav-tab">الفوتر CTA</a>
                 <a href="#blog" class="nav-tab">المدونة</a>
                 <a href="#projects" class="nav-tab">المشاريع</a>
+                <a href="#jobs" class="nav-tab">الوظائف</a>
             </div>
             
             <!-- Logo Section -->
@@ -141,6 +147,11 @@ function AlQasrGroup_settings_page() {
             <!-- Projects Section -->
             <div id="projects" class="tab-content" style="display:none;">
                 <?php AlQasrGroup_archive_projects_settings_html(); ?>
+            </div>
+
+            <!-- Jobs Section -->
+            <div id="jobs" class="tab-content" style="display:none;">
+                <?php AlQasrGroup_jobs_settings_html(); ?>
             </div>
             
             <?php submit_button('حفظ الإعدادات', 'primary', 'submit', false); ?>

@@ -159,6 +159,11 @@ if( !is_admin() ) {
         wp_enqueue_script("projects-filter-js", asset_url('projects-filter.js', '/js/projects/'), [], $ver, true );
     }
 
+        // Load jobs archive page assets (only on archive, not single posts)
+        if (is_post_type_archive('jobs') ) {
+            wp_enqueue_style( 'careers-css', asset_url('careers.css', '/css/careers/'), [], $ver, 'all' );
+        }
+
     // Load single blog post assets
     if (is_singular('blog')) {
         wp_enqueue_style( 'single-blog-css', asset_url('single-blog.css', '/css/blog/'), [], $ver, 'all' );
@@ -166,6 +171,40 @@ if( !is_admin() ) {
       
         wp_enqueue_script("related-articles-carousel-js", asset_url('related-articles-carousel.js', '/js/blog/'), [], $ver, true );
     }
+
+
+   // Load single jobs post assets
+   if (is_singular('jobs')) {
+    wp_enqueue_style( 'single-careers-css', asset_url('single-careers.css', '/css/careers/'), [], $ver, 'all' );
+    wp_enqueue_style( 'single-content-css', asset_url('content.css', '/css/main/'), [], $ver, 'all' );
+  
+    wp_enqueue_script("related-articles-carousel-js", asset_url('related-articles-carousel.js', '/js/blog/'), [], $ver, true );
+    wp_enqueue_script('job-application-js', asset_url('job-application.js', '/js/careers/'), [], $ver, true);
+
+        $current_language = function_exists('get_current_language') ? get_current_language() : 'ar';
+        $is_english_page = function_exists('is_english_version') ? is_english_version() : ($current_language === 'en');
+
+        $localized_strings = array(
+            'ajax_url'                 => admin_url('admin-ajax.php'),
+            'nonce'                    => wp_create_nonce('AlQasrGroup_job_application_nonce'),
+            'current_language'         => $current_language,
+            'max_file_size'            => apply_filters('AlQasrGroup_job_application_max_size', 5 * 1024 * 1024),
+            'allowed_mime_types'       => array(
+                'pdf'  => 'application/pdf',
+                'doc'  => 'application/msword',
+                'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ),
+            'success_message'          => $is_english_page ? __('Your application has been submitted successfully.', 'AlQasrGroup') : __('تم استلام طلبك بنجاح.', 'AlQasrGroup'),
+            'generic_error_message'    => $is_english_page ? __('Something went wrong. Please try again.', 'AlQasrGroup') : __('حدث خطأ ما، يرجى المحاولة مرة أخرى.', 'AlQasrGroup'),
+            'file_type_error'          => $is_english_page ? __('Unsupported file format. Allowed formats: PDF, DOC, DOCX.', 'AlQasrGroup') : __('صيغة الملف غير مدعومة. الصيغ المسموح بها: PDF، DOC، DOCX.', 'AlQasrGroup'),
+            'file_size_error'          => $is_english_page ? __('File is too large. Maximum size is 5MB.', 'AlQasrGroup') : __('حجم الملف كبير جداً، الحد الأقصى 5 ميجابايت.', 'AlQasrGroup'),
+            'file_required_message'    => $is_english_page ? __('Please attach your resume.', 'AlQasrGroup') : __('يرجى إرفاق السيرة الذاتية.', 'AlQasrGroup'),
+            'validation_error_message' => $is_english_page ? __('Please double-check the required fields.', 'AlQasrGroup') : __('يرجى التحقق من الحقول المطلوبة.', 'AlQasrGroup'),
+            'file_selected_message'    => $is_english_page ? __('Selected file: %s', 'AlQasrGroup') : __('تم اختيار الملف: %s', 'AlQasrGroup'),
+        );
+
+        wp_localize_script('job-application-js', 'AlQasrGroupJobApplication', $localized_strings);
+}
 
 
 
