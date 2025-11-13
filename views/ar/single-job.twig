@@ -7,21 +7,21 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-header">
-                        <h1 class="hero-title">{{ post.title }}</h1>
+                        <h1 class="hero-title">{{ job_title }}</h1>
                         <div class="hero-location">
                             <img src="{{ asset_url('location.png', '/img/main/') }}" alt="" class="icon" />
                             <span>
-                                {{ job_location|default('') }}
-                                {% if job_type %}
-                                    {% if job_location %} • {% endif %}
-                                    {{ job_type }}
+                                {{ job_location_display|default('') }}
+                                {% if job_type_display %}
+                                    {% if job_location_display %} • {% endif %}
+                                    {{ job_type_display }}
                                 {% endif %}
                             </span>
 
                         </div>
                     </div>
                     <div class="hero-image">
-                        <img src="{{ job_featured_image }}" alt="{{ post.title }}" />
+                        <img src="{{ job_featured_image }}" alt="{{ job_title }}" />
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
         <section class="job-details">
             <div class="container">
                 <div class="article-body">
-                    {{ post.content|raw }}
+                    {{ job_content|raw }}
                 </div>
             </div>
         </section>

@@ -58,20 +58,20 @@
                                 <div class="job-header">
                                     <div class="job-info">
                                         <div class="job-title-row">
-                                            <h3 class="job-title">{{ job.title }}</h3>
-                                            {% if job.job_type %}
-                                                <span class="job-type">{{ job.job_type }}</span>
+                                            <h3 class="job-title">{{ job.job_title_display|default(job.title) }}</h3>
+                                            {% if job.job_type_display %}
+                                                <span class="job-type">{{ job.job_type_display }}</span>
                                             {% endif %}
                                         </div>
-                                        {% if job.job_location %}
+                                        {% if job.job_location_display %}
                                             <div class="job-location">
-                                                <img src="{{ asset_url('location.svg', '/img/careers/') }}" alt="" />
-                                                <span>{{ job.job_location }}</span>
+                                                <img src="{{ asset_url('location.png', '/img/main/') }}" alt="" />
+                                                <span>{{ job.job_location_display }}</span>
                                             </div>
                                         {% endif %}
                                     </div>
                                     <a href="{{ job.job_apply_link|default(job.link) }}" class="btn-primary">
-                                        <img src="{{ asset_url('arrow-right.svg', '/img/careers/') }}" alt="" />
+                                        <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" />
                                         <span>{{ job.job_apply_label|default(jobs_cta_small_title|default('انضم إلينا')) }}</span>
                                     </a>
                                 </div>
