@@ -145,6 +145,17 @@
                             </div>
                         </article>
                         {% endfor %}
+                    {% else %}
+                        <div class="no-results">
+                            <h3>لا توجد مشاريع مطابقة</h3>
+                            {% if search_query %}
+                                <p>لم نعثر على مشاريع تطابق كلمة البحث “{{ search_query }}”. جرّب كلمة أخرى.</p>
+                            {% elseif selected_city or selected_project_type %}
+                                <p>حاول تعديل الفلاتر أو اختيار مدينة/نوع مشروع مختلف.</p>
+                            {% else %}
+                                <p>سيتم إضافة مشاريع جديدة قريباً، ترقبنا.</p>
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
 

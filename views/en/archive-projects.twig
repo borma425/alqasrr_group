@@ -145,6 +145,17 @@
                             </div>
                         </article>
                         {% endfor %}
+                    {% else %}
+                        <div class="no-results">
+                            <h3>No projects found</h3>
+                            {% if search_query %}
+                                <p>We couldn't find any projects that match “{{ search_query }}”.</p>
+                            {% elseif selected_city or selected_project_type %}
+                                <p>Try adjusting the filters or selecting another city or project type.</p>
+                            {% else %}
+                                <p>New projects will be added soon. Please check back later.</p>
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
 

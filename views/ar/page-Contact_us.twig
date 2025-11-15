@@ -1,20 +1,11 @@
-{% block html_head %}
-	{% include 'ar/main/html-head.twig' %}
-{% endblock %}
+{% extends "ar/base.twig" %}
 
-{% block head %}
-
-</head>{% endblock %}
-<body class="font-aktiv">
-
-{% include 'ar/main/html-header.twig' %}
+{% block grid_content %}
 
 
 
 
 
-    <!-- Main Content -->
-    <main>
         <!-- Contact Section -->
         <section class="contact-section">
             <div class="container">
@@ -151,14 +142,4 @@
 
 
 
-{% include 'ar/components/cta.twig' %}
-
-</main>
-	{% block footer %}
-		{% include 'ar/main/html-footer.twig' %}
-	{% endblock %}
-
-{{ function('wp_footer') }}
-
-</body></html>
-
+{% endblock %}

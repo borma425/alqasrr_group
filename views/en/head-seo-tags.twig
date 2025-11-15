@@ -1,6 +1,6 @@
-{% set homeName = site.name %}
-{% set homeUrl = site.link %}
-{% set homeDescription = fn('get_AlQasrGroup_site_description', 'ar') %}
+{% set homeName = fn('get_AlQasrGroup_site_title', 'en') ?: site.name %}
+{% set homeUrl = function('home_url', '/en') %}
+{% set homeDescription = fn('get_AlQasrGroup_site_description', 'en') %}
 {% set PostDescription = post.excerpt.length(50).read_more(false) %}
 {% set thumbnail =
 fn('is_home') or
@@ -11,22 +11,22 @@ post.thumbnail.src
 {% set mainTitle = post.title %}
 
 {% set Title =
-fn('is_post_type_archive','blogs') ? 'المدونة' :
-fn('is_page') and post.post_name == 'about' ? 'من نحن - ' ~ homeName :
-fn('is_page') and post.post_name == 'contact_us' ? 'اتصل بنا - ' ~ homeName :
-fn('is_page') and post.post_name == 'product' ? 'منتجاتنا - ' ~ homeName :
-fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_title', 'ar') :
+fn('is_post_type_archive','blogs') ? 'Blog' :
+fn('is_page') and post.post_name == 'about' ? 'About Us - ' ~ homeName :
+fn('is_page') and post.post_name == 'contact_us' ? 'Contact Us - ' ~ homeName :
+fn('is_page') and post.post_name == 'product' ? 'Our Products - ' ~ homeName :
+fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_title', 'en') :
 fn('is_singular') ? mainTitle :
 fn('is_search') ? search_query :
-fn('is_404') ? "404 - الصفحة غير موجودة: " ~ homeName : homeName
+fn('is_404') ? "404 - Page Not Found: " ~ homeName : homeName
 %}
 
 {% set Description =
-fn('is_post_type_archive','blogs') ? fn('get_AlQasrGroup_site_description', 'ar') :
-fn('is_page') and post.post_name == 'about' ? fn('get_AlQasrGroup_site_description', 'ar') :
-fn('is_page') and post.post_name == 'contact_us' ? fn('get_AlQasrGroup_site_description', 'ar') :
-fn('is_page') and post.post_name == 'product' ? fn('get_AlQasrGroup_site_description', 'ar') :
-fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_description', 'ar') :
+fn('is_post_type_archive','blogs') ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_page') and post.post_name == 'about' ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_page') and post.post_name == 'contact_us' ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_page') and post.post_name == 'product' ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_description', 'en') :
 PostDescription ? PostDescription : homeDescription
 %}
 
@@ -38,7 +38,7 @@ PostDescription ? PostDescription : homeDescription
 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<meta property='og:locale' content='ar_AR' />
+<meta property='og:locale' content='en_US' />
 <meta property='og:type' content='website' />
 <meta property='og:site_name' content='{{homeName}}' />
 <meta itemprop='name' content='{{homeName}}'/>
@@ -108,7 +108,7 @@ PostDescription ? PostDescription : homeDescription
 {
   "@context": "http://schema.org",
   "@type": "Blog",
-  "name": "مدونة {{homeName}}",
+  "name": "Blog — {{homeName}}",
   "description": "{{Description}}",
   "url": "{{current_url}}"
 }

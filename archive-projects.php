@@ -29,6 +29,48 @@ function decode_url_param($param) {
     return trim(sanitize_text_field($decoded));
 }
 
+function get_projects_search_ids($search_query) {
+    $search_query = sanitize_text_field($search_query);
+    if ($search_query === '') {
+        return array();
+    }
+
+    $meta_keys = array(
+        '_projects_title_en',
+        '_projects_excerpt_en',
+        '_projects_details_text_en',
+        '_projects_features_title_en',
+        '_projects_features_description_en',
+        '_projects_city_en'
+    );
+
+    $meta_query = array('relation' => 'OR');
+    foreach ($meta_keys as $meta_key) {
+        $meta_query[] = array(
+            'key'     => $meta_key,
+            'value'   => $search_query,
+            'compare' => 'LIKE'
+        );
+    }
+
+    $meta_matches = get_posts(array(
+        'post_type'      => 'projects',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'meta_query'     => $meta_query
+    ));
+
+    $default_matches = get_posts(array(
+        'post_type'      => 'projects',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        's'              => $search_query
+    ));
+
+    $all_matches = array_unique(array_merge($meta_matches ?: array(), $default_matches ?: array()));
+    return array_values(array_map('intval', $all_matches));
+}
+
 // Modify main query to apply taxonomy filters
 // تعديل الاستعلام الرئيسي لتطبيق فلترات taxonomy
 function apply_projects_archive_filters($query) {
@@ -39,6 +81,7 @@ function apply_projects_archive_filters($query) {
     if (!is_post_type_archive('projects')) {
         return;
     }
+
     
     // Get filter parameters from query string
     // الحصول على معاملات الفلترة من query string
@@ -46,10 +89,22 @@ function apply_projects_archive_filters($query) {
     $selected_city = isset($_GET['city']) ? decode_url_param($_GET['city']) : '';
     $search_query = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
     
+    $is_english_archive = (function_exists('is_english_version') && is_english_version());
+
     // Apply search query if set (works independently)
     // تطبيق استعلام البحث إذا كان محدداً (يعمل بشكل مستقل)
     if (!empty($search_query)) {
-        $query->set('s', $search_query);
+        if ($is_english_archive) {
+            $match_ids = get_projects_search_ids($search_query);
+            if (!empty($match_ids)) {
+                $query->set('post__in', $match_ids);
+                $query->set('orderby', 'post__in');
+            } else {
+                $query->set('post__in', array(0));
+            }
+        } else {
+            $query->set('s', $search_query);
+        }
     }
     
     // Build taxonomy query
@@ -256,25 +311,29 @@ if (!empty($selected_city)) {
 
 // Get all posts for featured project (first project, no filters)
 // الحصول على جميع المشاريع للمشروع المميز (أول مشروع، بدون فلترة)
-$featured_query = new WP_Query(array(
-    'post_type' => 'projects',
-    'posts_per_page' => 1,
-    'orderby' => 'date',
-    'order' => 'DESC',
-    'post_status' => 'publish'
-));
-
+$filters_active = !empty($search_query) || !empty($selected_project_type) || !empty($selected_city);
 $featured_post = null;
-if ($featured_query->have_posts()) {
-    $featured_post = Timber::get_post($featured_query->posts[0]->ID);
-    if ($featured_post) {
-        $featured_post->project_types = $featured_post->terms('project_type');
-        $featured_post->cities = $featured_post->terms('city');
-        $featured_post->title_en = get_post_meta($featured_post->ID, '_projects_title_en', true);
-        $featured_post = $localize_project($featured_post);
+
+if (!$filters_active) {
+    $featured_query = new WP_Query(array(
+        'post_type' => 'projects',
+        'posts_per_page' => 1,
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'post_status' => 'publish'
+    ));
+
+    if ($featured_query->have_posts()) {
+        $featured_post = Timber::get_post($featured_query->posts[0]->ID);
+        if ($featured_post) {
+            $featured_post->project_types = $featured_post->terms('project_type');
+            $featured_post->cities = $featured_post->terms('city');
+            $featured_post->title_en = get_post_meta($featured_post->ID, '_projects_title_en', true);
+            $featured_post = $localize_project($featured_post);
+        }
     }
+    wp_reset_postdata();
 }
-wp_reset_postdata();
 
 // Get posts for grid (remaining projects with random order, excluding featured)
 // الحصول على المشاريع للشبكة (المشاريع المتبقية بترتيب عشوائي، باستثناء المميز)
@@ -294,14 +353,21 @@ if ($featured_post) {
 // Apply search query if set (works independently, searches in post title and content)
 // تطبيق استعلام البحث إذا كان محدداً (يعمل بشكل مستقل، يبحث في العنوان والمحتوى)
 if (!empty($search_query)) {
-    $grid_query_args['s'] = $search_query;
-    // When searching, order by relevance (title matches first) instead of random
-    // عند البحث، ترتيب حسب الصلة (مطابقات العنوان أولاً) بدلاً من العشوائي
-    $grid_query_args['orderby'] = 'relevance';
-    // WordPress search (s parameter) searches in title, content, and excerpt by default
-    // البحث في WordPress (معامل s) يبحث تلقائياً في العنوان والمحتوى والملخص
-    // Title matches have higher relevance score
-    // مطابقات العنوان لديها درجة صلة أعلى
+    if ($is_english) {
+        $matching_ids = get_projects_search_ids($search_query);
+        if (!empty($matching_ids)) {
+            $grid_query_args['post__in'] = $matching_ids;
+            $grid_query_args['orderby'] = 'post__in';
+        } else {
+            $grid_query_args['post__in'] = array(0);
+        }
+    } else {
+        $grid_query_args['s'] = $search_query;
+        // When searching, order by relevance (title matches first) instead of random
+        $grid_query_args['orderby'] = 'relevance';
+        // WordPress search (s parameter) searches in title, content, and excerpt by default
+        // Title matches have higher relevance score
+    }
 }
 
 // Apply taxonomy filters if set
@@ -377,6 +443,8 @@ $context['cities'] = $cities;
 $context['selected_project_type'] = $selected_project_type;
 $context['selected_city'] = $selected_city;
 $context['search_query'] = $search_query;
+$context['filters_active'] = $filters_active;
+$context['has_results'] = !empty($grid_posts);
 
 // Get projects hero settings
 // الحصول على إعدادات قسم Hero للمشاريع

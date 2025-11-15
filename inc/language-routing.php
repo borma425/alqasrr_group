@@ -19,6 +19,10 @@ function get_current_language() {
     }
     
     $path = $_SERVER['REQUEST_URI'];
+    $parsed_path = parse_url($path, PHP_URL_PATH);
+    if ($parsed_path !== null) {
+        $path = $parsed_path;
+    }
     
     // Check for lang parameter first (from .htaccess rewrite or query string)
     if (isset($_GET['lang']) && $_GET['lang'] === 'en') {
@@ -88,6 +92,10 @@ function add_language_context($context) {
  */
 function handle_language_routing() {
     $path = $_SERVER['REQUEST_URI'] ?? '';
+    $parsed_path = parse_url($path, PHP_URL_PATH);
+    if ($parsed_path !== null) {
+        $path = $parsed_path;
+    }
     
     // Check for lang parameter first
     if (isset($_GET['lang']) && $_GET['lang'] === 'en') {
@@ -164,6 +172,10 @@ add_action('init', 'handle_language_routing', 1);
 // Disable WordPress redirects for language URLs
 add_action('init', function() {
     $path = $_SERVER['REQUEST_URI'] ?? '';
+    $parsed_path = parse_url($path, PHP_URL_PATH);
+    if ($parsed_path !== null) {
+        $path = $parsed_path;
+    }
     
     if (preg_match('#/en(/|$)#', $path)) {
         // Remove WordPress redirect filters for language URLs
@@ -351,6 +363,10 @@ function check_post_exists($slug, $post_type = 'post') {
  */
 add_filter('request', function($query_vars) {
     $path = $_SERVER['REQUEST_URI'] ?? '';
+    $parsed_path = parse_url($path, PHP_URL_PATH);
+    if ($parsed_path !== null) {
+        $path = $parsed_path;
+    }
     
     // Only handle English URLs - Early return for Arabic pages (performance optimization)
     // التعامل مع روابط الإنجليزية فقط - إرجاع مبكر للصفحات العربية (تحسين الأداء)
@@ -548,30 +564,42 @@ add_filter('template_include', function($template) {
             return $template;
         }
 
-        $is_contact_page = strtolower($page_name) === 'contact_us';
-        $page_exists = $is_contact_page
-            ? check_post_exists('contact_us', 'page')
-            : check_post_exists($page_name, 'page');
+        $page_slug = sanitize_title($page_name);
+        $page_exists = check_post_exists($page_slug, 'page');
 
-        if (!$page_exists && !$is_contact_page) {
-            // Not an actual page slug - leave template resolution to WordPress
+        $template_candidates = [];
+        $slug_variations = array_unique(array_filter([
+            $page_slug,
+            strtolower($page_name),
+            str_replace('-', '_', strtolower($page_name)),
+            str_replace('_', '-', strtolower($page_name)),
+            $page_name,
+        ]));
+
+        foreach ($slug_variations as $candidate_slug) {
+            $candidate_slug = trim($candidate_slug);
+            if ($candidate_slug !== '') {
+                $template_candidates[] = 'page-' . $candidate_slug . '.php';
+            }
+        }
+
+        $template_candidates = array_values(array_unique($template_candidates));
+        $located_template = '';
+        if (!empty($template_candidates)) {
+            $located_template = locate_template($template_candidates, false, false);
+        }
+
+        if (!$page_exists && empty($located_template)) {
+            // Not an actual page slug and no dedicated template - fall back to WordPress
             return $template;
         }
 
-        if ($is_contact_page) {
-            $specific_contact_template = get_template_directory() . '/page-Contact_us.php';
-            if (file_exists($specific_contact_template)) {
-                return $specific_contact_template;
-            }
-        } else {
-            $specific_template = get_template_directory() . '/page-' . $page_name . '.php';
-            if (file_exists($specific_template)) {
-                return $specific_template;
-            }
+        if (!empty($located_template)) {
+            return $located_template;
         }
 
-        $page_template = get_template_directory() . '/page.php';
-        if (file_exists($page_template)) {
+        $page_template = locate_template(['page.php'], false, false);
+        if (!empty($page_template)) {
             return $page_template;
         }
     }
