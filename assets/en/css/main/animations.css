@@ -1,0 +1,494 @@
+/* ===================================
+   Scroll Animations
+   =================================== */
+
+/* Base animation classes - hidden by default */
+.animate-on-scroll {
+    opacity: 0;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    contain: layout;
+}
+
+.animate-on-scroll.animated {
+    opacity: 1;
+}
+
+/* Fade In */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    contain: layout;
+}
+
+.fade-in.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fade In Up */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    contain: layout;
+}
+
+.fade-in-up.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fade In Down */
+.fade-in-down {
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    contain: layout;
+}
+
+.fade-in-down.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fade In Left */
+.fade-in-left {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    contain: layout;
+    will-change: transform, opacity;
+}
+
+.fade-in-left.animated {
+    opacity: 1;
+    transform: translateX(0);
+    will-change: auto;
+}
+
+/* Fade In Right */
+.fade-in-right {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    contain: layout;
+    will-change: transform, opacity;
+}
+
+.fade-in-right.animated {
+    opacity: 1;
+    transform: translateX(0);
+    will-change: auto;
+}
+
+/* Scale In */
+.scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    contain: layout;
+}
+
+.scale-in.animated {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Stagger delay utilities */
+.delay-100 {
+    transition-delay: 0.1s;
+}
+
+.delay-200 {
+    transition-delay: 0.2s;
+}
+
+.delay-300 {
+    transition-delay: 0.3s;
+}
+
+.delay-400 {
+    transition-delay: 0.4s;
+}
+
+.delay-500 {
+    transition-delay: 0.5s;
+}
+
+/* ===================================
+   Hover Effects
+   =================================== */
+
+/* Smooth transitions for interactive elements */
+a, button, .btn-primary, .btn-outline-primary, .btn-outline-secondary, .btn-outline-white {
+    transition: all 0.3s ease;
+}
+
+/* Card hover effects */
+.project-card, .news-card, .gallery-card, .mission-card, .value-item, .featured-large, .featured-small, .article-card, .job-card, .related-article-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover, .news-card:hover, .gallery-card:hover, .mission-card:hover, .value-item:hover, .featured-small:hover, .article-card:hover, .job-card:hover, .related-article-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Image hover effects */
+.project-image, .news-image, .gallery-image, .about-img-1, .about-img-2, .slide-image img, .featured-image, .small-image, .card-image, .about-image, .project-image-large, .hero .hero-image, .related-article-card .card-image, .gallery-img-large, .amenity-image {
+    transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+.project-card:hover .project-image,
+.news-card:hover .news-image,
+.gallery-card:hover .gallery-image,
+.mission-card:hover img,
+.value-item:hover img,
+.featured-large:hover .featured-image,
+.featured-small:hover .small-image,
+.article-card:hover .card-image,
+.project-card-large:hover .project-image-large,
+.related-article-card:hover .card-image,
+.amenity-item:hover .amenity-image {
+    transform: scale(1.05);
+}
+
+/* About image hover effect (Careers page) */
+.about-section:hover .about-image {
+    transform: scale(1.02);
+}
+
+/* Button hover effects */
+.btn-primary:hover, .btn-outline-primary:hover, .btn-outline-secondary:hover, .btn-outline-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Link hover effects */
+.news-link, .gallery-link, .footer-link, .card-link {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.news-link:hover, .gallery-link:hover, .featured-link:hover, .article-card-link:hover, .card-link:hover {
+    transform: translateX(5px);
+}
+
+[dir="rtl"] .news-link:hover, [dir="rtl"] .gallery-link:hover, [dir="rtl"] .featured-link:hover, [dir="rtl"] .article-card-link:hover, [dir="rtl"] .card-link:hover {
+    transform: translateX(-5px);
+}
+
+/* CTA Link hover effect */
+.cta-link {
+    transition: transform 0.3s ease;
+}
+
+.cta-link:hover {
+    transform: scale(1.1);
+}
+
+/* CTA Icon hover effect (Careers page) */
+.cta-icon {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.cta-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Job card hover effect */
+.job-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Contact page hover effects */
+.contact-item {
+    transition: transform 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateX(-5px);
+}
+
+[dir="rtl"] .contact-item:hover {
+    transform: translateX(5px);
+}
+
+.map-address {
+    transition: transform 0.3s ease;
+}
+
+.map-address:hover {
+    transform: translateY(-3px);
+}
+
+.form-input, .form-textarea {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus, .form-textarea:focus {
+    transform: scale(1.02);
+}
+
+.btn-submit {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Projects page hover effects */
+.project-card-large {
+    transition: transform 0.3s ease;
+}
+
+.project-card-large:hover {
+    transform: translateY(-5px);
+}
+
+.filter-dropdown {
+    transition: transform 0.3s ease;
+}
+
+.filter-dropdown:focus {
+    transform: scale(1.02);
+}
+
+.search-button {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.search-input {
+    transition: transform 0.3s ease;
+}
+
+.search-input:focus-within {
+    transform: scale(1.02);
+}
+
+/* Single careers page hover effects */
+.file-upload-label {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.file-upload-label:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.application-form .btn-primary, .application-form .btn {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.application-form .btn-primary:hover, .application-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Single project page hover effects */
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.amenity-image {
+    transition: transform 0.5s ease;
+}
+
+.amenity-item:hover .amenity-image {
+    transform: scale(1.05);
+}
+
+.project-actions .btn {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.carousel-image {
+    transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+.carousel-thumb {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.carousel-thumb:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+/* ===================================
+   Smooth Scroll
+   =================================== */
+/* Note: html overflow-x is defined in base.css */
+
+/* ===================================
+   Loading Animations
+   =================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===================================
+   Section Entrance Animations
+   =================================== */
+
+/* Hero section */
+.hero-section {
+    animation: fadeIn 1s ease-out;
+}
+
+.hero-title {
+    animation: slideUp 1s ease-out 0.2s backwards;
+}
+
+.hero-subtitle {
+    animation: slideUp 1s ease-out 0.4s backwards;
+}
+
+/* ===================================
+   RTL Support
+   =================================== */
+
+[dir="rtl"] .fade-in-left {
+    transform: translateX(-30px);
+}
+
+[dir="rtl"] .fade-in-left.animated {
+    transform: translateX(0);
+}
+
+[dir="rtl"] .fade-in-right {
+    transform: translateX(30px);
+}
+
+[dir="rtl"] .fade-in-right.animated {
+    transform: translateX(0);
+}
+
+/* ===================================
+   Reduced Motion Support
+   =================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .animate-on-scroll,
+    .fade-in,
+    .fade-in-up,
+    .fade-in-down,
+    .fade-in-left,
+    .fade-in-right,
+    .scale-in {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ===================================
+   Mobile Optimizations
+   =================================== */
+
+@media (max-width: 768px) {
+    .fade-in-up,
+    .fade-in-down,
+    .fade-in-left,
+    .fade-in-right {
+        transform: translateY(20px);
+        contain: layout;
+    }
+
+    .fade-in-up.animated,
+    .fade-in-down.animated,
+    .fade-in-left.animated,
+    .fade-in-right.animated {
+        transform: translateY(0);
+    }
+}
+

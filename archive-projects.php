@@ -97,6 +97,64 @@ add_action('pre_get_posts', 'apply_projects_archive_filters', 20);
 
 $context = Timber::context();
 
+$is_english = false;
+if (function_exists('is_english_version') && is_english_version()) {
+    $is_english = true;
+} elseif (function_exists('get_current_language') && get_current_language() === 'en') {
+    $is_english = true;
+}
+
+$localize_project = function ($project) use ($is_english) {
+    if (!$is_english || !is_object($project)) {
+        return $project;
+    }
+
+    $project_id = isset($project->ID) ? $project->ID : (isset($project->id) ? $project->id : 0);
+    if (!$project_id) {
+        return $project;
+    }
+
+    $title_en = get_post_meta($project_id, '_projects_title_en', true);
+    if (!empty($title_en)) {
+        if (isset($project->post_title)) {
+            $project->post_title = $title_en;
+        }
+        $project->title = $title_en;
+    }
+
+    $excerpt_en = get_post_meta($project_id, '_projects_excerpt_en', true);
+    if (!empty($excerpt_en)) {
+        if (isset($project->post_excerpt)) {
+            $project->post_excerpt = $excerpt_en;
+        }
+        $project->excerpt = $excerpt_en;
+    }
+
+    if (function_exists('get_english_url')) {
+        $project->link = get_english_url($project_id);
+    }
+
+    if (function_exists('get_taxonomy_name')) {
+        if (!empty($project->project_types)) {
+            foreach ($project->project_types as $term) {
+                if (isset($term->term_id)) {
+                    $term->name = get_taxonomy_name($term->term_id, 'en');
+                }
+            }
+        }
+
+        if (!empty($project->cities)) {
+            foreach ($project->cities as $term) {
+                if (isset($term->term_id)) {
+                    $term->name = get_taxonomy_name($term->term_id, 'en');
+                }
+            }
+        }
+    }
+
+    return $project;
+};
+
 // Get filter parameters from query string
 // الحصول على معاملات الفلترة من query string
 $selected_project_type = isset($_GET['project_type']) ? decode_url_param($_GET['project_type']) : '';
@@ -121,6 +179,20 @@ $cities = get_terms(array(
     'orderby' => 'name',
     'order' => 'ASC'
 ));
+
+if ($is_english && function_exists('get_taxonomy_name')) {
+    foreach ($project_types as $index => $term) {
+        if ($term && isset($term->term_id)) {
+            $project_types[$index]->name = get_taxonomy_name($term->term_id, 'en');
+        }
+    }
+
+    foreach ($cities as $index => $term) {
+        if ($term && isset($term->term_id)) {
+            $cities[$index]->name = get_taxonomy_name($term->term_id, 'en');
+        }
+    }
+}
 
 // Normalize selected values to match term slugs exactly
 // تطبيع القيم المحددة لتطابق term slugs بدقة
@@ -199,6 +271,7 @@ if ($featured_query->have_posts()) {
         $featured_post->project_types = $featured_post->terms('project_type');
         $featured_post->cities = $featured_post->terms('city');
         $featured_post->title_en = get_post_meta($featured_post->ID, '_projects_title_en', true);
+        $featured_post = $localize_project($featured_post);
     }
 }
 wp_reset_postdata();
@@ -277,6 +350,7 @@ if ($grid_query->have_posts()) {
             $timber_post->project_types = $timber_post->terms('project_type');
             $timber_post->cities = $timber_post->terms('city');
             $timber_post->title_en = get_post_meta($timber_post->ID, '_projects_title_en', true);
+            $timber_post = $localize_project($timber_post);
             $grid_posts[] = $timber_post;
         }
     }
@@ -290,6 +364,7 @@ foreach ($main_posts as $post) {
     $post->project_types = $post->terms('project_type');
     $post->cities = $post->terms('city');
     $post->title_en = get_post_meta($post->ID, '_projects_title_en', true);
+    $localize_project($post);
 }
 
 // Add to context
@@ -316,7 +391,9 @@ $context['projects_background_image'] = get_option('projects_background_image', 
 
 // Get current archive URL for filter form
 // الحصول على URL الأرشيف الحالي لنموذج الفلترة
-$context['archive_url'] = get_post_type_archive_link('projects');
+$context['archive_url'] = ($is_english && function_exists('get_language_url'))
+    ? get_language_url('/projects/', 'en')
+    : get_post_type_archive_link('projects');
 
 // Add filter to preserve query parameters in pagination links
 // إضافة filter للحفاظ على query parameters في روابط pagination

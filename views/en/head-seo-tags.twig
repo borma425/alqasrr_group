@@ -1,6 +1,6 @@
 {% set homeName = site.name %}
 {% set homeUrl = site.link %}
-{% set homeDescription = fn('get_AlQasrGroup_site_description', 'en') %}
+{% set homeDescription = fn('get_AlQasrGroup_site_description', 'ar') %}
 {% set PostDescription = post.excerpt.length(50).read_more(false) %}
 {% set thumbnail =
 fn('is_home') or
@@ -11,34 +11,34 @@ post.thumbnail.src
 {% set mainTitle = post.title %}
 
 {% set Title =
-fn('is_post_type_archive','blogs') ? 'Blog' :
-fn('is_page') and post.post_name == 'about' ? 'About Us - ' ~ homeName :
-fn('is_page') and post.post_name == 'contact_us' ? 'Contact Us - ' ~ homeName :
-fn('is_page') and post.post_name == 'product' ? 'Our Products - ' ~ homeName :
-fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_title', 'en') :
+fn('is_post_type_archive','blogs') ? 'المدونة' :
+fn('is_page') and post.post_name == 'about' ? 'من نحن - ' ~ homeName :
+fn('is_page') and post.post_name == 'contact_us' ? 'اتصل بنا - ' ~ homeName :
+fn('is_page') and post.post_name == 'product' ? 'منتجاتنا - ' ~ homeName :
+fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_title', 'ar') :
 fn('is_singular') ? mainTitle :
 fn('is_search') ? search_query :
-fn('is_404') ? "404 - Not Found: " ~ homeName : homeName
+fn('is_404') ? "404 - الصفحة غير موجودة: " ~ homeName : homeName
 %}
 
 {% set Description =
-fn('is_post_type_archive','blogs') ? fn('get_AlQasrGroup_site_description', 'en') :
-fn('is_page') and post.post_name == 'about' ? fn('get_AlQasrGroup_site_description', 'en') :
-fn('is_page') and post.post_name == 'contact_us' ? fn('get_AlQasrGroup_site_description', 'en') :
-fn('is_page') and post.post_name == 'product' ? fn('get_AlQasrGroup_site_description', 'en') :
-fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_description', 'en') :
+fn('is_post_type_archive','blogs') ? fn('get_AlQasrGroup_site_description', 'ar') :
+fn('is_page') and post.post_name == 'about' ? fn('get_AlQasrGroup_site_description', 'ar') :
+fn('is_page') and post.post_name == 'contact_us' ? fn('get_AlQasrGroup_site_description', 'ar') :
+fn('is_page') and post.post_name == 'product' ? fn('get_AlQasrGroup_site_description', 'ar') :
+fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_description', 'ar') :
 PostDescription ? PostDescription : homeDescription
 %}
 
-<!-- SEO Meta Tags -->
+<!-- علامات SEO   -->
 
-<!-- Main info -->
+<!-- المعلومات الأساسية -->
 <meta charset='UTF-8'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<meta property='og:locale' content='en_US' />
+<meta property='og:locale' content='ar_AR' />
 <meta property='og:type' content='website' />
 <meta property='og:site_name' content='{{homeName}}' />
 <meta itemprop='name' content='{{homeName}}'/>
@@ -56,10 +56,10 @@ PostDescription ? PostDescription : homeDescription
 <meta content='index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' name='googlebot'/>
 {% endif %}
 
-<!-- Favicon -->
+<!-- أيقونة الموقع -->
 <link rel="icon" href="{{ fn('asset_url', 'logo.png', '/img/') }}">
 
-<!-- URL canonical -->
+<!-- الرابط الأساسي -->
 <meta content='{{ current_url }}' property='og:url'/>
 <link href='{{ current_url }}' rel='canonical'/>
 <meta itemprop='url' content='{{ current_url }}'/>
@@ -70,7 +70,7 @@ PostDescription ? PostDescription : homeDescription
 <meta name='twitter:card' content='summary_large_image' />
 <meta name='twitter:image' content='{{ thumbnail }}' />
 
-<!-- Featured Image -->
+<!-- الصورة المميزة -->
 <meta content='{{ thumbnail }}' property='og:image'/>
 <meta content='1200' property='og:image:width'/>
 <meta content='630' property='og:image:height'/>
@@ -78,10 +78,10 @@ PostDescription ? PostDescription : homeDescription
 <meta property='og:image:secure_url' content='{{ thumbnail }}' />
 <link href='{{ thumbnail }}' rel='image_src'/>
 
-<!-- Description -->
+<!-- الوصف -->
 <meta content='{{ Description }}' property='og:description'/>
 <meta content='{{ Description }}' name='description'/>
-<!-- Title -->
+<!-- العنوان -->
 <meta content='{{ Title }}' property='og:title'/>
 
 <title>{{ Title }}</title>
@@ -108,7 +108,7 @@ PostDescription ? PostDescription : homeDescription
 {
   "@context": "http://schema.org",
   "@type": "Blog",
-  "name": "{{homeName}} Blog",
+  "name": "مدونة {{homeName}}",
   "description": "{{Description}}",
   "url": "{{current_url}}"
 }

@@ -111,12 +111,25 @@ function save_projects_meta_boxes($post_id) {
         return;
     }
 
-    if (isset($_POST['projects_small_top_image']) && isset($_POST['projects_small_top_image_nonce_field']) && wp_verify_nonce($_POST['projects_small_top_image_nonce_field'], 'projects_small_top_image_nonce')) {
-        $small_top_image = sanitize_text_field($_POST['projects_small_top_image']);
+    if (isset($_POST['projects_small_top_image_nonce_field']) && wp_verify_nonce($_POST['projects_small_top_image_nonce_field'], 'projects_small_top_image_nonce')) {
+        $small_top_image = isset($_POST['projects_small_top_image']) ? sanitize_text_field($_POST['projects_small_top_image']) : '';
         if (!empty($small_top_image)) {
             update_post_meta($post_id, '_projects_small_top_image', $small_top_image);
         } else {
             delete_post_meta($post_id, '_projects_small_top_image');
+        }
+
+        $pdf_fields = array(
+            'projects_pdf_ar' => '_projects_pdf_ar',
+            'projects_pdf_en' => '_projects_pdf_en',
+        );
+
+        foreach ($pdf_fields as $field => $meta_key) {
+            if (isset($_POST[$field]) && !empty($_POST[$field])) {
+                update_post_meta($post_id, $meta_key, esc_url_raw($_POST[$field]));
+            } else {
+                delete_post_meta($post_id, $meta_key);
+            }
         }
     }
 

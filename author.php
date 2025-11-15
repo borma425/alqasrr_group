@@ -18,4 +18,10 @@ if ( isset( $wp_query->query_vars['author'] ) ) {
 	$context['author'] = $author;
 	$context['title']  = 'Author Archives: ' . $author->name();
 }
-Timber::render( array( 'author.twig', 'archive.twig' ), $context );
+$templates = array( 'author.twig', 'archive.twig' );
+if ( function_exists( 'get_language_template' ) ) {
+	foreach ( $templates as $index => $template ) {
+		$templates[ $index ] = get_language_template( $template );
+	}
+}
+Timber::render( $templates, $context );

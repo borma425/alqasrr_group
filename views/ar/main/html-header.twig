@@ -1,4 +1,19 @@
     <!-- Header / Navigation -->
+{% set site_title = get_AlQasrGroup_site_title('ar') %}
+{% set current_page_url = current_url|default(site.url) %}
+{% set english_url = site.url ~ '/en' %}
+{% if current_page_url starts with site.url %}
+    {% set relative_part = current_page_url|slice(site.url|length) %}
+    {% if relative_part is empty or relative_part == '/' %}
+        {% set english_url = site.url ~ '/en' %}
+    {% else %}
+        {% if relative_part starts with '/' %}
+            {% set english_url = site.url ~ '/en' ~ relative_part %}
+        {% else %}
+            {% set english_url = site.url ~ '/en/' ~ relative_part %}
+        {% endif %}
+    {% endif %}
+{% endif %}
 <nav class="header-nav">
     <div class="container-wide">
         <nav class="nav-wrapper">
@@ -14,14 +29,14 @@
 
             <!-- Center - Logo -->
             <div class="nav-center">
-                <a href="{{ site.url }}" class="logo-link">
-                    <img src="{{ function('esc_url', function('get_option','AlQasrGroup_site_logo_medium')) }}" alt="القصر العقارية" class="logo">
+                <a href="{{ site.url }}" class="logo-link" aria-label="{{ site_title }}">
+                    <img src="{{ function('esc_url', function('get_option','AlQasrGroup_site_logo_medium')) }}" alt="{{ site_title }}" class="logo">
                 </a>
             </div>
 
             <!-- Left side - Language & CTA -->
             <div class="nav-left">
-                <a href="{{ site.url ~ '/en' }}" class="language-selector" aria-label="تغيير اللغة">
+                <a href="{{ english_url }}" class="language-selector" aria-label="Change language">
                     <img src="{{ asset_url('vuesax-linear-global.svg', '/img/main/') }}" alt="" class="w-6 h-6">
                     <span class="nav-text">English</span>
                 </a>
@@ -122,7 +137,7 @@
                         <!-- Copyright -->
 
 
-                    <p class="copyright">جميع الحقوق محفوظة @ {{site.name}} {{ "now"|date("Y") }}</p>
+                    <p class="copyright">جميع الحقوق محفوظة © {{ site_title }} {{ "now"|date("Y") }}</p>
 
 
                     </div>

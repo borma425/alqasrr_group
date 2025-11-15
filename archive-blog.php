@@ -16,24 +16,56 @@ use Timber\Timber;
 
 $context = Timber::context();
 
+$is_english = false;
+if (function_exists('is_english_version') && is_english_version()) {
+    $is_english = true;
+} elseif (function_exists('get_current_language') && get_current_language() === 'en') {
+    $is_english = true;
+}
+
 // Get posts using Timber (uses main query - already modified by pre_get_posts)
 // الحصول على المقالات باستخدام Timber (يستخدم main query - تم تعديله بالفعل بواسطة pre_get_posts)
 $posts = Timber::get_posts();
 
-// Process posts to add language-specific content
-// معالجة المقالات لإضافة محتوى خاص باللغة
-$current_language = get_current_language();
+if ($is_english && !empty($posts)) {
+    foreach ($posts as $post) {
+        if (!is_object($post)) {
+            continue;
+        }
 
-foreach ($posts as $post) {
-    if ($current_language === 'en') {
-        // For English, use metabox fields (blog-specific)
-        // للإنجليزية، استخدم حقول metabox (خاصة بـ blog)
-        $post->title = get_post_meta($post->ID, 'blog_title_en', true) ?: $post->title;
-        $post->content = get_post_meta($post->ID, 'blog_content_en', true) ?: $post->content;
-        $post->excerpt = get_post_meta($post->ID, 'blog_excerpt_en', true) ?: $post->excerpt;
+        $post_id = isset($post->ID) ? $post->ID : (isset($post->id) ? $post->id : 0);
+        if (!$post_id) {
+            continue;
+        }
+
+        $title_en = get_post_meta($post_id, 'blog_title_en', true);
+        if (!empty($title_en)) {
+            if (isset($post->post_title)) {
+                $post->post_title = $title_en;
+            }
+            $post->title = $title_en;
+        }
+
+        $excerpt_en = get_post_meta($post_id, 'blog_excerpt_en', true);
+        if (!empty($excerpt_en)) {
+            if (isset($post->post_excerpt)) {
+                $post->post_excerpt = $excerpt_en;
+            }
+            $post->excerpt = $excerpt_en;
+        }
+
+        $content_en = get_post_meta($post_id, 'blog_content_en', true);
+        if (!empty($content_en)) {
+            if (isset($post->post_content)) {
+                $post->post_content = $content_en;
+            }
+            $post->content = $content_en;
+        }
+
+        if (function_exists('get_english_url')) {
+            $post->link = get_english_url($post_id);
+        }
     }
-    // For Arabic, use default WordPress fields (no changes needed)
-    // للعربية، استخدم الحقول الافتراضية لـ WordPress (لا حاجة لتغيير)
 }
 
 $context['posts'] = $posts;

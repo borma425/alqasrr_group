@@ -7,6 +7,46 @@ $context = Timber::context();
 $post = Timber::get_post();
 $context['post'] = $post;
 
+$is_english = false;
+if (function_exists('is_english_version') && is_english_version()) {
+    $is_english = true;
+} elseif (function_exists('get_current_language') && get_current_language() === 'en') {
+    $is_english = true;
+}
+
+if ($is_english && is_object($post)) {
+    $post_id_for_update = isset($post->ID) ? $post->ID : (isset($post->id) ? $post->id : 0);
+    if ($post_id_for_update) {
+        $post_title_en = get_post_meta($post_id_for_update, 'job_title_en', true);
+        if (!empty($post_title_en)) {
+            if (isset($post->post_title)) {
+                $post->post_title = $post_title_en;
+            }
+            $post->title = $post_title_en;
+        }
+
+        $post_excerpt_en = get_post_meta($post_id_for_update, 'job_excerpt_en', true);
+        if (!empty($post_excerpt_en)) {
+            if (isset($post->post_excerpt)) {
+                $post->post_excerpt = $post_excerpt_en;
+            }
+            $post->excerpt = $post_excerpt_en;
+        }
+
+        $post_content_en = get_post_meta($post_id_for_update, 'job_content_en', true);
+        if (!empty($post_content_en)) {
+            if (isset($post->post_content)) {
+                $post->post_content = $post_content_en;
+            }
+            $post->content = $post_content_en;
+        }
+
+        if (function_exists('get_english_url')) {
+            $post->link = get_english_url($post_id_for_update);
+        }
+    }
+}
+
 $job_id = $post ? $post->ID : 0;
 
 $job_type = $job_id ? get_post_meta($job_id, 'job_type', true) : '';
@@ -27,6 +67,10 @@ $context['job_location'] = $job_location;
 $context['job_apply_link'] = $job_apply_link ?: get_permalink($job_id);
 $context['job_apply_label'] = $job_apply_label;
 
+if ($is_english && empty($job_apply_link) && function_exists('get_english_url')) {
+    $context['job_apply_link'] = get_english_url($job_id);
+}
+
 $context['job_featured_image'] = null;
 
 if ($post && has_post_thumbnail($job_id)) {
@@ -40,8 +84,6 @@ if (!$context['job_featured_image']) {
         $context['job_featured_image'] = get_template_directory_uri() . '/assets/img/main/rectangle-4.png';
     }
 }
-
-$is_english = function_exists('is_english_version') && is_english_version();
 
 $job_title = $post ? (method_exists($post, 'title') ? $post->title() : ($post->title ?? '')) : '';
 $job_excerpt = $post ? (method_exists($post, 'excerpt') ? $post->excerpt() : ($post->excerpt ?? '')) : '';

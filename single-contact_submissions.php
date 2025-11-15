@@ -25,8 +25,8 @@ $context['contact_message'] = get_post_meta($context['post']->ID, 'contact_messa
 if (function_exists('get_language_template')) {
     $template = get_language_template('single-contact_submissions.twig');
 } else {
-    // Fallback to Arabic template
-    $template = 'ar/single-contact_submissions.twig';
+    // Fallback to default template
+    $template = 'single-contact_submissions.twig';
 }
 
 Timber::render($template, $context);

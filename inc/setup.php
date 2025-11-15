@@ -229,6 +229,7 @@ add_filter( 'timber/twig', function( $twig ) {
     $twig->addFunction( new Twig\TwigFunction( 'format_date_arabic', 'format_date_arabic' ) );
     $twig->addFunction( new Twig\TwigFunction( 'get_english_url', 'get_english_url' ) );
     $twig->addFunction( new Twig\TwigFunction( 'get_arabic_url', 'get_arabic_url' ) );
+    $twig->addFunction( new Twig\TwigFunction( 'get_language_url', 'get_language_url' ) );
     $twig->addFunction( new Twig\TwigFunction( 'get_AlQasrGroup_site_logo', 'get_AlQasrGroup_site_logo' ) );
     $twig->addFunction( new Twig\TwigFunction( 'get_AlQasrGroup_site_title', 'get_AlQasrGroup_site_title' ) );
     $twig->addFunction( new Twig\TwigFunction( 'get_AlQasrGroup_site_description', 'get_AlQasrGroup_site_description' ) );

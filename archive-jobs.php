@@ -43,6 +43,38 @@ if (!empty($jobs_posts)) {
         $job_post->job_excerpt_display = $is_english && !empty($job_excerpt_en) ? $job_excerpt_en : $job_post->excerpt;
         $job_post->job_type_display = $is_english && !empty($job_post->job_type_en) ? $job_post->job_type_en : $job_post->job_type;
         $job_post->job_location_display = $is_english && !empty($job_post->job_location_en) ? $job_post->job_location_en : $job_post->job_location;
+
+        if ($is_english) {
+            if (!empty($job_title_en)) {
+                if (isset($job_post->post_title)) {
+                    $job_post->post_title = $job_title_en;
+                }
+                $job_post->title = $job_title_en;
+            }
+
+            if (!empty($job_excerpt_en)) {
+                if (isset($job_post->post_excerpt)) {
+                    $job_post->post_excerpt = $job_excerpt_en;
+                }
+                $job_post->excerpt = $job_excerpt_en;
+            }
+
+            $job_content_en = get_post_meta($job_post->ID, 'job_content_en', true);
+            if (!empty($job_content_en)) {
+                if (isset($job_post->post_content)) {
+                    $job_post->post_content = $job_content_en;
+                }
+                $job_post->content = $job_content_en;
+            }
+
+            if (function_exists('get_english_url')) {
+                $job_post->link = get_english_url($job_post->ID);
+            }
+
+            if (empty($job_post->job_apply_link) && function_exists('get_english_url')) {
+                $job_post->job_apply_link = get_english_url($job_post->ID);
+            }
+        }
     }
 }
 

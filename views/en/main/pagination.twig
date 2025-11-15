@@ -1,0 +1,42 @@
+{% if posts.pagination.pages is not empty %}
+<nav class="pagination" aria-label="ترقيم الصفحات">
+    <ul class="pagination-list">
+
+        {# الصفحة السابقة #}
+        {% if posts.pagination.prev %}
+        <li class="pagination-item">
+            <a href="{{ posts.pagination.prev.link|e('esc_url') }}" class="pagination-link pagination-prev" aria-label="الصفحة السابقة">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </a>
+        </li>
+        {% endif %}
+
+        {# الصفحات #}
+        {% for page in posts.pagination.pages %}
+        <li class="pagination-item">
+            {% if page.current %}
+                <span class="pagination-link active" aria-current="page">{{ page.title }}</span>
+            {% elseif page.link %}
+                <a href="{{ page.link|e('esc_url') }}" class="pagination-link">{{ page.title }}</a>
+            {% else %}
+                <span class="pagination-link pagination-dots">{{ page.title }}</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+
+        {# الصفحة التالية #}
+        {% if posts.pagination.next %}
+        <li class="pagination-item">
+            <a href="{{ posts.pagination.next.link|e('esc_url') }}" class="pagination-link pagination-next" aria-label="الصفحة التالية">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}

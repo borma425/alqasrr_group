@@ -53,6 +53,63 @@ jQuery(document).ready(function($) {
         inputField.val('');
         previewContainer.html('');
     });
+
+    // رفع الملفات (مثل PDF)
+    $(document).on('click', '.upload-file-btn', function(e) {
+        e.preventDefault();
+
+        var button = $(this);
+        var target = button.data('target');
+        var inputField = $('#' + target);
+        var fileNameLabel = button.closest('.file-upload-field').find('.file-name');
+        var frameTitle = button.data('frame-title') || 'اختر ملف';
+        var fileType = button.data('file-type') || '';
+
+        var frameArgs = {
+            title: frameTitle,
+            multiple: false
+        };
+
+        if (fileType) {
+            frameArgs.library = { type: fileType };
+        }
+
+        var frame = wp.media(frameArgs);
+
+        frame.on('select', function() {
+            var attachment = frame.state().get('selection').first().toJSON();
+
+            if (fileType === 'application/pdf' && attachment.mime !== 'application/pdf') {
+                window.alert('يرجى اختيار ملف PDF فقط.');
+                return;
+            }
+
+            inputField.val(attachment.url);
+
+            if (fileNameLabel.length) {
+                fileNameLabel.text(attachment.filename || attachment.title || attachment.url);
+            }
+        });
+
+        frame.open();
+    });
+
+    // إزالة الملفات
+    $(document).on('click', '.remove-file-btn', function(e) {
+        e.preventDefault();
+
+        var button = $(this);
+        var target = button.data('target');
+        var inputField = $('#' + target);
+        var fileNameLabel = button.closest('.file-upload-field').find('.file-name');
+
+        inputField.val('');
+
+        if (fileNameLabel.length) {
+            var placeholder = fileNameLabel.data('placeholder') || '';
+            fileNameLabel.text(placeholder);
+        }
+    });
     
     // إزالة صورة من المعرض
     $(document).on('click', '.remove-gallery-item', function() {

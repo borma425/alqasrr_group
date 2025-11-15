@@ -1,0 +1,348 @@
+/* Variables */
+:root {
+    --text-gray: #616161;
+    --bg-light: #faf5f2;
+    --bg-card: #f3e8e1;
+    --bg-tag: #e1d8cf;
+    --white: #ffffff;
+    --gray-light: #e0e0e0;
+    --gray-medium: #bdbdbd;
+    --gray-dark: #828282;
+    --border-color: rgba(18, 43, 55, 0.4);
+
+    --container-max: 1280px;
+    --spacing-xs: 0.75rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2.5rem;
+    --spacing-xl: 4rem;
+    --spacing-2xl: 6rem;
+    --spacing-3xl: 7.5rem;
+}
+
+/* ===================================
+   Header / Navigation
+   =================================== */
+.logo,
+.btn-outline-white img,
+.language-selector img {
+    filter: invert(1);
+}
+
+.nav-text {
+    color: #282828;
+}
+
+.menu-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    filter: invert(1);
+}
+
+.btn-outline-white {
+    border: 1px solid #282828;
+
+    color: #282828;
+}
+
+
+/* Button Styles */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover img {
+    filter: brightness(0) invert(1);
+}
+
+.btn-primary img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 570px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(0deg, rgba(250, 245, 242, 1) 0%, rgba(250, 245, 242, 1) 100%),
+        url('https://c.animaapp.com/mhpmp2eaNKgPlW/img/frame-71.png');
+    background-size: cover;
+    background-position: center;
+    padding: 8rem 1.25rem 4rem;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 452px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.hero-title {
+    font-size: var(--font-size-xl);
+    font-weight: 500;
+    color: var(--primary);
+    line-height: 1.2;
+}
+
+.hero-description {
+    font-size: var(--font-size-medium);
+    color: var(--text-gray);
+    line-height: 1.4;
+}
+
+/* About Section */
+.about-section {
+    background: var(--bg-light);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .about-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-md);
+    }
+}
+
+.about-image {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    object-fit: cover;
+    order: 1;
+}
+
+@media (min-width: 1024px) {
+    .about-image {
+        min-height: 456px;
+        order: 2;
+    }
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    order: 2;
+}
+
+@media (min-width: 1024px) {
+    .about-content {
+        order: 1;
+    }
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.label-text {
+    font-size: var(--font-size-small);
+    color: var(--secondary);
+    white-space: nowrap;
+}
+
+.label-line {
+    width: 147px;
+    height: 1px;
+}
+
+.section-title {
+    font-size: var(--font-size-large-tablet);
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+    text-align: left;
+    max-width: 518px;
+}
+
+.section-description {
+    font-size: var(--font-size-small);
+    color: var(--text-gray);
+    line-height: 1.7;
+    text-align: left;
+}
+
+/* Jobs Section */
+.jobs-section {
+    background: var(--bg-light);
+    padding: 0 0 var(--spacing-3xl);
+}
+
+.jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: var(--spacing-xl);
+}
+
+.job-card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border-color);
+    padding: var(--spacing-lg);
+    box-shadow: 0px 3.46px 4.9px rgba(0, 0, 0, 0.01);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.job-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .job-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.job-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.job-title-row {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.job-title {
+    font-size: var(--font-size-medium);
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.job-type {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-tag);
+    border-radius: 1.5rem;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.job-location {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: var(--font-size-small);
+    color: var(--primary);
+}
+
+.job-location img {
+    width: 24px;
+    height: 24px;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+    .navbar-actions {
+        gap: 1rem;
+    }
+
+    .btn-primary {
+        padding: 0.75rem 1rem;
+        font-size: var(--font-size-small-mobile);
+    }
+
+    .menu-toggle span {
+        display: none;
+    }
+
+    .language-selector span {
+        display: none;
+    }
+
+    .hero {
+        min-height: 400px;
+        padding: 6rem 1.25rem 3rem;
+    }
+
+    .job-header {
+        align-items: center;
+    }
+
+    .job-title-row {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .job-location {
+        margin: auto;
+    }
+
+    .hero-title {
+        font-size: var(--font-size-large-mobile);
+    }
+
+    .hero-description {
+        font-size: var(--font-size-medium-mobile);
+    }
+
+    .section-title {
+        font-size: var(--font-size-large-mobile);
+    }
+
+}
+
+@media (max-width: 480px) {
+    .label-line {
+        width: 80px;
+    }
+
+    .section-label {
+        gap: 0.5rem;
+    }
+}

@@ -1,0 +1,158 @@
+    <!-- Header / Navigation -->
+
+
+
+<nav class="header-nav">
+    <div class="container-wide">
+        <nav class="nav-wrapper">
+            <!-- Right side - Menu -->
+            <div class="nav-right">
+                <button class="menu-icon" aria-label="Menu">
+                    <div class="w-[34px] h-[34px] bg-[100%_100%]"
+                         style="background-image: url('{{ asset_url('vuesax-linear-textalign-right.svg', '/img/main/') }}');">
+                    </div>
+                </button>
+                <span class="nav-text">Menu</span>
+            </div>
+
+            <!-- Center - Logo -->
+            <div class="nav-center">
+                {% set site_title = get_AlQasrGroup_site_title('en') %}
+                {% set current_page_url = current_url|default(site.url ~ '/en') %}
+                {% set english_base = site.url ~ '/en' %}
+                {% set arabic_url = site.url %}
+                {% if current_page_url starts with english_base %}
+                    {% set relative_part = current_page_url|slice(english_base|length) %}
+                    {% if relative_part is empty or relative_part == '/' %}
+                        {% set arabic_url = site.url %}
+                    {% else %}
+                        {% if relative_part starts with '/' %}
+                            {% set arabic_url = site.url ~ relative_part %}
+                        {% else %}
+                            {% set arabic_url = site.url ~ '/' ~ relative_part %}
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    {% set arabic_url = site.url %}
+                {% endif %}
+                <a href="{{ site.url }}/en" class="logo-link" aria-label="{{ site_title }}">
+                    <img src="{{ function('esc_url', function('get_option','AlQasrGroup_site_logo_small_dark')) }}" alt="{{ site_title }}" class="logo">
+                </a>
+            </div>
+
+            <!-- Left side - Language & CTA -->
+            <div class="nav-left">
+                <a href="{{ arabic_url }}" class="language-selector" aria-label="Switch to Arabic">
+                    <img src="{{ asset_url('vuesax-linear-global.svg', '/img/main/') }}" alt="" class="w-6 h-6">
+                    <span class="nav-text">العربية</span>
+                </a>
+                <a href="{{ site.url }}/en/contact_us" class="btn-outline-white">
+                    <span>Learn More</span>
+                    <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="w-6 h-6">
+                </a>
+            </div>
+        </nav>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+
+    <!-- Menu -->
+    <header class="menu menu-hidden">
+        <div class="app-container">
+            <!-- Hero Gallery Section -->
+            <div class="hero-gallery">
+                <div class="gallery-grid">
+                    <!-- Gallery Card 1 -->
+
+
+
+              {% if header_project_types %}
+                    {% for project_type in header_project_types %}
+                    <!-- Gallery Card {{ loop.index }} -->
+                    <article class="gallery-card">
+                        {% if project_type.image_url %}
+                            <img src="{{ project_type.image_url }}" alt="{{ project_type.name }}" class="gallery-image">
+                        {% else %}
+                            <img src="{{ asset_url('rectangle-3.png', '/img/main/') }}" alt="{{ project_type.name }}" class="gallery-image">
+                        {% endif %}
+                        <div class="gallery-overlay">
+                            <div class="gallery-content">
+                                <h2 class="gallery-title">{{ project_type.name }}</h2>
+                                <a href="{{ project_type.link }}" class="gallery-link">
+                                    <span>معرفه المزيد</span>
+                                    <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="arrow-icon">
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+ 
+                {% endif %}
+
+
+
+
+
+
+
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <div class="sidebar-content">
+                    <!-- Close Button -->
+                <button class="close-btn" aria-label="Close menu">
+                    <img src="{{ asset_url('icons---close.svg', '/img/main/') }}" alt="">
+                </button>
+
+                    <!-- Navigation Menu -->
+                {% set active_menu = header_menu_en ?: header_menu_ar %}
+                {% if active_menu %}
+                <nav class="main-nav">
+                    <ul class="nav-list">
+                        {% for item in active_menu.items %}
+                        <li class="nav-item {{ item.current ? 'active' }}">
+                            <a href="{{ item.link }}" class="nav-link">
+                                {% if item.current %}
+                                <img src="{{ asset_url('line-8.png', '/img/main/') }}" alt="" class="nav-underline">
+                                {% endif %}
+                                <span>{{ item.title }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+                    <!-- Footer Section -->
+                    <div class="sidebar-footer">
+                        <!-- Social Media Links -->
+                    <div class="social-links">
+                        {% set social_icons = get_AlQasrGroup_social_icons('en') %}
+                        {% if social_icons %}
+                            {% for icon in social_icons %}
+                                <a href="{{ icon.url }}" class="social-link" aria-label="{{ icon.title }}" target="_blank" rel="noopener noreferrer">
+                                    <img src="{{ icon.icon }}" alt="{{ icon.title }}" >
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                        <!-- Copyright -->
+
+                    <p class="copyright">All rights reserved © {{ site_title }} {{ "now"|date("Y") }}</p>
+
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </header>
+

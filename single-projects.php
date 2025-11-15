@@ -8,37 +8,93 @@ $context = Timber::context();
 $post = Timber::get_post();
 $context['post'] = $post;
 
+$is_english = false;
+if (function_exists('is_english_version') && is_english_version()) {
+    $is_english = true;
+} elseif (function_exists('get_current_language') && get_current_language() === 'en') {
+    $is_english = true;
+}
+
 // Prepare project-specific media assets for Twig templates
 $project_id = $post ? $post->ID : 0;
 $project_title_en = $project_id ? get_post_meta($project_id, '_projects_title_en', true) : '';
 if ($post) {
+    if ($is_english && !empty($project_title_en)) {
+        $post->title = $project_title_en;
+        if (isset($post->post_title)) {
+            $post->post_title = $project_title_en;
+        }
+    }
     $post->title_en = $project_title_en;
+
+    if ($is_english && function_exists('get_english_url')) {
+        $post->link = get_english_url($project_id);
+    }
+
+    if ($is_english && function_exists('get_taxonomy_name')) {
+        $project_types_terms = $post->terms('project_type');
+        if (!empty($project_types_terms)) {
+            foreach ($project_types_terms as $term) {
+                if (isset($term->term_id)) {
+                    $term->name = get_taxonomy_name($term->term_id, 'en');
+                }
+            }
+        }
+
+        $project_cities_terms = $post->terms('city');
+        if (!empty($project_cities_terms)) {
+            foreach ($project_cities_terms as $term) {
+                if (isset($term->term_id)) {
+                    $term->name = get_taxonomy_name($term->term_id, 'en');
+                }
+            }
+        }
+    }
 }
 $context['post_title_en'] = $project_title_en;
 $small_top_image = $project_id ? get_post_meta($project_id, '_projects_small_top_image', true) : '';
 $separator_image = $project_id ? get_post_meta($project_id, '_projects_separator_image', true) : '';
+$project_pdf_ar = $project_id ? get_post_meta($project_id, '_projects_pdf_ar', true) : '';
+$project_pdf_en = $project_id ? get_post_meta($project_id, '_projects_pdf_en', true) : '';
 
-$status_labels = array(
-    'ready_to_handover'   => __('جاهز للتسليم', 'borma'),
-    'under_construction'  => __('قيد الإنشاء', 'borma'),
-    'off_plan'            => __('على المخطط', 'borma'),
-    'coming_soon'         => __('قريبًا', 'borma'),
-    'sold_out'            => __('مباع بالكامل', 'borma'),
-);
+$status_labels = $is_english
+    ? array(
+        'ready_to_handover'   => __('Ready to handover', 'borma'),
+        'under_construction'  => __('Under construction', 'borma'),
+        'off_plan'            => __('Off-plan', 'borma'),
+        'coming_soon'         => __('Coming soon', 'borma'),
+        'sold_out'            => __('Sold out', 'borma'),
+    )
+    : array(
+        'ready_to_handover'   => __('جاهز للتسليم', 'borma'),
+        'under_construction'  => __('قيد الإنشاء', 'borma'),
+        'off_plan'            => __('على المخطط', 'borma'),
+        'coming_soon'         => __('قريبًا', 'borma'),
+        'sold_out'            => __('مباع بالكامل', 'borma'),
+    );
 
 $project_details = array(
-    'title'        => $project_id ? get_post_meta($project_id, '_projects_details_title', true) : '',
-    'description'  => $project_id ? get_post_meta($project_id, '_projects_details_text', true) : '',
-    'excerpt'      => $project_id ? get_post_meta($project_id, '_projects_excerpt_ar', true) : '',
-    'price'        => $project_id ? get_post_meta($project_id, '_projects_price', true) : '',
-    'city'         => $project_id ? get_post_meta($project_id, '_projects_city', true) : '',
+    'title'        => $project_id ? get_post_meta($project_id, $is_english ? '_projects_details_title_en' : '_projects_details_title', true) : '',
+    'description'  => $project_id ? get_post_meta($project_id, $is_english ? '_projects_details_text_en' : '_projects_details_text', true) : '',
+    'excerpt'      => $project_id ? get_post_meta($project_id, $is_english ? '_projects_excerpt_en' : '_projects_excerpt_ar', true) : '',
+    'price'        => $project_id ? get_post_meta($project_id, $is_english ? '_projects_price_en' : '_projects_price', true) : '',
+    'city'         => $project_id ? get_post_meta($project_id, $is_english ? '_projects_city_en' : '_projects_city', true) : '',
     'status'       => $project_id ? get_post_meta($project_id, '_projects_status', true) : '',
 );
 
 $status_key = $project_details['status'] ?? '';
+$status_label_override = $project_id ? get_post_meta($project_id, '_projects_status_en', true) : '';
 $project_details['status_label'] = $status_key && isset($status_labels[$status_key])
     ? $status_labels[$status_key]
-    : $status_key;
+    : ($is_english ? $status_label_override : $status_key);
+
+if ($is_english) {
+    if (!empty($project_details['excerpt'])) {
+        if ($post) {
+            $post->excerpt = $project_details['excerpt'];
+        }
+    }
+}
 
 $gallery_meta = $project_id ? get_post_meta($project_id, '_projects_side_gallery_images', true) : '';
 $gallery_images = array();
@@ -73,9 +129,9 @@ if (!empty($gallery_meta)) {
 }
 
 $features = array(
-    'section_title' => $project_id ? get_post_meta($project_id, '_projects_features_title', true) : '',
-    'main_title'    => $project_id ? get_post_meta($project_id, '_projects_features_main_title', true) : '',
-    'description'   => $project_id ? get_post_meta($project_id, '_projects_features_description', true) : '',
+    'section_title' => $project_id ? get_post_meta($project_id, $is_english ? '_projects_features_title_en' : '_projects_features_title', true) : '',
+    'main_title'    => $project_id ? get_post_meta($project_id, $is_english ? '_projects_features_main_title_en' : '_projects_features_main_title', true) : '',
+    'description'   => $project_id ? get_post_meta($project_id, $is_english ? '_projects_features_description_en' : '_projects_features_description', true) : '',
     'items'         => array(),
 );
 
@@ -95,8 +151,11 @@ if (!empty($features_items_meta)) {
             }
 
             $icon_url = isset($feature_item['icon']) ? esc_url_raw($feature_item['icon']) : '';
-            $title = isset($feature_item['title']) ? trim(wp_kses_post($feature_item['title'])) : '';
-            $description = isset($feature_item['description']) ? trim(wp_kses_post($feature_item['description'])) : '';
+            $title_default = isset($feature_item['title']) ? trim(wp_kses_post($feature_item['title'])) : '';
+            $description_default = isset($feature_item['description']) ? trim(wp_kses_post($feature_item['description'])) : '';
+
+            $title = $is_english ? trim(wp_kses_post($feature_item['title_en'] ?? $title_default)) : $title_default;
+            $description = $is_english ? trim(wp_kses_post($feature_item['description_en'] ?? $description_default)) : $description_default;
 
             if (empty($title) && empty($description)) {
                 continue;
@@ -127,7 +186,8 @@ if (!empty($speed_sections_meta)) {
                 continue;
             }
 
-            $section_name = isset($section['name']) ? trim(wp_kses_post($section['name'])) : '';
+            $section_name_default = isset($section['name']) ? trim(wp_kses_post($section['name'])) : '';
+            $section_name = $is_english ? trim(wp_kses_post($section['name_en'] ?? $section_name_default)) : $section_name_default;
             $items = array();
 
             if (!empty($section['items']) && is_array($section['items'])) {
@@ -135,8 +195,11 @@ if (!empty($speed_sections_meta)) {
 
                 foreach ($section_items as $item) {
                     $time = isset($item['time']) ? trim(wp_kses_post($item['time'])) : '';
-                    $unit = isset($item['unit']) ? trim(wp_kses_post($item['unit'])) : '';
-                    $label = isset($item['label']) ? trim(wp_kses_post($item['label'])) : '';
+                    $unit_default = isset($item['unit']) ? trim(wp_kses_post($item['unit'])) : '';
+                    $label_default = isset($item['label']) ? trim(wp_kses_post($item['label'])) : '';
+
+                    $unit = $is_english ? trim(wp_kses_post($item['unit_en'] ?? $unit_default)) : $unit_default;
+                    $label = $is_english ? trim(wp_kses_post($item['label_en'] ?? $label_default)) : $label_default;
 
                     if ($time === '' && $unit === '' && $label === '') {
                         continue;
@@ -163,16 +226,9 @@ if (!empty($speed_sections_meta)) {
 }
 
 $amenities = array(
-    'subtitle' => '',
+    'subtitle' => $project_id ? get_post_meta($project_id, $is_english ? '_projects_amenities_subtitle_en' : '_projects_amenities_subtitle', true) : '',
     'items'    => array(),
 );
-
-if ($project_id) {
-    $amenities_subtitle = get_post_meta($project_id, '_projects_amenities_subtitle', true);
-    if (!empty($amenities_subtitle)) {
-        $amenities['subtitle'] = trim(wp_kses_post($amenities_subtitle));
-    }
-}
 
 $amenities_items_meta = $project_id ? get_post_meta($project_id, '_projects_amenities_items', true) : '';
 
@@ -190,8 +246,11 @@ if (!empty($amenities_items_meta)) {
             }
 
             $image = isset($amenity_item['image']) ? esc_url_raw($amenity_item['image']) : '';
-            $title = isset($amenity_item['title']) ? trim(wp_kses_post($amenity_item['title'])) : '';
-            $description = isset($amenity_item['description']) ? trim(wp_kses_post($amenity_item['description'])) : '';
+            $title_default = isset($amenity_item['title']) ? trim(wp_kses_post($amenity_item['title'])) : '';
+            $description_default = isset($amenity_item['description']) ? trim(wp_kses_post($amenity_item['description'])) : '';
+
+            $title = $is_english ? trim(wp_kses_post($amenity_item['title_en'] ?? $title_default)) : $title_default;
+            $description = $is_english ? trim(wp_kses_post($amenity_item['description_en'] ?? $description_default)) : $description_default;
 
             if (empty($title) && empty($description) && empty($image)) {
                 continue;
@@ -210,14 +269,21 @@ $context['project_media'] = array(
     'small_top_image' => $small_top_image ? esc_url_raw($small_top_image) : null,
     'separator_image' => $separator_image ? esc_url_raw($separator_image) : null,
     'gallery_images'  => $gallery_images,
+    'download_pdf'    => array(
+        'current' => $is_english
+            ? ($project_pdf_en ? esc_url_raw($project_pdf_en) : null)
+            : ($project_pdf_ar ? esc_url_raw($project_pdf_ar) : null),
+        'ar'      => $project_pdf_ar ? esc_url_raw($project_pdf_ar) : null,
+        'en'      => $project_pdf_en ? esc_url_raw($project_pdf_en) : null,
+    ),
 );
 
 $context['project_details'] = $project_details;
 $context['project_features'] = $features;
 $context['project_speed_sections'] = $speed_sections;
 $context['project_amenities'] = $amenities;
-$gallery_subtitle = $project_id ? get_post_meta($project_id, '_projects_gallery_subtitle', true) : '';
-$gallery_title = $project_id ? get_post_meta($project_id, '_projects_gallery_title', true) : '';
+$gallery_subtitle = $project_id ? get_post_meta($project_id, $is_english ? '_projects_gallery_subtitle_en' : '_projects_gallery_subtitle', true) : '';
+$gallery_title = $project_id ? get_post_meta($project_id, $is_english ? '_projects_gallery_title_en' : '_projects_gallery_title', true) : '';
 $context['project_gallery'] = array(
     'subtitle' => $gallery_subtitle ? trim(wp_kses_post($gallery_subtitle)) : '',
     'title'    => $gallery_title ? trim(wp_kses_post($gallery_title)) : '',

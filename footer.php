@@ -18,4 +18,9 @@ if ( ! isset( $timberContext ) ) {
 $timberContext['content'] = ob_get_contents();
 ob_end_clean();
 $templates = array( 'page-plugin.twig' );
+if ( function_exists( 'get_language_template' ) ) {
+	foreach ( $templates as $index => $template ) {
+		$templates[ $index ] = get_language_template( $template );
+	}
+}
 Timber::render( $templates, $timberContext );

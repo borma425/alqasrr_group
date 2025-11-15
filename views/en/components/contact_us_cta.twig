@@ -1,0 +1,92 @@
+        {% set is_english = fn('is_english_version') %}
+        {% set subheading = is_english
+            ? fn('get_option','contact_cta_subheading_en')|default('Register Now')
+            : fn('get_option','contact_cta_subheading')|default('سجل الان') %}
+        {% set form_heading = is_english
+            ? get_AlQasrGroup_contact_form_title('en')|default('Share your interest and our team will reach out with tailored opportunities')
+            : get_AlQasrGroup_contact_form_title('ar')|default('سجل اهتمامك ليرجع لك فريق المبيعات بأفضل الفرص الملائمة لرغباتك') %}
+        {% set form_description = is_english
+            ? get_AlQasrGroup_contact_form_description('en')|default('Let us know how we can help and we will contact you shortly.')
+            : get_AlQasrGroup_contact_form_description('ar')|default('اكتب ما يأتي في خاطرك وسنتواصل معك قريباً.') %}
+        {% set first_name_label = is_english ? 'First Name' : 'الأسم الاول' %}
+        {% set first_name_placeholder = is_english ? 'e.g. John' : 'مثال : محمد' %}
+        {% set last_name_label = is_english ? 'Last Name' : 'الأسم الاخير' %}
+        {% set last_name_placeholder = is_english ? 'e.g. Smith' : 'مثال : أحمد' %}
+        {% set phone_label = is_english ? 'Phone Number' : 'رقم الجوال' %}
+        {% set phone_placeholder = is_english ? 'e.g. +971 50 000 0000' : 'مثال : +966 12 345 6789' %}
+        {% set email_label = is_english ? 'Email Address' : 'بريدك الألكتروني' %}
+        {% set email_placeholder = is_english ? 'username@example.com' : 'username@example.com' %}
+        {% set message_label = is_english ? 'Message' : 'الرسالة' %}
+        {% set message_placeholder = is_english ? 'Tell us how we can help' : 'اكتب ما يأتي في خاطرك' %}
+        {% set submit_label = is_english ? 'Submit' : 'ارسال' %}
+        {% set submitting_label = is_english ? 'Sending…' : 'جاري الإرسال...' %}
+
+        <!-- Contact Form Section -->
+        <section class="section contact-section">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="section-label">
+                            <span class="subheading">{{ subheading }}</span>
+                            <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                        </div>
+                        <h2 class="heading">{{ form_heading|raw }}</h2>
+                        {% if not is_english %}
+                            {# Arabic version may include line breaks already in saved content #}
+                        {% endif %}
+                        <p class="contact-description">{{ form_description }}</p>
+                    </div>
+
+                    <form class="contact-form" id="contactFormCTA">
+                        <input type="hidden" name="nonce" value="{{ fn('wp_create_nonce', 'AlQasrGroup_contact_nonce') }}">
+                        <input type="hidden" name="current_language" value="{{ is_english ? 'en' : 'ar' }}">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    {{ first_name_label }} <span class="required">*</span>
+                                </label>
+                                <input type="text" name="first_name" class="form-input" placeholder="{{ first_name_placeholder }}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">
+                                    {{ last_name_label }} <span class="required">*</span>
+                                </label>
+                                <input type="text" name="second_name" class="form-input" placeholder="{{ last_name_placeholder }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    {{ phone_label }} <span class="required">*</span>
+                                </label>
+                                <input type="tel" name="phone" class="form-input" placeholder="{{ phone_placeholder }}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">{{ email_label }}</label>
+                                <input type="email" name="email" class="form-input" placeholder="{{ email_placeholder }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                {{ message_label }} <span class="required">*</span>
+                            </label>
+                            <textarea name="message" class="form-input form-textarea" placeholder="{{ message_placeholder }}" required></textarea>
+                        </div>
+
+                        <div class="form-message" style="display: none; margin-bottom: 20px; padding: 15px; border-radius: 5px;"></div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="btn-icon">
+                            <span class="submit-text">{{ submit_label }}</span>
+                            <span class="loading-text" style="display: none;">{{ submitting_label }}</span>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </section>

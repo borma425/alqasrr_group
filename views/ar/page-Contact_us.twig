@@ -128,7 +128,7 @@
                                 {% if contact_company_address %}
                                     <a href="{{ contact_map_link ? contact_map_link : '#' }}" class="map-address" {% if contact_map_link %}target="_blank"{% endif %}>
                                         <div class="location-icon"
-                                            style="background-image: url('assets/images/main/location.png')">
+                                            style="background-image: url('{{ asset_url('location.png', '/img/main/') }}')">
                                         </div>
                                         <span>{{ contact_company_address }}</span>
                                     </a>

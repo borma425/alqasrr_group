@@ -1,0 +1,61 @@
+    {% set is_english = fn('is_english_version') %}
+    {% set footer_menu = is_english and footer_menu_en ? footer_menu_en : footer_menu_ar %}
+    {% set site_logo = function('esc_url', function('get_option','AlQasrGroup_site_logo_medium')) %}
+    {% set footer_link = site.url ~ '/en' %}
+    {% set site_title = get_AlQasrGroup_site_title('en') %}
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-wide">
+            <div class="footer-divider"></div>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="{{ footer_link }}" class="footer-logo-link" aria-label="{{ site_title }}">
+                        <img src="{{ site_logo }}" alt="{{ site_title }}">
+
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        {% if footer_menu and footer_menu.items %}
+                            {% for item in footer_menu.items %}
+                                <a href="{{ item.link }}" class="footer-link">{{ item.title }}</a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="footer-column">
+                        {% set social_icons = get_AlQasrGroup_social_icons(is_english ? 'en' : 'ar') %}
+                        {% if social_icons %}
+                            {% for icon in social_icons %}
+                                <a href="{{ icon.url }}" class="footer-social" target="_blank" rel="noopener noreferrer" aria-label="{{ icon.title }}">
+                                    <img src="{{ icon.icon }}" alt="{{ icon.title }}">
+                                    <span>{{ icon.title }}</span>
+                                </a>
+                            {% endfor %}
+
+                        {% endif %}
+                    </div>
+                    <div class="footer-column">
+                        {% if contact_company_address %}
+                            <p class="footer-contact">{{ contact_company_address }}</p>
+                        {% endif %}
+                        {% if contact_methods %}
+                            {% for key, value in contact_methods %}
+                                {% if '@' in value %}
+                                    <a href="mailto:{{ value }}" class="footer-contact">{{ value }}</a>
+                                {% elseif '+' in value or value matches '/^[0-9]/' %}
+                                    <a href="tel:{{ value }}" class="footer-contact">{{ value }}</a>
+                                {% else %}
+                                    <p class="footer-contact">{{ key }}: {{ value }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">{{ is_english ? 'All rights reserved' : 'جميع الحقوق محفوظة' }} © {{ site_title }} {{ "now"|date("Y") }}</p>
+
+
+            </div>
+        </div>
+    </footer>

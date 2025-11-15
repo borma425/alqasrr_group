@@ -1,0 +1,356 @@
+{% extends "en/base.twig" %}
+
+{% block grid_content %}
+
+        {% set details = project_details ?? {} %}
+        {% set gallery_images = project_media.gallery_images ?? [] %}
+        {% set has_about_text = details.excerpt or post.excerpt or post.content or details.description %}
+        {% set has_about_section = has_about_text or gallery_images|length > 0 %}
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg">
+                {% if post.thumbnail %}
+                    <img src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}">
+                {% else %}
+                    <img src="{{ asset_url('rectangle-4.png', '/img/main/') }}" alt="{{ post.title }}">
+                {% endif %}
+            </div>
+            <div class="hero-content">
+                {% set top_image = project_media.small_top_image ?? null %}
+                {% if top_image %}
+                    <img class="hero-logo" src="{{ fn('esc_url', top_image) }}" alt="{{ post.title }}">
+                {% else %}
+                    <img class="hero-logo" src="{{ asset_url('group-122.png', '/img/main/') }}" alt="{{ post.title }}">
+                {% endif %}
+            </div>
+        </section>
+
+        {% if has_about_section %}
+        <!-- About Section -->
+        <section class="section about-section">
+            <div class="container">
+                <div class="section-grid">
+                    <div class="section-header">
+                        <div class="section-label">
+                            <span class="subheading">Project Description</span>
+                            <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                        </div>
+                        <h2 class="heading">{{ post.title }}</h2>
+                    </div>
+
+                    {% if has_about_text %}
+                    <div class="section-content">
+                        <p class="body-text">
+                            {% if details.excerpt %}
+                                {{ details.excerpt|nl2br }}
+                            {% elseif post.excerpt %}
+                                {{ post.excerpt.read_more(false) }}
+                            {% elseif post.content %}
+                                {{ post.content|striptags|slice(0, 220) }}...
+                            {% elseif details.description %}
+                                {{ details.description|nl2br }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                {% if gallery_images|length > 0 %}
+                <div class="image-gallery fade-in-up animated">
+                        {% set first_image = gallery_images[0] %}
+
+                    <img src="{{ first_image.url }}" alt="{{ post.title }}" class="gallery-img-large fade-in-up animated" style="transition: transform 0.5s, opacity 0.3s;">
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+
+        {% set separator_image = project_media.separator_image ?? null %}
+        {% set has_project_meta = details.title or details.description or details.price or details.city or details.status_label %}
+        {% set has_project_section = has_project_meta or separator_image %}
+        {% if has_project_section %}
+        <!-- Project Details Section -->
+        <section class="section project-details">
+            <div class="container">
+                {% set pdf_media = project_media.download_pdf ?? {} %}
+                {% set download_url = pdf_media.current ?? null %}
+                {% set has_download = download_url is not empty %}
+                <div class="project-header">
+                    <h3 class="subheading">
+                        {% if details.title %}
+                            {{ details.title }}
+
+                        {% endif %}
+                    </h3>
+                    {% if details.description %}
+                        <h4 class="body-text">{{ details.description|nl2br }}</h4>
+                    {% endif %}
+
+                    {% if details.price or details.city or details.status_label or has_download %}
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Starting from</span>
+                            <span class="meta-value heading">
+                                {% if details.price %}
+                                    {{ details.price }}
+
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="meta-group">
+                            <div class="meta-item">
+                                <span class="meta-label">City</span>
+                                <span class="meta-value">
+                                    {% if details.city %}
+                                        {{ details.city }}
+
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <div class="meta-item">
+                                <span class="meta-label">Status</span>
+                                <span class="meta-value">
+                                    {% if details.status_label %}
+                                        {{ details.status_label }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <a href="{{ has_download ? download_url : '#' }}" class="btn btn-outline" {% if has_download %}target="_blank" rel="noopener" download{% else %}aria-disabled="true"{% endif %}>
+                                <img src="{{ asset_url('interface---download.png', '/img/main/') }}" alt="">
+                            </a>
+
+                            <a href="{{ site.url }}/en/contact_us" class="btn btn-primary">
+                                <span>Contact Us</span>
+                                <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="">
+
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="project-image">
+                    {% if separator_image %}
+                        <img src="{{ separator_image }}" alt="{{ post.title }}">
+                    {% else %}
+                        <img src="{{ asset_url('rectangle-4.png', '/img/main/') }}" alt="{{ post.title }}">
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        {% set features = project_features ?? {} %}
+        {% set feature_items = features.items ?? [] %}
+        {% set has_features_section = feature_items|length > 0 or features.section_title or features.main_title or features.description %}
+        {% if has_features_section %}
+        <!-- Why Invest Section -->
+        <section class="section why-invest-section">
+            <div class="container">
+                <div class="section-grid reverse">
+
+                    <div class="features-list">
+                        {% if feature_items|length > 0 %}
+                            {% for item in feature_items %}
+                                <div class="feature-card">
+                                    {% if item.icon %}
+                                        <img src="{{ item.icon }}" alt="{{ item.title ?: post.title }}" class="feature-icon">
+                                    {% else %}
+                                        <img src="{{ asset_url('group-1.svg', '/img/main/') }}" alt="{{ item.title ?: post.title }}" class="feature-icon">
+                                    {% endif %}
+                                    <div class="feature-content">
+                                        {% if item.title %}
+                                            <h3 class="feature-title">{{ item.title }}</h3>
+                                        {% endif %}
+                                        {% if item.description %}
+                                            <p class="body-text">{{ item.description|nl2br }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        {% endif %}
+                    </div>
+
+                    <div class="section-header">
+                        <div class="section-label">
+                            <span class="subheading">
+                                {% if features.section_title %}
+                                    {{ features.section_title }}
+                                {% endif %}
+                            </span>
+                            <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                        </div>
+                        <h2 class="heading">
+                            {% if features.main_title %}
+                                {{ features.main_title }}
+  
+                            {% endif %}
+                        </h2>
+                        <p class="body-text">
+                            {% if features.description %}
+                                {{ features.description|nl2br }}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if project_speed_sections is defined and project_speed_sections|length > 0 %}
+            {% for speed_section in project_speed_sections %}
+                <!-- Location Section -->
+                <section class="section location-section" dir="rtl">
+                    <div class="container">
+                        <div class="location-timeline">
+                            {% set timeline_items = speed_section.items is defined and speed_section.items is iterable ? speed_section.items : [] %}
+                            {% if timeline_items|length > 0 %}
+                                {% for item in timeline_items %}
+                                    {% set has_time = item.time is defined and item.time is not empty %}
+                                    {% set has_unit = item.unit is defined and item.unit is not empty %}
+                                    <div class="timeline-item{% if not has_time and not has_unit %} no-time{% endif %}">
+                                        <div class="timeline-dot"></div>
+                                        {% if has_time or has_unit %}
+                                            <div class="timeline-time">
+                                                {% if has_unit %}
+                                                    <span class="time-unit">{{ item.unit|nl2br|raw }}</span>
+                                                {% endif %}
+                                                {% if has_time %}
+                                                    <span class="time-number">{{ item.time }}</span>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                        {% if item.label is defined and item.label is not empty %}
+                                            <span class="timeline-label">{{ item.label }}</span>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if speed_section.name %}
+                                <div class="timeline-item no-time">
+                                    <div class="timeline-dot"></div>
+                                    <span class="timeline-label">{{ speed_section.name }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <img class="location-map" src="{{ asset_url('car.png', '/img/main/') }}" alt="">
+                    </div>
+                </section>
+            {% endfor %}
+        {% endif %}
+
+
+
+        {% set gallery = project_gallery ?? {} %}
+        {% set gallery_images_full = gallery.images ?? [] %}
+        {% set has_gallery = gallery_images_full|length > 0 %}
+        {% set amenities = project_amenities ?? {} %}
+        {% set amenities_items = amenities.items ?? [] %}
+        {% set has_amenities = amenities_items|length > 0 %}
+        {% set has_tour_section = has_gallery or has_amenities %}
+        {% if has_tour_section %}
+        {% set gallery_subtitle = gallery.subtitle ?: 'Discover the elegance of luxury living' %}
+        {% set gallery_title = gallery.title ?: 'Azuro Resorts Tour' %}
+
+        <!-- Tour Section -->
+        <section class="section tour-section">
+            <div class="container">
+                <div class="section-header centered">
+                    <div class="section-label">
+                        <span class="subheading">{{ gallery_subtitle }}</span>
+                        <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                    </div>
+                    <h2 class="heading">{{ gallery_title }}</h2>
+                </div>
+
+                {% if has_gallery %}
+                    {% set first_image = gallery_images_full[0] %}
+                    {% set last_image = gallery_images_full[gallery_images_full|length - 1] %}
+                    <!-- Image Carousel -->
+                    <div class="carousel" id="tour-carousel">
+                        <img src="{{ (gallery_images_full[1] ?? last_image).url }}" alt="{{ (gallery_images_full[1] ?? last_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-prev">
+
+                        <div class="carousel-main">
+                            <button class="carousel-btn prev" id="carousel-prev">
+                                <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', '/img/main/') }}" alt="Previous">
+                            </button>
+                            <div class="carousel-images-wrapper">
+                                {% for image in gallery_images_full %}
+                                    <img src="{{ image.url }}" alt="{{ image.alt ?: gallery_title }}"
+                                        class="carousel-image{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}">
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-btn next" id="carousel-next">
+                                <img src="{{ asset_url('vuesax-linear-arrow-right.svg', '/img/main/') }}" alt="Next">
+                            </button>
+                        </div>
+
+                        <img src="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).url }}" alt="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-next">
+                    </div>
+
+                    <div class="carousel-footer">
+                        <button class="carousel-btn prev carousel-footer-btn" id="carousel-prev-footer">
+                            <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', '/img/main/') }}" alt="Previous">
+                        </button>
+                        {% set total_images = gallery_images_full|length %}
+                        <p class="carousel-counter">
+                            <span class="current">01</span>
+                            <span class="total">/ {{ '%02d'|format(total_images) }}</span>
+                        </p>
+                        <button class="carousel-btn next carousel-footer-btn" id="carousel-next-footer">
+                            <img src="{{ asset_url('vuesax-linear-arrow-right.svg', '/img/main/') }}" alt="Next">
+                        </button>
+                    </div>
+                {% endif %}
+
+                {% set amenities_title = amenities.subtitle ?: 'Amenities & Services' %}
+
+                {% if has_amenities %}
+                    <!-- Amenities -->
+                    <div class="amenities">
+                        <h3 class="amenities-title">{{ amenities_title }}</h3>
+
+                        <div class="amenities-list">
+                            {% for item in amenities_items %}
+                                <div class="amenity-item">
+                                    <div class="amenity-left">
+                                        <div class="amenity-header">
+                                            <span class="amenity-number">{{ "%02d"|format(loop.index) }}</span>
+                                        </div>
+                                        <div class="amenity-content">
+                                            {% if item.title %}
+                                                <h4 class="heading">{{ item.title }}</h4>
+                                            {% endif %}
+                                            {% if item.description %}
+                                                <p class="body-text">{{ item.description|nl2br }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if item.image %}
+                                        <img src="{{ item.image }}" alt="{{ item.title ?: amenities_title }}" class="amenity-image">
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+
+
+
+
+{% include 'en/components/contact_us_cta.twig' %}
+
+{% endblock %}

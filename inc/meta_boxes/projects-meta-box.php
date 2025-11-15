@@ -29,16 +29,16 @@ function projects_render_excerpt_after_title($post) {
 
     echo '<div id="projects-excerpt-wrapper" class="postbox">';
     echo '<div class="postbox-header"><h2 class="hndle">' . esc_html__('مقتطف المشروع', 'borma') . '</h2></div>';
-    echo '<div class="inside projects-excerpt-container">';
+    echo '<div class="inside projects-excerpt-container project-details-modern">';
     wp_nonce_field('projects_title_en_nonce', 'projects_title_en_nonce_field');
     wp_nonce_field('projects_excerpt_nonce', 'projects_excerpt_nonce_field');
     echo '<input type="hidden" name="excerpt" value="">';
     echo '<div class="projects-title-en">';
-    echo '    <label for="projects_title_en" class="label-with-en">';
+    echo '    <label for="projects_title_en" class="mt-compact label-with-en">';
     echo '        <strong>' . esc_html__('Project Title (English)', 'borma') . '</strong>';
     echo '        <span class="badge-en">EN</span>';
     echo '    </label>';
-    echo '    <input type="text" id="projects_title_en" name="projects_title_en" class="widefat" value="' . esc_attr($title_en) . '" placeholder="' . esc_attr__('Enter the English title that appears on EN pages...', 'borma') . '">';
+    echo '    <input type="text" id="projects_title_en" name="projects_title_en" class="widefat details-title-input" value="' . esc_attr($title_en) . '" placeholder="' . esc_attr__('Enter the English title that appears on EN pages...', 'borma') . '">';
     echo '</div>';
     echo '<div class="projects-excerpt-box">';
     echo '    <div class="excerpt-field">';

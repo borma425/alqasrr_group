@@ -244,8 +244,27 @@ function add_language_rewrite_rules() {
             'index.php?lang=en&post_type=' . $post_type->name,
             'top'
         );
+
+        // Add rewrite rule for /en/{cpt}/{single}/ (single posts)
+        add_rewrite_rule(
+            '^en/' . preg_quote($slug, '/') . '/([^/]+)/?$',
+            'index.php?lang=en&post_type=' . $post_type->name . '&name=$matches[1]',
+            'top'
+        );
     }
-    
+
+    // Add rewrite rule for /en/project-type/{term}/ (taxonomy archive with pagination)
+    add_rewrite_rule(
+        '^en/project-type/([^/]+)/?$',
+        'index.php?lang=en&taxonomy=project_type&term=$matches[1]',
+        'top'
+    );
+    add_rewrite_rule(
+        '^en/project-type/([^/]+)/page/([0-9]+)/?$',
+        'index.php?lang=en&taxonomy=project_type&term=$matches[1]&paged=$matches[2]',
+        'top'
+    );
+
     // Build list of CPT slugs to exclude from general /en/ rules
     // بناء قائمة بـ CPT slugs لاستثناءها من قواعد /en/ العامة
     $cpt_slugs = array();
@@ -362,6 +381,29 @@ add_filter('request', function($query_vars) {
     if ($en_index !== false && isset($path_parts[$en_index + 1])) {
         $next_part = $path_parts[$en_index + 1];
         
+        // Handle taxonomy archive: /en/project-type/{term}/
+        if ($next_part === 'project-type' && isset($path_parts[$en_index + 2])) {
+            $encoded_term = $path_parts[$en_index + 2];
+            $term_slug = sanitize_text_field(rawurldecode($encoded_term));
+
+            $query_vars['lang'] = 'en';
+            $query_vars['taxonomy'] = 'project_type';
+            $query_vars['term'] = $term_slug;
+            $query_vars['project_type'] = $term_slug;
+
+            // Handle pagination: /en/project-type/{term}/page/{n}/
+            if (isset($path_parts[$en_index + 3]) && $path_parts[$en_index + 3] === 'page' && isset($path_parts[$en_index + 4])) {
+                $query_vars['paged'] = (int) $path_parts[$en_index + 4];
+            }
+
+            $query_vars['is_tax'] = true;
+            $query_vars['is_archive'] = true;
+            $query_vars['error'] = null;
+            unset($query_vars['is_404']);
+
+            return $query_vars;
+        }
+
         // Check if this is a CPT archive (for any CPT, not just blog)
         // التحقق من أن هذا أرشيف CPT (لأي CPT، وليس فقط blog)
         foreach ($post_types as $post_type) {
@@ -372,19 +414,33 @@ add_filter('request', function($query_vars) {
             if ($next_part === $slug) {
                 $query_vars['lang'] = 'en';
                 $query_vars['post_type'] = $post_type->name;
-                
+
+                // Check if this is a single post: /en/{cpt}/{slug}/
+                if (isset($path_parts[$en_index + 2]) && $path_parts[$en_index + 2] !== 'page') {
+                    $single_slug_raw = $path_parts[$en_index + 2];
+                    $single_slug = sanitize_text_field(rawurldecode($single_slug_raw));
+
+                    $query_vars['name'] = $single_slug;
+                    $query_vars[$post_type->name] = $single_slug;
+                    $query_vars['is_single'] = true;
+                    $query_vars['is_singular'] = true;
+                    $query_vars['is_archive'] = false;
+                    unset($query_vars['is_post_type_archive']);
+                    $query_vars['error'] = null;
+                    unset($query_vars['is_404']);
+
+                    return $query_vars;
+                }
+
                 // Check if there's pagination: /en/{cpt}/page/2/
-                // التحقق من وجود pagination: /en/{cpt}/page/2/
                 if (isset($path_parts[$en_index + 2]) && $path_parts[$en_index + 2] === 'page' && isset($path_parts[$en_index + 3])) {
                     $query_vars['paged'] = (int) $path_parts[$en_index + 3];
                 }
                 
-                // Set archive flags (IMPORTANT: prevent 404)
-                // تعيين علامات الأرشيف (مهم: منع 404)
                 $query_vars['is_archive'] = true;
                 $query_vars['is_post_type_archive'] = true;
-                $query_vars['error'] = null; // Clear any 404 errors
-                unset($query_vars['is_404']); // Remove 404 flag if exists
+                $query_vars['error'] = null;
+                unset($query_vars['is_404']);
                 
                 return $query_vars;
             }
@@ -397,17 +453,18 @@ add_filter('request', function($query_vars) {
         $en_index = array_search('en', $path_parts);
         
         if ($en_index !== false && isset($path_parts[$en_index + 1])) {
-            $next_part = $path_parts[$en_index + 1];
+            $next_part_raw = $path_parts[$en_index + 1];
+            $next_part = explode('?', $next_part_raw)[0];
             
             // Check if this is a page (existing logic)
             // التحقق من أن هذه صفحة (المنطق الموجود)
-            if (check_post_exists($next_part, 'page')) {
+            $page_exists = check_post_exists($next_part, 'page');
+            if ($page_exists) {
                 // Set the correct query vars for pages
                 $query_vars['lang'] = 'en';
                 $query_vars['page_id'] = null;
                 $query_vars['pagename'] = $next_part;
                 $query_vars['post_type'] = 'page';
-                $query_vars['name'] = $next_part;
                 
                 // Force WordPress to treat this as a page
                 $query_vars['is_page'] = true;
@@ -419,7 +476,6 @@ add_filter('request', function($query_vars) {
                     $query_vars['lang'] = 'en';
                     $query_vars['pagename'] = 'contact_us';
                     $query_vars['post_type'] = 'page';
-                    $query_vars['name'] = 'contact_us';
                     $query_vars['is_page'] = true;
                     $query_vars['is_single'] = false;
                     $query_vars['is_home'] = false;
@@ -448,7 +504,7 @@ add_filter('timber/template', 'select_language_template', 10, 2);
 add_filter('template_include', function($template) {
     global $wp_query;
     $path = $_SERVER['REQUEST_URI'] ?? '';
-    
+
     // Check if this is a post type archive (blog, projects, etc.)
     // التحقق من أن هذه صفحة أرشيف لنوع المقالات (blog, projects, إلخ)
     $post_type = $wp_query->get('post_type');
@@ -467,51 +523,62 @@ add_filter('template_include', function($template) {
         }
     }
     
+    // Check if this is a taxonomy archive (e.g., project_type)
+    if (is_tax()) {
+        return $template;
+    }
+
     if (preg_match('#/en(/|$)#', $path)) {
-        $path_parts = explode('/', trim($path, '/'));
-        
-        // Find the 'en' part and get the next part as page name
-        $en_index = array_search('en', $path_parts);
-        if ($en_index !== false && isset($path_parts[$en_index + 1])) {
-            $page_name = $path_parts[$en_index + 1];
-            
-            // Check if page exists (case insensitive for Contact_us)
-            $page_exists = false;
-            if (strtolower($page_name) === 'contact_us') {
-                // Special handling for Contact_us page
-                $page_exists = check_post_exists('contact_us', 'page');
-            } else {
-                $page_exists = check_post_exists($page_name, 'page');
-            }
-            
-            if ($page_exists) {
-                // Check if we have a specific template for this page
-                $specific_template = get_template_directory() . '/page-' . $page_name . '.php';
-                if (file_exists($specific_template)) {
-                    return $specific_template;
-                }
-                
-                // Use default page template
-                $page_template = get_template_directory() . '/page.php';
-                if (file_exists($page_template)) {
-                    return $page_template;
-                }
-            } else {
-                // Special handling for Contact_us page (case insensitive)
-                if (strtolower($page_name) === 'contact_us') {
-                    $specific_template = get_template_directory() . '/page-Contact_us.php';
-                    if (file_exists($specific_template)) {
-                        return $specific_template;
-                    }
-                }
-                
-                // Page doesn't exist, use 404 template
-                $template_404 = get_template_directory() . '/404.php';
-                if (file_exists($template_404)) {
-                    return $template_404;
-                }
+        $page_name = '';
+
+        // Try to use query var first
+        $pagename_query = $wp_query->get('pagename');
+        if (!empty($pagename_query)) {
+            $page_name = $pagename_query;
+        } else {
+            $path_parts = explode('/', trim($path, '/'));
+            $en_index = array_search('en', $path_parts);
+            if ($en_index !== false && isset($path_parts[$en_index + 1])) {
+                $page_name_raw = $path_parts[$en_index + 1];
+                $page_name = explode('?', $page_name_raw)[0];
             }
         }
+
+        if (empty($page_name)) {
+            return $template;
+        }
+
+        $is_contact_page = strtolower($page_name) === 'contact_us';
+        $page_exists = $is_contact_page
+            ? check_post_exists('contact_us', 'page')
+            : check_post_exists($page_name, 'page');
+
+        if (!$page_exists && !$is_contact_page) {
+            // Not an actual page slug - leave template resolution to WordPress
+            return $template;
+        }
+
+        if ($is_contact_page) {
+            $specific_contact_template = get_template_directory() . '/page-Contact_us.php';
+            if (file_exists($specific_contact_template)) {
+                return $specific_contact_template;
+            }
+        } else {
+            $specific_template = get_template_directory() . '/page-' . $page_name . '.php';
+            if (file_exists($specific_template)) {
+                return $specific_template;
+            }
+        }
+
+        $page_template = get_template_directory() . '/page.php';
+        if (file_exists($page_template)) {
+            return $page_template;
+        }
+    }
+    
+    // Skip template override for other singular content
+    if (is_singular()) {
+        return $template;
     }
     
     return $template;

@@ -1,11 +1,12 @@
+{% set site_title = get_AlQasrGroup_site_title('ar') %}
     <!-- Footer -->
     <footer class="footer">
         <div class="container-wide">
             <div class="footer-divider"></div>
             <div class="footer-content">
                 <div class="footer-logo">
-                    <a href="{{ site.url }}" class="footer-logo-link">
-                        <img src="{{ function('esc_url', function('get_option','AlQasrGroup_site_logo_medium')) }}" alt="القصر العقارية">
+                    <a href="{{ site.url }}" class="footer-logo-link" aria-label="{{ site_title }}">
+                        <img src="{{ function('esc_url', function('get_option','AlQasrGroup_site_logo_medium')) }}" alt="{{ site_title }}">
 
                     </a>
                 </div>
@@ -46,9 +47,9 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="footer-copyright">جميع الحقوق محفوظة @ {{site.name}} {{ "now"|date("Y") }}</p>
-          
-          
+                <p class="footeropyright">جميع الحقوق محفوظة © {{ site_title }} {{ "now"|date("Y") }}</p>
+
+
             </div>
         </div>
     </footer>

@@ -24,12 +24,12 @@
         <!-- Filter Section -->
         <section class="filter-section">
             <div class="container-wide">
-                <div class="filter-container">
+                <form id="projects-filter-form" class="filter-container" method="get">
                     <div class="filter-controls">
                         <h2 class="filter-title">تصفية حسب</h2>
                         <div class="filter-dropdowns">
                             <div class="filter-dropdown-wrapper">
-                                <select id="filter-location" class="filter-dropdown" name="location" data-taxonomy="city">
+                                <select id="filter-location" class="filter-dropdown" name="city">
                                     <option value="">موقع المشروع</option>
                                     {% if cities %}
                                         {% for city in cities %}
@@ -43,7 +43,7 @@
                                     class="filter-arrow" />
                             </div>
                             <div class="filter-dropdown-wrapper">
-                                <select id="filter-type" class="filter-dropdown" name="type" data-taxonomy="project_type">
+                                <select id="filter-type" class="filter-dropdown" name="project_type">
                                     <option value="">نوع المشروع</option>
                                     {% if project_types %}
                                         {% for project_type in project_types %}
@@ -63,13 +63,13 @@
                         <div class="search-input">
                             <img src="{{ asset_url('search-normal.svg', '/img/main/') }}" alt=""
                                 class="w-6 h-6" />
-                            <input type="text" placeholder="ابحث...." id="search-input" value="{{ search_query|default('') }}" />
+                            <input type="text" placeholder="ابحث...." id="search-input" name="search" value="{{ search_query|default('') }}" />
                         </div>
 
-                        <button class="search-button">بحث</button>
+                        <button class="search-button" type="submit">بحث</button>
                     </div>
 
-                </div>
+                </form>
             </div>
         </section>
 

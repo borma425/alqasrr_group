@@ -1,1 +1,181 @@
-en contact us page
+{% block html_head %}
+	{% include 'en/main/html-head.twig' %}
+{% endblock %}
+
+{% block head %}
+
+</head>{% endblock %}
+<body class="font-aktiv">
+
+{% include 'en/main/html-header.twig' %}
+
+{% set page_title = 'Contact Us' %}
+{% set page_description = 'Leave your details and we will get back to you shortly.' %}
+{% set tab_form = 'Contact Form' %}
+{% set tab_social = 'Social Channels' %}
+{% set tab_map = 'Map' %}
+
+{% set form_title = get_AlQasrGroup_contact_form_title('en')|default('Contact Form') %}
+{% set form_description = get_AlQasrGroup_contact_form_description('en')|default('Tell us how we can help and a member of our team will reach out soon.') %}
+{% set first_name_label = 'First Name' %}
+{% set first_name_placeholder = 'e.g. John' %}
+{% set last_name_label = 'Last Name' %}
+{% set last_name_placeholder = 'e.g. Smith' %}
+{% set email_label = 'Email Address' %}
+{% set email_placeholder = 'username@example.com' %}
+{% set phone_label = 'Phone Number' %}
+{% set phone_placeholder = 'e.g. +971 50 000 0000' %}
+{% set message_label = 'Message' %}
+{% set message_placeholder = 'Tell us how we can help' %}
+{% set submit_label = 'Submit' %}
+{% set submitting_label = 'Sending…' %}
+{% set social_title = 'Contact Details' %}
+{% set map_title = 'Find Us on the Map' %}
+{% set map_iframe_title = 'Location map' %}
+
+    <!-- Main Content -->
+    <main>
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-layout">
+                    <!-- Right Side - Header and Navigation -->
+                    <div class="contact-right-side">
+                        <!-- Contact Header -->
+                        <div class="contact-header">
+                            <h1 class="section-title">{{ page_title }}</h1>
+                            <p class="section-description">{{ page_description }}</p>
+                        </div>
+
+                        <!-- Navigation Tabs -->
+                        <nav class="contact-nav">
+                            <div class="nav-indicator"></div>
+                            <a href="#form" class="nav-link active">{{ tab_form }}</a>
+                            <a href="#social" class="nav-link">{{ tab_social }}</a>
+                            <a href="#map" class="nav-link">{{ tab_map }}</a>
+                        </nav>
+                    </div>
+
+                    <!-- Content Wrapper for Left Side Sections -->
+                    <div class="contact-content-wrapper">
+                        <!-- Contact Form -->
+                        <div class="contact-form-wrapper active" id="form">
+                            <h2 class="form-title">{{ form_title }}</h2>
+                            <p class="form-description">{{ form_description }}</p>
+
+                            <form class="contact-form" id="contactFormPage">
+                                <div class="form-message" id="contactFormMessage" style="display: none; margin-bottom: 20px; padding: 15px; border-radius: 5px;"></div>
+                                <input type="hidden" name="nonce" value="{{ fn('wp_create_nonce', 'AlQasrGroup_contact_nonce') }}">
+                                <input type="hidden" name="current_language" value="en">
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            {{ first_name_label }} <span class="required">*</span>
+                                        </label>
+                                        <input type="text" name="first_name" id="first_name" class="form-input" placeholder="{{ first_name_placeholder }}" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            {{ last_name_label }} <span class="required">*</span>
+                                        </label>
+                                        <input type="text" name="second_name" id="second_name" class="form-input" placeholder="{{ last_name_placeholder }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">{{ email_label }}</label>
+                                        <input type="email" name="email" id="email" class="form-input" placeholder="{{ email_placeholder }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            {{ phone_label }} <span class="required">*</span>
+                                        </label>
+                                        <input type="tel" name="phone" id="phone" class="form-input" placeholder="{{ phone_placeholder }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ message_label }} <span class="required">*</span>
+                                    </label>
+                                    <textarea name="message" id="message" class="form-textarea" placeholder="{{ message_placeholder }}" required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-submit" id="contactSubmitBtn">
+                                    <span class="submit-text">{{ submit_label }}</span>
+                                    <span class="loading-text" style="display: none;">{{ submitting_label }}</span>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Social Media Section -->
+                        <div class="social-section" id="social">
+                            <h2 class="form-title">{{ social_title }}</h2>
+
+                            <div class="contact-list">
+                                {% if contact_methods %}
+                                    {% for key, value in contact_methods %}
+                                        <div class="contact-item">
+                                            <span class="contact-label">{{ key }}</span>
+                                            <span class="contact-value">{{ value }}</span>
+                                        </div>
+                                    {% endfor %}
+
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Map Section -->
+                        <div class="map-section" id="map">
+                            <h2 class="form-title">{{ map_title }}</h2>
+
+                            <div class="map-wrapper">
+                                {% if contact_map_link %}
+                                    <iframe 
+                                        src="{{ contact_map_link }}" 
+                                        class="map-iframe"
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        title="{{ map_iframe_title }}">
+                                    </iframe>
+
+                                {% endif %}
+
+                                {% if contact_company_address %}
+                                    <a href="{{ contact_map_link ? contact_map_link : '#' }}" class="map-address" {% if contact_map_link %}target="_blank"{% endif %}>
+                                        <div class="location-icon"
+                                            style="background-image: url('{{ asset_url('location.png', '/img/main/') }}')">
+                                        </div>
+                                        <span>{{ contact_company_address }}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Image Section -->
+        <section class="hero-image-section">
+            {% if contact_background_image %}
+                <img src="{{ contact_background_image }}" alt="Contact background" class="hero-image">
+            {% endif %}
+        </section>
+
+        {% include 'en/components/cta.twig' %}
+
+</main>
+	{% block footer %}
+        {% include 'en/main/html-footer.twig' %}
+	{% endblock %}
+
+{{ function('wp_footer') }}
+
+</body></html>
+

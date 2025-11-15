@@ -2,6 +2,10 @@
 
 {% block grid_content %}
 
+        {% set details = project_details ?? {} %}
+        {% set gallery_images = project_media.gallery_images ?? [] %}
+        {% set has_about_text = details.excerpt or post.excerpt or post.content or details.description %}
+        {% set has_about_section = has_about_text or gallery_images|length > 0 %}
 
         <!-- Hero Section -->
         <section class="hero">
@@ -22,6 +26,7 @@
             </div>
         </section>
 
+        {% if has_about_section %}
         <!-- About Section -->
         <section class="section about-section">
             <div class="container">
@@ -31,10 +36,10 @@
                             <span class="subheading">وصف المشروع</span>
                             <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
                         </div>
-                        {% set details = project_details ?? {} %}
                         <h2 class="heading">{{ post.title }}</h2>
                     </div>
 
+                    {% if has_about_text %}
                     <div class="section-content">
                         <p class="body-text">
                             {% if details.excerpt %}
@@ -48,33 +53,32 @@
                             {% endif %}
                         </p>
                     </div>
+                    {% endif %}
 
                 </div>
 
-                <div class="image-gallery">
-                    {% set gallery_images = project_media.gallery_images ?? [] %}
-                    {% if gallery_images|length > 0 %}
+                {% if gallery_images|length > 0 %}
+                <div class="image-gallery fade-in-up animated">
                         {% set first_image = gallery_images[0] %}
-                        <img src="{{ first_image.url }}" alt="{{ first_image.alt ?: post.title }}" class="gallery-img-large">
-                    {% else %}
-                        <img src="{{ asset_url('rectangle-4.png', '/img/main/') }}" alt="{{ post.title }}" class="gallery-img-large">
-                    {% endif %}
 
-                    {% if gallery_images|length > 1 %}
-                        {% set second_image = gallery_images[1] %}
-                        <img src="{{ second_image.url }}" alt="{{ second_image.alt ?: post.title }}" class="gallery-img-small">
-                    {% else %}
-                        <img src="{{ asset_url('rectangle-5.png', '/img/main/') }}" alt="{{ post.title }}" class="gallery-img-small">
-                    {% endif %}
-
+                    <img src="{{ first_image.url }}" alt="{{ post.title }}" class="gallery-img-large fade-in-up animated" style="transition: transform 0.5s, opacity 0.3s;">
                 </div>
+                {% endif %}
+                
             </div>
         </section>
+        {% endif %}
 
+        {% set separator_image = project_media.separator_image ?? null %}
+        {% set has_project_meta = details.title or details.description or details.price or details.city or details.status_label %}
+        {% set has_project_section = has_project_meta or separator_image %}
+        {% if has_project_section %}
         <!-- Project Details Section -->
         <section class="section project-details">
             <div class="container">
-                {% set details = project_details ?? {} %}
+                {% set pdf_media = project_media.download_pdf ?? {} %}
+                {% set download_url = pdf_media.current ?? null %}
+                {% set has_download = download_url is not empty %}
                 <div class="project-header">
                     <h3 class="subheading">
                         {% if details.title %}
@@ -85,7 +89,7 @@
                     {% if details.description %}
                         <h4 class="body-text">{{ details.description|nl2br }}</h4>
                     {% endif %}
-
+                    {% if details.price or details.city or details.status_label or has_download %}
                     <div class="project-meta">
                         <div class="meta-item">
                             <span class="meta-label">تبدأ من</span>
@@ -117,11 +121,10 @@
                                 </span>
                             </div>
                         </div>
-
                         <div class="project-actions">
-                            <button class="btn btn-outline">
+                            <a href="{{ has_download ? download_url : '#' }}" class="btn btn-outline" {% if has_download %}target="_blank" rel="noopener" download{% else %}aria-disabled="true"{% endif %}>
                                 <img src="{{ asset_url('interface---download.png', '/img/main/') }}" alt="">
-                            </button>
+                            </a>
 
                             <a href="{{ site.url }}/contact_us" class="btn btn-primary">
                                 <span>تواصل معنا</span>
@@ -130,10 +133,10 @@
                             </a>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="project-image">
-                    {% set separator_image = project_media.separator_image ?? null %}
                     {% if separator_image %}
                         <img src="{{ separator_image }}" alt="{{ post.title }}">
                     {% else %}
@@ -142,13 +145,16 @@
                 </div>
             </div>
         </section>
+        {% endif %}
 
+        {% set features = project_features ?? {} %}
+        {% set feature_items = features.items ?? [] %}
+        {% set has_features_section = feature_items|length > 0 or features.section_title or features.main_title or features.description %}
+        {% if has_features_section %}
         <!-- Why Invest Section -->
         <section class="section why-invest-section">
             <div class="container">
                 <div class="section-grid reverse">
-                    {% set features = project_features ?? {} %}
-                    {% set feature_items = features.items ?? [] %}
 
                     <div class="features-list">
                         {% if feature_items|length > 0 %}
@@ -197,6 +203,7 @@
                 </div>
             </div>
         </section>
+        {% endif %}
 
         {% if project_speed_sections is defined and project_speed_sections|length > 0 %}
             {% for speed_section in project_speed_sections %}
@@ -204,7 +211,7 @@
                 <section class="section location-section">
                     <div class="container">
                         <div class="location-timeline">
-                            {% set timeline_items = speed_section.items is defined and speed_section.items is iterable ? speed_section.items|reverse : [] %}
+                            {% set timeline_items = speed_section.items is defined and speed_section.items is iterable ? speed_section.items : [] %}
                             {% if timeline_items|length > 0 %}
                                 {% for item in timeline_items %}
                                     {% set has_time = item.time is defined and item.time is not empty %}
@@ -245,8 +252,13 @@
 
 
         {% set gallery = project_gallery ?? {} %}
-        {% set gallery_images = gallery.images ?? [] %}
-        {% set has_gallery = gallery_images|length > 0 %}
+        {% set gallery_images_full = gallery.images ?? [] %}
+        {% set has_gallery = gallery_images_full|length > 0 %}
+        {% set amenities = project_amenities ?? {} %}
+        {% set amenities_items = amenities.items ?? [] %}
+        {% set has_amenities = amenities_items|length > 0 %}
+        {% set has_tour_section = has_gallery or has_amenities %}
+        {% if has_tour_section %}
         {% set gallery_subtitle = gallery.subtitle ?: 'استكشف روعة الإقامة الفاخرة' %}
         {% set gallery_title = gallery.title ?: 'جولة في منتجعات ازورو' %}
 
@@ -262,18 +274,18 @@
                 </div>
 
                 {% if has_gallery %}
-                    {% set first_image = gallery_images[0] %}
-                    {% set last_image = gallery_images[gallery_images|length - 1] %}
+                    {% set first_image = gallery_images_full[0] %}
+                    {% set last_image = gallery_images_full[gallery_images_full|length - 1] %}
                     <!-- Image Carousel -->
                     <div class="carousel" id="tour-carousel">
-                        <img src="{{ (gallery_images[1] ?? last_image).url }}" alt="{{ (gallery_images[1] ?? last_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-prev">
+                        <img src="{{ (gallery_images_full[1] ?? last_image).url }}" alt="{{ (gallery_images_full[1] ?? last_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-prev">
 
                         <div class="carousel-main">
                             <button class="carousel-btn prev" id="carousel-prev">
                                 <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', '/img/main/') }}" alt="السابق">
                             </button>
                             <div class="carousel-images-wrapper">
-                                {% for image in gallery_images %}
+                                {% for image in gallery_images_full %}
                                     <img src="{{ image.url }}" alt="{{ image.alt ?: gallery_title }}"
                                         class="carousel-image{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}">
                                 {% endfor %}
@@ -283,14 +295,14 @@
                             </button>
                         </div>
 
-                        <img src="{{ (gallery_images[gallery_images|length - 2] ?? first_image).url }}" alt="{{ (gallery_images[gallery_images|length - 2] ?? first_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-next">
+                        <img src="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).url }}" alt="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-next">
                     </div>
 
                     <div class="carousel-footer">
                         <button class="carousel-btn prev carousel-footer-btn" id="carousel-prev-footer">
                             <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', '/img/main/') }}" alt="السابق">
                         </button>
-                        {% set total_images = gallery_images|length %}
+                        {% set total_images = gallery_images_full|length %}
                         <p class="carousel-counter">
                             <span class="current">01</span>
                             <span class="total">/ {{ '%02d'|format(total_images) }}</span>
@@ -301,11 +313,9 @@
                     </div>
                 {% endif %}
 
-                {% set amenities = project_amenities ?? {} %}
-                {% set amenities_items = amenities.items ?? [] %}
                 {% set amenities_title = amenities.subtitle ?: 'المرافق والخدمات' %}
 
-                {% if amenities_items|length > 0 %}
+                {% if has_amenities %}
                     <!-- Amenities -->
                     <div class="amenities">
                         <h3 class="amenities-title">{{ amenities_title }}</h3>
@@ -336,6 +346,7 @@
                 {% endif %}
             </div>
         </section>
+        {% endif %}
 
 
 

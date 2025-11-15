@@ -9,7 +9,13 @@ if (get_query_var('s')) {
     $search_query = strip_tags((string) wp_unslash(get_query_var('s')));
     
     $context = Timber::context();
-    
+    $is_english = false;
+    if (function_exists('is_english_version') && is_english_version()) {
+        $is_english = true;
+    } elseif (function_exists('get_current_language') && get_current_language() === 'en') {
+        $is_english = true;
+    }
+
     // Build query arguments
     $query_args = array(
         'post_type' => 'blog',
@@ -84,25 +90,48 @@ if (get_query_var('s')) {
     // Get posts
     $posts = Timber::get_posts($query_args);
     
-    // Process posts to add language-specific content
-    $current_language = get_current_language();
-    $processed_posts = [];
-    
-    foreach ($posts as $post) {
-        if ($current_language === 'ar') {
-            // For Arabic, use default WordPress fields (title, content, excerpt)
-            // لا حاجة لتغيير شيء - الحقول الافتراضية هي للعربية
-        } elseif ($current_language === 'en') {
-            // For English, use metabox fields
-            $post->title = get_post_meta($post->ID, 'blog_title_en', true) ?: $post->title;
-            $post->content = get_post_meta($post->ID, 'blog_content_en', true) ?: $post->content;
-            $post->excerpt = get_post_meta($post->ID, 'blog_excerpt_en', true) ?: $post->excerpt;
+    if ($is_english && !empty($posts)) {
+        foreach ($posts as $post) {
+            if (!is_object($post)) {
+                continue;
+            }
+
+            $post_id = isset($post->ID) ? $post->ID : (isset($post->id) ? $post->id : 0);
+            if (!$post_id) {
+                continue;
+            }
+
+            $title_en = get_post_meta($post_id, 'blog_title_en', true);
+            if (!empty($title_en)) {
+                if (isset($post->post_title)) {
+                    $post->post_title = $title_en;
+                }
+                $post->title = $title_en;
+            }
+
+            $excerpt_en = get_post_meta($post_id, 'blog_excerpt_en', true);
+            if (!empty($excerpt_en)) {
+                if (isset($post->post_excerpt)) {
+                    $post->post_excerpt = $excerpt_en;
+                }
+                $post->excerpt = $excerpt_en;
+            }
+
+            $content_en = get_post_meta($post_id, 'blog_content_en', true);
+            if (!empty($content_en)) {
+                if (isset($post->post_content)) {
+                    $post->post_content = $content_en;
+                }
+                $post->content = $content_en;
+            }
+
+            if (function_exists('get_english_url')) {
+                $post->link = get_english_url($post_id);
+            }
         }
-        
-        $processed_posts[] = $post;
     }
     
-    $context['posts'] = $processed_posts;
+    $context['posts'] = $posts;
     
     // Add search query to context
     $context['search_query'] = $search_query;
@@ -113,10 +142,10 @@ if (get_query_var('s')) {
     $context['posts_per_page'] = 20; // Show 20 posts per page
     
     // Get the appropriate template based on current language
-    if (is_english_version()) {
-        $template = 'en/archive-blogs.twig';
+    if (function_exists('get_language_template')) {
+        $template = get_language_template('search/results.twig');
     } else {
-        $template = 'ar/archive-blogs.twig';
+        $template = 'search/results.twig';
     }
     
     Timber::render($template, $context);

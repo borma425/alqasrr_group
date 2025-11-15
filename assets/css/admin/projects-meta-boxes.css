@@ -148,6 +148,31 @@
     margin: 6px 0 0;
 }
 
+.projects-excerpt-container .projects-title-en {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.projects-excerpt-container .projects-title-en .label-with-en {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.projects-excerpt-container .projects-title-en .badge-en {
+    background: rgba(77, 182, 255, 0.15);
+    color: #4db6ff;
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.projects-excerpt-container .details-title-input,
 .project-details-modern .details-title-input,
 .project-details-modern .details-description textarea,
 .project-details-modern .features-description-textarea {
@@ -158,6 +183,7 @@
     color: #fff;
 }
 
+.projects-excerpt-container .details-title-input:focus,
 .project-details-modern .details-title-input:focus {
     border-color: #4db6ff;
     box-shadow: 0 0 0 1px rgba(77, 182, 255, 0.4);

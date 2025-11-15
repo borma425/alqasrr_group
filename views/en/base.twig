@@ -1,3 +1,4 @@
+
 {% set defaultimg = fn('asset_url',"no_image_1200x627.png","/img/default/") | relative %}
 
 {% block html_head %}
@@ -7,11 +8,15 @@
 {% block head %}
 
 </head>{% endblock %}
-<body class="bg-white">
+<body class="font-aktiv">
 
+{% include 'en/main/html-header.twig' %}
+
+<main>
 {% block grid_content %}{% endblock %}
+{% include 'en/components/cta.twig' %}
 
-
+</main>
 	{% block footer %}
 		{% include 'en/main/html-footer.twig' %}
 	{% endblock %}
