@@ -84,7 +84,8 @@ add_filter( 'timber/context', function( $context ) {
 
 
 
-    // Get first 3 project types for header gallery
+    // Get first 3 project types for header gallery (if header needs it globally)
+    // If you want to limit to homepage only, wrap with is_front_page()
     $project_types = get_terms(array(
         'taxonomy' => 'project_type',
         'hide_empty' => false,
@@ -134,68 +135,69 @@ add_filter( 'timber/context', function( $context ) {
         }
     }
 
-    // Get About section settings based on current language
+    // Get About section, Projects, International, Why Choose, News only on homepage
     $current_lang = is_english_version() ? 'en' : 'ar';
-    
-    $context['about_image'] = get_option('about_image', '');
-    
-    if ($current_lang === 'en') {
-        $context['about_subtitle'] = get_option('about_subtitle_en', '');
-        $context['about_title'] = get_option('about_title_en', 'About Us');
-        $context['about_description'] = get_option('about_description_en', '');
-        $context['about_link_text'] = get_option('about_link_text_en', 'Read More');
-        $context['about_link_url'] = get_option('about_link_url_en', '');
-    } else {
-        $context['about_subtitle'] = get_option('about_subtitle', '');
-        $context['about_title'] = get_option('about_title', 'من نحن');
-        $context['about_description'] = get_option('about_description', '');
-        $context['about_link_text'] = get_option('about_link_text', 'قراءة المزيد');
-        $context['about_link_url'] = get_option('about_link_url', '');
-    }
-    
-    // Get Projects section settings based on current language
-    if ($current_lang === 'en') {
-        $context['projects_subtitle'] = get_option('projects_subtitle_en', '');
-        $context['projects_title'] = get_option('projects_title_en', 'Projects');
-        $context['projects_description'] = get_option('projects_description_en', '');
+    if (is_front_page()) {
+        $context['about_image'] = get_option('about_image', '');
         
-        // International Projects section
-        $context['international_subtitle'] = get_option('international_subtitle_en', '');
-        $context['international_title'] = get_option('international_title_en', 'Our International Projects');
-        $context['international_description'] = get_option('international_description_en', '');
-    } else {
-        $context['projects_subtitle'] = get_option('projects_subtitle', '');
-        $context['projects_title'] = get_option('projects_title', 'المشاريع');
-        $context['projects_description'] = get_option('projects_description', '');
+        if ($current_lang === 'en') {
+            $context['about_subtitle'] = get_option('about_subtitle_en', '');
+            $context['about_title'] = get_option('about_title_en', 'About Us');
+            $context['about_description'] = get_option('about_description_en', '');
+            $context['about_link_text'] = get_option('about_link_text_en', 'Read More');
+            $context['about_link_url'] = get_option('about_link_url_en', '');
+        } else {
+            $context['about_subtitle'] = get_option('about_subtitle', '');
+            $context['about_title'] = get_option('about_title', 'من نحن');
+            $context['about_description'] = get_option('about_description', '');
+            $context['about_link_text'] = get_option('about_link_text', 'قراءة المزيد');
+            $context['about_link_url'] = get_option('about_link_url', '');
+        }
         
-        // International Projects section
-        $context['international_subtitle'] = get_option('international_subtitle', '');
-        $context['international_title'] = get_option('international_title', 'مشاريعنا الدولية');
-        $context['international_description'] = get_option('international_description', '');
-    }
-    
-    // Get Why Choose Us section settings based on current language
-    $context['why_choose_large_image'] = get_option('why_choose_large_image', '');
-    $context['why_choose_small_image_1'] = get_option('why_choose_small_image_1', '');
-    $context['why_choose_small_image_2'] = get_option('why_choose_small_image_2', '');
-    
-    if ($current_lang === 'en') {
-        $context['why_choose_subtitle'] = get_option('why_choose_subtitle_en', '');
-        $context['why_choose_title'] = get_option('why_choose_title_en', 'Why Choose Us');
-        $context['why_choose_description'] = get_option('why_choose_description_en', '');
-    } else {
-        $context['why_choose_subtitle'] = get_option('why_choose_subtitle', '');
-        $context['why_choose_title'] = get_option('why_choose_title', 'لماذا نحن');
-        $context['why_choose_description'] = get_option('why_choose_description', '');
-    }
-    
-    // Get News section settings based on current language
-    if ($current_lang === 'en') {
-        $context['news_subtitle'] = get_option('news_subtitle_en', '');
-        $context['news_title'] = get_option('news_title_en', '');
-    } else {
-        $context['news_subtitle'] = get_option('news_subtitle', '');
-        $context['news_title'] = get_option('news_title', '');
+        // Projects section (homepage only)
+        if ($current_lang === 'en') {
+            $context['projects_subtitle'] = get_option('projects_subtitle_en', '');
+            $context['projects_title'] = get_option('projects_title_en', 'Projects');
+            $context['projects_description'] = get_option('projects_description_en', '');
+            
+            // International Projects section
+            $context['international_subtitle'] = get_option('international_subtitle_en', '');
+            $context['international_title'] = get_option('international_title_en', 'Our International Projects');
+            $context['international_description'] = get_option('international_description_en', '');
+        } else {
+            $context['projects_subtitle'] = get_option('projects_subtitle', '');
+            $context['projects_title'] = get_option('projects_title', 'المشاريع');
+            $context['projects_description'] = get_option('projects_description', '');
+            
+            // International Projects section
+            $context['international_subtitle'] = get_option('international_subtitle', '');
+            $context['international_title'] = get_option('international_title', 'مشاريعنا الدولية');
+            $context['international_description'] = get_option('international_description', '');
+        }
+        
+        // Why Choose Us (homepage only)
+        $context['why_choose_large_image'] = get_option('why_choose_large_image', '');
+        $context['why_choose_small_image_1'] = get_option('why_choose_small_image_1', '');
+        $context['why_choose_small_image_2'] = get_option('why_choose_small_image_2', '');
+        
+        if ($current_lang === 'en') {
+            $context['why_choose_subtitle'] = get_option('why_choose_subtitle_en', '');
+            $context['why_choose_title'] = get_option('why_choose_title_en', 'Why Choose Us');
+            $context['why_choose_description'] = get_option('why_choose_description_en', '');
+        } else {
+            $context['why_choose_subtitle'] = get_option('why_choose_subtitle', '');
+            $context['why_choose_title'] = get_option('why_choose_title', 'لماذا نحن');
+            $context['why_choose_description'] = get_option('why_choose_description', '');
+        }
+        
+        // News (homepage only)
+        if ($current_lang === 'en') {
+            $context['news_subtitle'] = get_option('news_subtitle_en', '');
+            $context['news_title'] = get_option('news_title_en', '');
+        } else {
+            $context['news_subtitle'] = get_option('news_subtitle', '');
+            $context['news_title'] = get_option('news_title', '');
+        }
     }
     
     // Get Contact information for footer
@@ -207,13 +209,15 @@ add_filter( 'timber/context', function( $context ) {
         $context['contact_methods'] = get_option('contact_methods_ar', array());
     }
 
-    // Get Blog settings based on current language
-    if (is_english_version()) {
-        $context['blog_hero_title'] = get_option('blog_hero_title_en', get_option('blog_hero_title', ''));
-        $context['blog_hero_description'] = get_option('blog_hero_description_en', get_option('blog_hero_description', ''));
-    } else {
-        $context['blog_hero_title'] = get_option('blog_hero_title', '');
-        $context['blog_hero_description'] = get_option('blog_hero_description', '');
+    // Get Blog settings based on current language — only on blog archive or single
+    if (is_post_type_archive('blog') || is_singular('blog')) {
+        if (is_english_version()) {
+            $context['blog_hero_title'] = get_option('blog_hero_title_en', get_option('blog_hero_title', ''));
+            $context['blog_hero_description'] = get_option('blog_hero_description_en', get_option('blog_hero_description', ''));
+        } else {
+            $context['blog_hero_title'] = get_option('blog_hero_title', '');
+            $context['blog_hero_description'] = get_option('blog_hero_description', '');
+        }
     }
 
     return $context;
