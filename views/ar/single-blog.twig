@@ -62,10 +62,10 @@
             <div class="container">
                 <div class="section-header">
                     <div class="section-label">
-                        <span>المزيد حول القصر العقاريه</span>
+                        <span>ابق على اطلاع على أحدث المقالات</span>
                         <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" />
                     </div>
-                    <h2 class="section-heading">مقالات ذات صله</h2>
+                    <h2 class="section-heading">أحدث الرؤى العقارية</h2>
                 </div>
 
                 <div class="related-articles-grid">
@@ -87,12 +87,12 @@
                                             {{ related_post.content|striptags|slice(0, 120) }}...
                                         {% endif %}
                                     </p>
-                                    <a href="{{ related_post.link }}" class="card-link">معرفه المزيد</a>
+                                    <a href="{{ related_post.link }}" class="card-link">عرض المزيد</a>
                                 </div>
                             </article>
                         {% endfor %}
                     {% else %}
-                        <p style="text-align: center; padding: 20px; grid-column: 1 / -1;">لا توجد مقالات ذات صلة متاحة حالياً.</p>
+                        <p style="text-align: center; padding: 20px; grid-column: 1 / -1;">لا توجد رؤى مرتبطة في الوقت الحالي.</p>
                     {% endif %}
                 </div>
 

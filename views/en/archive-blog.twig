@@ -15,14 +15,14 @@
                         {% if blog_hero_title %}
                             {{ blog_hero_title }}
                         {% else %}
-                            المركز الإعلامي
+                            Media Center
                         {% endif %}
                     </h1>
                     <p class="hero-description">
                         {% if blog_hero_description %}
                             {{ blog_hero_description }}
                         {% else %}
-                            اكتشف مستقبل سكنك بتجربة فريدة من نوعها عبر شاشتنا الإعلامية المتميزة.
+                            Discover the future of living through our curated media stories and project highlights.
                         {% endif %}
                     </p>
                 </div>
@@ -47,14 +47,12 @@
                             {% endif %}
                             <div class="featured-overlay">
                                 <div class="featured-content">
-                                    <time class="article-date-light">{{ first_post.date('j F Y') }}</time>
+                                    <time class="article-date-light">{{ first_post.english_date ?? first_post.date('j F Y') }}</time>
                                     <h2 class="article-title-light">{{ first_post.title }}</h2>
+                                    {% set first_excerpt = first_post.excerpt ? first_post.excerpt.read_more(false) 
+                                        : (first_post.content ? first_post.content|striptags|slice(0, 150) ~ '...' : '') %}
                                     <p class="article-excerpt-light">
-                                        {% if first_post.excerpt %}
-                                            {{ first_post.excerpt.read_more(false) }}
-                                        {% elseif first_post.content %}
-                                            {{ first_post.content|striptags|slice(0, 150) }}...
-                                        {% endif %}
+                                        {{ first_excerpt }}
                                     </p>
                                 </div>
                             </div>
@@ -74,7 +72,7 @@
                                 <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ second_post.title }}" class="small-image">
                             {% endif %}
                             <div class="small-content">
-                                <time class="article-date">{{ second_post.date('j F Y') }}</time>
+                                <time class="article-date">{{ second_post.english_date ?? second_post.date('j F Y') }}</time>
                                 <h3 class="article-title-small">
                                     {{ second_post.title }}
                                 </h3>
@@ -93,7 +91,7 @@
                                 <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ third_post.title }}" class="small-image">
                             {% endif %}
                             <div class="small-content">
-                                <time class="article-date">{{ third_post.date('j F Y') }}</time>
+                                <time class="article-date">{{ third_post.english_date ?? third_post.date('j F Y') }}</time>
                                 <h3 class="article-title-small">
                                     {{ third_post.title }}
                                 </h3>
@@ -121,14 +119,12 @@
                                     <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ post.title }}" class="card-image">
                                 {% endif %}
                                 <div class="card-content">
-                                    <time class="article-date">{{ post.date('j F Y') }}</time>
+                                    <time class="article-date">{{ post.english_date ?? post.date('j F Y') }}</time>
                                     <h3 class="card-title">{{ post.title }}</h3>
+                                    {% set card_excerpt = post.excerpt ? post.excerpt.read_more(false) 
+                                        : (post.content ? post.content|striptags|slice(0, 120) ~ '...' : '') %}
                                     <p class="card-excerpt">
-                                        {% if post.excerpt %}
-                                            {{ post.excerpt.read_more(false) }}
-                                        {% elseif post.content %}
-                                            {{ post.content|striptags|slice(0, 120) }}...
-                                        {% endif %}
+                                        {{ card_excerpt }}
                                     </p>
                                 </div>
                             </a>
@@ -138,7 +134,7 @@
                 </div>
                 {% elseif posts|length == 0 %}
                 <div class="no-posts-message" style="text-align: center; padding: 40px 20px;">
-                    <p style="font-size: 18px; color: #666;">لا توجد مقالات متاحة حالياً.</p>
+                    <p style="font-size: 18px; color: #666;">No articles are available at the moment.</p>
                 </div>
                 {% endif %}
             </div>

@@ -33,7 +33,7 @@
         <section class="article-header">
             <div class="container">
                 <div class="article-meta">
-                    <p class="article-date">{{ post.date('j F Y') }}</p>
+                    <p class="article-date">{{ post.english_date ?? post.date('j F Y') }}</p>
                     <h2 class="article-title">
                         {% if post.category %}
                             {{ post.category.name }}
@@ -62,10 +62,10 @@
             <div class="container">
                 <div class="section-header">
                     <div class="section-label">
-                        <span>المزيد حول القصر العقاريه</span>
+                        <span>Stay Informed With Our Latest Stories</span>
                         <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" />
                     </div>
-                    <h2 class="section-heading">مقالات ذات صله</h2>
+                    <h2 class="section-heading">Latest Real Estate Insights</h2>
                 </div>
 
                 <div class="related-articles-grid">
@@ -78,7 +78,7 @@
                                     <img class="card-image" src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ related_post.title }}" />
                                 {% endif %}
                                 <div class="card-content">
-                                    <p class="card-date">{{ related_post.date('j F Y') }}</p>
+                                    <p class="card-date">{{ related_post.english_date ?? related_post.date('j F Y') }}</p>
                                     <h3 class="card-title">{{ related_post.title }}</h3>
                                     <p class="card-excerpt">
                                         {% if related_post.excerpt %}
@@ -87,12 +87,12 @@
                                             {{ related_post.content|striptags|slice(0, 120) }}...
                                         {% endif %}
                                     </p>
-                                    <a href="{{ related_post.link }}" class="card-link">معرفه المزيد</a>
+                                    <a href="{{ related_post.link }}" class="card-link">Read More</a>
                                 </div>
                             </article>
                         {% endfor %}
                     {% else %}
-                        <p style="text-align: center; padding: 20px; grid-column: 1 / -1;">لا توجد مقالات ذات صلة متاحة حالياً.</p>
+                        <p style="text-align: center; padding: 20px; grid-column: 1 / -1;">No related articles are available at the moment.</p>
                     {% endif %}
                 </div>
 
@@ -103,14 +103,14 @@
                         </div>
                     </div>
                     <div class="carousel-buttons">
-                        <button class="carousel-btn prev" aria-label="السابق">
+                        <button class="carousel-btn prev" aria-label="Previous">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <button class="carousel-btn next" aria-label="التالي">
+                        <button class="carousel-btn next" aria-label="Next">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
