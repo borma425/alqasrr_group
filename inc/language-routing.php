@@ -294,7 +294,7 @@ function add_language_rewrite_rules() {
     if (!empty($cpt_slugs_pattern)) {
         add_rewrite_rule(
             '^en/(?!(' . $cpt_slugs_pattern . ')(/|$))([^/]+)/?$',
-            'index.php?lang=en&name=$matches[3]',
+            'index.php?lang=en&pagename=$matches[3]',
             'bottom' // Lower priority so CPT rules take precedence
         );
         
@@ -303,7 +303,7 @@ function add_language_rewrite_rules() {
         // لكن استثناء أرشيفات CPT مع pagination (يتم التعامل معها أعلاه)
         add_rewrite_rule(
             '^en/(?!(' . $cpt_slugs_pattern . ')/page/)([^/]+)/(.*)$',
-            'index.php?lang=en&name=$matches[2]&pagename=$matches[3]',
+            'index.php?lang=en&pagename=$matches[2]/$matches[3]',
             'bottom' // Lower priority so CPT rules take precedence
         );
     } else {
@@ -311,13 +311,13 @@ function add_language_rewrite_rules() {
         // احتياطي إذا لم يتم العثور على CPTs
         add_rewrite_rule(
             '^en/([^/]+)/?$',
-            'index.php?lang=en&name=$matches[1]',
+            'index.php?lang=en&pagename=$matches[1]',
             'bottom'
         );
         
         add_rewrite_rule(
             '^en/([^/]+)/(.*)$',
-            'index.php?lang=en&name=$matches[1]&pagename=$matches[2]',
+            'index.php?lang=en&pagename=$matches[1]/$matches[2]',
             'bottom'
         );
     }

@@ -2,22 +2,46 @@
 
 {% block grid_content %}
 
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-6">{{ post.title }}</h1>
-            
-            {% if post.thumbnail %}
-            <div class="mb-6">
-                <img src="{{ post.thumbnail.src }}" alt="{{ post.title }}" class="w-full h-64 object-cover rounded-lg">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">{{ post.title }}</h1>
+                        <p class="hero-description">
+                            {% if post.excerpt %}
+                                {{ post.excerpt.read_more(false) }}
+                            {% elseif post.content %}
+                                {{ post.content|striptags|slice(0, 150) }}...
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% if post.thumbnail %}
+                        <img class="hero-image" src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}" />
+                    {% else %}
+                        <img class="hero-image" src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ post.title }}" />
+                    {% endif %}
+                </div>
             </div>
-            {% endif %}
-            
-            <div class="prose max-w-none">
-                {{ post.content }}
+        </section>
+
+        <!-- Article Header -->
+        <section class="article-header">
+            <div class="container">
+                <div class="article-meta">
+                    <p class="article-date">{{ post.english_date ?? post.date('j F Y') }}</p>
+                    <h2 class="article-title">{{ post.title }}</h2>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+        </section>
+
+        <!-- Article Content -->
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    {{ post.content }}
+                </div>
+            </div>
+        </section>
 
 {% endblock %}

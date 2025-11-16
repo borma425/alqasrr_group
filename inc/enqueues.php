@@ -183,6 +183,12 @@ if( !is_admin() ) {
         wp_enqueue_script("related-articles-carousel-js", asset_url('related-articles-carousel.js', get_language_asset_path('js/blog')), [], $ver, true );
     }
 
+    // Load single page assets (use same content/hero styling as single blog, without related carousel)
+    if (is_page() || (function_exists('is_english_version') && is_english_version() && get_query_var('pagename'))) {
+        wp_enqueue_style( 'single-blog-css', asset_url('single-blog.css', get_language_asset_path('css/blog')), [], $ver, 'all' );
+        wp_enqueue_style( 'single-content-css', asset_url('content.css', get_language_asset_path('css/main')), [], $ver, 'all' );
+    }
+
 
    // Load single jobs post assets
    if (is_singular('jobs')) {
