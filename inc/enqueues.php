@@ -183,8 +183,51 @@ if( !is_admin() ) {
         wp_enqueue_script("related-articles-carousel-js", asset_url('related-articles-carousel.js', get_language_asset_path('js/blog')), [], $ver, true );
     }
 
-    // Load single page assets (use same content/hero styling as single blog, without related carousel)
-    if (is_page() || (function_exists('is_english_version') && is_english_version() && get_query_var('pagename'))) {
+    // Load single page assets ONLY for default page template (not for custom page-*.php)
+    $should_enqueue_default_page_assets = false;
+    if (is_page()) {
+        $template_slug = function_exists('get_page_template_slug') ? get_page_template_slug() : '';
+        if (empty($template_slug)) {
+            // If no explicit template is assigned, ensure there is no physical page-{slug}.php in the theme
+            $queried_id = get_queried_object_id();
+            $slug = $queried_id ? get_post_field('post_name', $queried_id) : '';
+            $slug = is_string($slug) ? trim($slug) : '';
+            $candidates = array();
+            if ($slug !== '') {
+                $candidates = array_values(array_unique(array_filter(array(
+                    'page-' . $slug . '.php',
+                    'page-' . strtolower($slug) . '.php',
+                    'page-' . ucfirst($slug) . '.php',
+                    'page-' . str_replace('-', '_', strtolower($slug)) . '.php',
+                    'page-' . str_replace('_', '-', strtolower($slug)) . '.php',
+                ))));
+            }
+            $located_template = !empty($candidates) ? locate_template($candidates, false, false) : '';
+            if (empty($located_template)) {
+                $should_enqueue_default_page_assets = true;
+            }
+        }
+    } elseif (function_exists('is_english_version') && is_english_version() && get_query_var('pagename')) {
+        // English pretty URL for pages: ensure no dedicated page-{slug}.php exists
+        $pagename = get_query_var('pagename');
+        $page_slug_for_template = basename($pagename);
+        $page_slug_for_template = is_string($page_slug_for_template) ? trim($page_slug_for_template) : '';
+        $candidates = array();
+        if ($page_slug_for_template !== '') {
+            $candidates = array_values(array_unique(array_filter(array(
+                'page-' . $page_slug_for_template . '.php',
+                'page-' . strtolower($page_slug_for_template) . '.php',
+                'page-' . ucfirst($page_slug_for_template) . '.php',
+                'page-' . str_replace('-', '_', strtolower($page_slug_for_template)) . '.php',
+                'page-' . str_replace('_', '-', strtolower($page_slug_for_template)) . '.php',
+            ))));
+        }
+        $located_template = !empty($candidates) ? locate_template($candidates, false, false) : '';
+        if (empty($located_template)) {
+            $should_enqueue_default_page_assets = true;
+        }
+    }
+    if ($should_enqueue_default_page_assets) {
         wp_enqueue_style( 'single-blog-css', asset_url('single-blog.css', get_language_asset_path('css/blog')), [], $ver, 'all' );
         wp_enqueue_style( 'single-content-css', asset_url('content.css', get_language_asset_path('css/main')), [], $ver, 'all' );
     }
