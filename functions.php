@@ -27,3 +27,7 @@ require(get_theme_file_path('inc/job-application-handler.php'));
 
 require(get_theme_file_path('inc/meta_boxes/main.php'));
 require(get_theme_file_path('inc/admin/job-applications-admin.php'));
+
+
+
+

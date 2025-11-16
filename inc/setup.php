@@ -549,7 +549,7 @@ function get_AlQasrGroup_social_icons($language = null) {
 
 // Generate random English permalinks for blogs CPT
 function uniq_random_permalink($data, $postarr) {
-    $allowed_post_types = array('blogs');
+    $allowed_post_types = array('blog','projects','jobs','page');
     
     // Check if the post type is 'blogs' and if the post is new (not already published)
     if (in_array($data['post_type'], $allowed_post_types) && empty($postarr['ID'])) {
