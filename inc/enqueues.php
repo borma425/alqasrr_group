@@ -190,7 +190,8 @@ if( !is_admin() ) {
     wp_enqueue_style( 'single-content-css', asset_url('content.css', get_language_asset_path('css/main')), [], $ver, 'all' );
   
     wp_enqueue_script("related-articles-carousel-js", asset_url('related-articles-carousel.js', get_language_asset_path('js/blog')), [], $ver, true );
-    wp_enqueue_script('job-application-js', asset_url('job-application.js', get_language_asset_path('js/careers')), [], $ver, true);
+    // Load job application script from shared JS path (not language-specific)
+    wp_enqueue_script('job-application-js', asset_url('job-application.js', '/js/careers/'), [], $ver, true);
 
         $current_language = function_exists('get_current_language') ? get_current_language() : 'ar';
         $is_english_page = function_exists('is_english_version') ? is_english_version() : ($current_language === 'en');

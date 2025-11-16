@@ -45,10 +45,10 @@
             <div class="container">
                 <div class="section-header">
                     <span class="section-label">
-                        <span class="label-text">انضم الينا</span>
+                        <span class="label-text">{{ jobs_cta_small_title|default('انضم الينا') }}</span>
                         <img class="label-line" src="{{ asset_url('line-8.svg', '/img/careers/') }}" alt="" />
                     </span>
-                    <h2 class="section-title">الوظائف الشاغره</h2>
+                    <h2 class="section-title">{{ jobs_cta_main_title|default('الوظائف الشاغره') }}</h2>
                 </div>
 
                 <div class="jobs-list">
@@ -59,20 +59,16 @@
                                     <div class="job-info">
                                         <div class="job-title-row">
                                             <h3 class="job-title">{{ job.job_title_display|default(job.title) }}</h3>
-                                            {% if job.job_type_display %}
-                                                <span class="job-type">{{ job.job_type_display }}</span>
-                                            {% endif %}
+                                            <span class="job-type">{{ job.job_type_display|default(job.job_type|default('')) }}</span>
                                         </div>
-                                        {% if job.job_location_display %}
-                                            <div class="job-location">
-                                                <img src="{{ asset_url('location.png', '/img/main/') }}" alt="" />
-                                                <span>{{ job.job_location_display }}</span>
-                                            </div>
-                                        {% endif %}
+                                        <div class="job-location">
+                                            <img src="{{ asset_url('location.png', '/img/main/') }}" alt="" />
+                                            <span>{{ job.job_location_display|default(job.job_location|default('')) }}</span>
+                                        </div>
                                     </div>
-                                    <a href="{{ job.job_apply_link|default(job.link) }}" class="btn-primary">
-                                        <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" />
-                                        <span>{{ job.job_apply_label|default(jobs_cta_small_title|default('انضم إلينا')) }}</span>
+                                    <a href="{{ job.job_apply_link }}" class="btn-primary">
+                                        <img src="{{ asset_url('arrow-right.svg', '/img/careers/') }}" alt="" />
+                                        <span>{{ jobs_cta_small_title|default('انضم إلينا') }}</span>
                                     </a>
                                 </div>
                             </article>

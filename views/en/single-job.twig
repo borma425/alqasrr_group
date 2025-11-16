@@ -9,7 +9,7 @@
                     <div class="hero-header">
                         <h1 class="hero-title">{{ job_title }}</h1>
                         <div class="hero-location">
-                            <img src="{{ asset_url('location.png', '/img/main/') }}" alt="" class="icon" />
+                            <img src="{{ asset_url('location.svg', '/img/careers/') }}" alt="" class="icon" />
                             <span>
                                 {{ job_location_display|default('') }}
                                 {% if job_type_display %}
@@ -89,7 +89,7 @@
                                 <div class="file-upload">
                                     <input type="file" id="cvUpload" name="cv_file" accept=".pdf,.doc,.docx" hidden />
                                     <label for="cvUpload" class="file-upload-label" id="cvUploadLabel">
-                                        <img src="{{ asset_url('interface---download.png', '/img/main/') }}" alt="" class="upload-icon" />
+                                        <img src="{{ asset_url('upload.png', '/img/main/') }}" alt="" class="upload-icon" />
                                         <div class="file-upload-text">
                                             <span class="file-upload-prompt">{{ job_form_texts.upload_placeholder }}</span>
                                             <span class="file-upload-filename" id="cvFileName"

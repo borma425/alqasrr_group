@@ -334,12 +334,26 @@ function format_date_english($date_string, $format = 'M j, Y') {
 
 // Helper function to get English URL for posts
 function get_english_url($post_id) {
+    // Try to get permalink, ensuring it's the full post URL
     $permalink = get_permalink($post_id);
+    
+    // If permalink is empty or doesn't look like a full URL, try alternative
+    if (empty($permalink) || strpos($permalink, home_url('/')) === false) {
+        // Try using the post's permalink structure
+        $post = get_post($post_id);
+        if ($post) {
+            $permalink = get_permalink($post);
+        }
+    }
+    
     // Add /en/ to the URL if it doesn't already exist
     if (strpos($permalink, '/en/') === false) {
         $home_url = home_url('/');
         $path = str_replace($home_url, '', $permalink);
-        return $home_url . 'en/' . $path;
+        // Ensure path is not empty
+        if (!empty($path)) {
+            return $home_url . 'en/' . $path;
+        }
     }
     return $permalink;
 }
