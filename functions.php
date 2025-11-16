@@ -21,6 +21,7 @@ require(get_theme_file_path('inc/admin/settings-page.php'));
 require(get_theme_file_path('inc/admin/about-settings.php'));
 require(get_theme_file_path('inc/admin/contact-submissions-admin.php'));
 require(get_theme_file_path('inc/admin/dashboard-audio.php'));
+require(get_theme_file_path('inc/admin/custom-welcome-panel.php'));
 require(get_theme_file_path('inc/view-page-source.php'));
 require(get_theme_file_path('inc/contact-form-handler.php'));
 require(get_theme_file_path('inc/job-application-handler.php'));
