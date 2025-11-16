@@ -10,7 +10,8 @@ $files_to_include = [
     'home-page-settings.php',
     'blog-settings.php',
     'projects-settings.php',
-    'jobs-settings.php'
+    'jobs-settings.php',
+    'colors-settings.php'
 ];
 
 foreach ($files_to_include as $file) {
@@ -60,7 +61,14 @@ add_action('admin_enqueue_scripts', 'AlQasrGroup_admin_scripts');
 // Settings page HTML
 function AlQasrGroup_settings_page() {
     // Handle form submission
-    if (isset($_POST['submit']) && wp_verify_nonce($_POST['AlQasrGroup_nonce'], 'AlQasrGroup_settings_nonce')) {
+    if (!empty($_POST) && isset($_POST['AlQasrGroup_nonce']) && wp_verify_nonce($_POST['AlQasrGroup_nonce'], 'AlQasrGroup_settings_nonce')) {
+        // Handle colors RESET first
+        if (isset($_POST['reset_colors']) && function_exists('AlQasrGroup_colors_reset_defaults_all')) {
+            AlQasrGroup_colors_reset_defaults_all();
+            echo '<div class="notice notice-success"><p>تمت إعادة تعيين الألوان إلى القيم الافتراضية.</p></div>';
+            return;
+        }
+        // Regular save
         // Check if functions exist before calling them
         if (function_exists('AlQasrGroup_save_logo_settings')) {
             AlQasrGroup_save_logo_settings();
@@ -94,6 +102,10 @@ function AlQasrGroup_settings_page() {
             AlQasrGroup_save_jobs_settings();
         }
         
+        if (function_exists('AlQasrGroup_save_colors_settings')) {
+            AlQasrGroup_save_colors_settings();
+        }
+        
         echo '<div class="notice notice-success"><p>تم حفظ الإعدادات بنجاح!</p></div>';
     }
     
@@ -112,6 +124,7 @@ function AlQasrGroup_settings_page() {
                 <a href="#blog" class="nav-tab">المدونة</a>
                 <a href="#projects" class="nav-tab">المشاريع</a>
                 <a href="#jobs" class="nav-tab">الوظائف</a>
+                <a href="#colors" class="nav-tab">الألوان</a>
             </div>
             
             <!-- Logo Section -->
@@ -154,6 +167,11 @@ function AlQasrGroup_settings_page() {
                 <?php AlQasrGroup_jobs_settings_html(); ?>
             </div>
             
+            <!-- Colors Section -->
+            <div id="colors" class="tab-content" style="display:none;">
+                <?php if (function_exists('AlQasrGroup_colors_settings_html')) { AlQasrGroup_colors_settings_html(); } ?>
+            </div>
+            
             <?php submit_button('حفظ الإعدادات', 'primary', 'submit', false); ?>
         </form>
     </div>
@@ -169,5 +187,86 @@ function AlQasrGroup_settings_page() {
         border-top: none;
     }
     </style>
+    <script>
+    (function(){
+        // Only act on our settings page
+        if (!document.querySelector('#colors')) return;
+        const styleId = 'alqasr-live-colors';
+        const getStyleEl = () => {
+            let el = document.getElementById(styleId);
+            if (!el) {
+                el = document.createElement('style');
+                el.id = styleId;
+                document.head.appendChild(el);
+            }
+            return el;
+        };
+        const normalizeHex = (val) => {
+            if (!val) return '';
+            val = String(val).trim();
+            if (val[0] !== '#') val = '#' + val;
+            // Expand #RGB to #RRGGBB
+            if (/^#[0-9a-fA-F]{3}$/.test(val)) {
+                val = '#' + val.substring(1).split('').map(ch => ch + ch).join('');
+            }
+            // Uppercase
+            return val.toUpperCase();
+        };
+        const applyPreview = () => {
+            const pairs = [];
+            document.querySelectorAll('#colors .alq-color-input, #colors .alq-hex-input').forEach(function(input){
+                const v = input.getAttribute('data-var');
+                if (!v) return;
+                // Prefer hex input's value if available
+                let val = '';
+                if (input.classList.contains('alq-hex-input')) {
+                    val = normalizeHex(input.value);
+                } else if (input.classList.contains('alq-color-input')) {
+                    val = normalizeHex(input.value);
+                }
+                if (val) pairs.push(v + ': ' + val + ';');
+            });
+            const css = ':root{' + pairs.join('') + '}';
+            getStyleEl().textContent = css;
+        };
+        const linkInputs = (row) => {
+            const colorInput = row.querySelector('.alq-color-input');
+            const hexInput = row.querySelector('.alq-hex-input');
+            if (!colorInput || !hexInput) return;
+            // Init sync
+            hexInput.value = normalizeHex(hexInput.value || colorInput.value);
+            colorInput.value = normalizeHex(hexInput.value);
+            // Events
+            colorInput.addEventListener('input', function(){
+                hexInput.value = normalizeHex(colorInput.value);
+                applyPreview();
+            });
+            hexInput.addEventListener('input', function(){
+                // Let the user type freely; only preview if valid hex (#RGB or #RRGGBB)
+                let raw = String(hexInput.value).trim();
+                if (raw && raw[0] !== '#') raw = '#' + raw;
+                const isValid = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(raw);
+                if (isValid) {
+                    const normalized = normalizeHex(raw);
+                    colorInput.value = normalized;
+                }
+                applyPreview();
+            });
+            hexInput.addEventListener('blur', function(){
+                // On blur, normalize to #RRGGBB uppercase if valid
+                let raw = String(hexInput.value).trim();
+                if (raw && raw[0] !== '#') raw = '#' + raw;
+                const isValid = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(raw);
+                if (isValid) {
+                    hexInput.value = normalizeHex(raw);
+                    colorInput.value = hexInput.value;
+                }
+            });
+        };
+        document.querySelectorAll('#colors .form-table tr').forEach(linkInputs);
+        // Initial preview
+        applyPreview();
+    })();
+    </script>
     <?php
 }

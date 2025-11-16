@@ -16,8 +16,7 @@
 /* ===================================
    Global Styles & Variables
    =================================== */
-
-:root {
+   :root {
     --primary: #282828;
     --secondary: #FF5A00;
     --secondary-orange: #FF5A00;
@@ -83,6 +82,7 @@
     --font-size-medium-mobile: 16px;
     --font-size-small-mobile: 13px;
 }
+
 
 
 /* ===================================

@@ -57,6 +57,7 @@ function alqasrgroup_render_welcome_content() {
 		</div>
 
 		<div class="alqasr-welcome__actions">
+			<a class="alqasr-btn" href="<?php echo esc_url(admin_url('admin.php?page=AlQasrGroup-settings#colors')); ?>">تعديل الألوان</a>
 			<a class="alqasr-btn" href="<?php echo esc_url($site_url); ?>" target="_blank" rel="noopener">عرض الموقع</a>
 			<a class="alqasr-btn" href="<?php echo esc_url(admin_url('post-new.php?post_type=projects')); ?>">إضافة مشروع</a>
 			<a class="alqasr-btn" href="<?php echo esc_url(admin_url('post-new.php?post_type=blog')); ?>">كتابة مقال</a>
