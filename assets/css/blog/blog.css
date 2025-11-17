@@ -33,7 +33,7 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(0deg, rgba(248, 249, 249, 1) 0%, rgba(248, 249, 249, 1) 100%),
-        url('../../images/blog/frame-71.png') 50% 50% / cover;
+        url('../../../../assets/img/main/line-16.svg') 50% 50% / cover;
     padding: 150px 0 0;
 }
 
