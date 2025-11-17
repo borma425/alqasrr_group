@@ -1,7 +1,7 @@
 <?php
 
 // Development mode
-define('DEV_MODE', true);
+define('DEV_MODE', false);
 
 
 // Include Composer autoloader
