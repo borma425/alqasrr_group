@@ -88,7 +88,7 @@ function get_language_asset_path($path = '') {
 
 function enqueues() {
 
-$ver = defined('DEV_MODE') && DEV_MODE ? time() : 444;
+$ver = defined('DEV_MODE') && DEV_MODE ? time() : 555;
 
 if( !is_admin() ) {
 
