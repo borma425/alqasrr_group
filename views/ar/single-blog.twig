@@ -35,10 +35,9 @@
                 <div class="article-meta">
                     <p class="article-date">{{ post.date('j F Y') }}</p>
                     <h2 class="article-title">
-                        {% if post.category %}
-                            {{ post.category.name }}
-                        {% elseif post.categories|length > 0 %}
-                            {{ post.categories[0].name }}
+                        {% set project_types = post.terms('project_type') %}
+                        {% if project_types|length > 0 %}
+                            {{ project_types[0].name }}
                         {% else %}
                             {{ post.title }}
                         {% endif %}

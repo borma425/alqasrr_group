@@ -58,6 +58,18 @@ $localize_single_blog_post = function($post_object) use ($is_english) {
         $post_object->english_date = $post_object->date('j F Y');
     }
 
+    // Localize project_type for English version
+    if ($is_english && function_exists('get_taxonomy_name')) {
+        $project_type_terms = $post_object->terms('project_type');
+        if (!empty($project_type_terms)) {
+            foreach ($project_type_terms as $term) {
+                if (isset($term->term_id)) {
+                    $term->name = get_taxonomy_name($term->term_id, 'en');
+                }
+            }
+        }
+    }
+
     return $post_object;
 };
 
@@ -65,20 +77,20 @@ $post = $localize_single_blog_post($post);
 
 $context['post'] = $post;
 
-// Get related posts (same language, same category or tags, exclude current post)
-// الحصول على المقالات المشابهة (نفس اللغة، نفس الفئة أو العلامات، استثناء المقال الحالي)
+// Get related posts (same language, same project_type or tags, exclude current post)
+// الحصول على المقالات المشابهة (نفس اللغة، نفس project_type أو العلامات، استثناء المقال الحالي)
 $related_posts = [];
-$categories = wp_get_post_categories($post->ID);
+$project_types = wp_get_object_terms($post->ID, 'project_type', array('fields' => 'ids'));
 $tags = wp_get_post_tags($post->ID, array('fields' => 'ids'));
 
-if (!empty($categories) || !empty($tags)) {
+if (!empty($project_types) || !empty($tags)) {
     $tax_query = array('relation' => 'OR');
     
-    if (!empty($categories)) {
+    if (!empty($project_types) && !is_wp_error($project_types)) {
         $tax_query[] = array(
-            'taxonomy' => 'category',
+            'taxonomy' => 'project_type',
             'field' => 'term_id',
-            'terms' => $categories
+            'terms' => $project_types
         );
     }
     
@@ -105,7 +117,7 @@ if (!empty($categories) || !empty($tags)) {
     }
 }
 
-// If no related posts found by category/tags, get latest posts
+// If no related posts found by project_type/tags, get latest posts
 if (empty($related_posts)) {
     $fallback_args = array(
         'post_type' => 'blog',

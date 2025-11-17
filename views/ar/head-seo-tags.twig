@@ -1,18 +1,29 @@
 {% set homeName = site.name %}
 {% set homeUrl = site.link %}
 {% set homeDescription = fn('get_AlQasrGroup_site_description', 'ar') %}
-{% set PostDescription = post.excerpt.length(50).read_more(false) %}
+{% set PostDescription = post.excerpt ? post.excerpt.length(50).read_more(false) : (post.content ? post.content|striptags|slice(0, 150) ~ '...' : '') %}
+{% set hero_bg = function('get_option','hero_bg_image') %}
+{% set site_logo = function('get_option','AlQasrGroup_site_logo') ?: function('get_option','AlQasrGroup_site_logo_medium') ?: fn('asset_url', 'logo.png', 'img/') %}
+
 {% set thumbnail =
-fn('is_home') or
-fn('is_front_page') ? fn('asset_url',"thumnail-1200x630.jpg","/img/default/") :
+fn('is_home') or fn('is_front_page') ? hero_bg :
+fn('is_post_type_archive','blog') ? (blog_background_image ?: hero_bg) :
+fn('is_post_type_archive','projects') ? (projects_background_image ?: hero_bg) :
+fn('is_post_type_archive','jobs') ? (jobs_highlight_image ?: hero_bg) :
+fn('is_page') and post.post_name == 'about' ? (about_hero_background ?: hero_bg) :
+fn('is_page') and post.post_name == 'contact_us' ? (contact_background_image ?: hero_bg) :
+post.post_type == 'page' ? hero_bg :
+fn('is_singular') ? post.thumbnail.src :
 post.thumbnail.src
 %}
 
 {% set mainTitle = post.title %}
 
 {% set Title =
-fn('is_post_type_archive','blogs') ? 'المدونة' :
-fn('is_page') and post.post_name == 'about' ? 'من نحن - ' ~ homeName :
+fn('is_post_type_archive','blog') ? (blog_hero_title ?: 'المدونة') :
+fn('is_post_type_archive','projects') ? (projects_hero_title ?: 'مشاريعنا') :
+fn('is_post_type_archive','jobs') ? (jobs_main_title ?: 'الوظائف') :
+fn('is_page') and post.post_name == 'about' ? (about_hero_title ?: 'من نحن - ' ~ homeName) :
 fn('is_page') and post.post_name == 'contact_us' ? 'اتصل بنا - ' ~ homeName :
 fn('is_page') and post.post_name == 'product' ? 'منتجاتنا - ' ~ homeName :
 fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_title', 'ar') :
@@ -22,12 +33,14 @@ fn('is_404') ? "404 - الصفحة غير موجودة: " ~ homeName : homeName
 %}
 
 {% set Description =
-fn('is_post_type_archive','blogs') ? fn('get_AlQasrGroup_site_description', 'ar') :
-fn('is_page') and post.post_name == 'about' ? fn('get_AlQasrGroup_site_description', 'ar') :
+fn('is_post_type_archive','blog') ? (blog_hero_description ?: fn('get_AlQasrGroup_site_description', 'ar')) :
+fn('is_post_type_archive','projects') ? (projects_hero_description ?: fn('get_AlQasrGroup_site_description', 'ar')) :
+fn('is_post_type_archive','jobs') ? (jobs_main_description ?: fn('get_AlQasrGroup_site_description', 'ar')) :
+fn('is_singular') and post.post_type == 'projects' ? (projects_excerpt ?: (PostDescription and PostDescription|trim != '') ? PostDescription : homeDescription) :
+fn('is_page') and post.post_name == 'about' ? (about_hero_description ?: fn('get_AlQasrGroup_site_description', 'ar')) :
 fn('is_page') and post.post_name == 'contact_us' ? fn('get_AlQasrGroup_site_description', 'ar') :
-fn('is_page') and post.post_name == 'product' ? fn('get_AlQasrGroup_site_description', 'ar') :
 fn('is_home') or fn('is_front_page') ? fn('get_AlQasrGroup_site_description', 'ar') :
-PostDescription ? PostDescription : homeDescription
+(PostDescription and PostDescription|trim != '') ? PostDescription : homeDescription
 %}
 
 <!-- علامات SEO   -->
@@ -57,7 +70,8 @@ PostDescription ? PostDescription : homeDescription
 {% endif %}
 
 <!-- أيقونة الموقع -->
-<link rel="icon" href="{{ fn('asset_url', 'logo.png', 'img/') }}">
+{% set site_icon = fn('get_site_icon_url') %}
+<link rel="icon" href="{{ site_icon ?: fn('asset_url', 'logo.svg', 'img/') }}">
 
 <!-- الرابط الأساسي -->
 <meta content='{{ current_url }}' property='og:url'/>
@@ -103,25 +117,25 @@ PostDescription ? PostDescription : homeDescription
 </script>
 {% endif %}
 
-{% if fn('is_post_type_archive','blogs') %}
+{% if fn('is_post_type_archive','blog') %}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "Blog",
-  "name": "مدونة {{homeName}}",
+  "name": "{{Title}}",
   "description": "{{Description}}",
   "url": "{{current_url}}"
 }
 </script>
 {% endif %}
 
-{% if fn('is_singular') and post.post_type == 'blogs' %}
+{% if fn('is_singular') and post.post_type == 'blog' %}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "BlogPosting",
-  "headline": "{{post.title}}",
-  "description": "{{PostDescription}}",
+  "headline": "{{Title}}",
+  "description": "{{Description}}",
   "author": {
     "@type": "Organization",
     "name": "{{homeName}}"
@@ -131,7 +145,7 @@ PostDescription ? PostDescription : homeDescription
     "name": "{{homeName}}",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ fn('asset_url', 'logo.png', 'img/') }}"
+      "url": "{{ site_logo }}"
     }
   },
   "datePublished": "{{post.date}}",
@@ -155,7 +169,7 @@ PostDescription ? PostDescription : homeDescription
     "name": "{{homeName}}",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ fn('asset_url', 'logo.png', 'img/') }}"
+      "url": "{{ site_logo }}"
     }
   }
 }
@@ -175,19 +189,21 @@ PostDescription ? PostDescription : homeDescription
     "name": "{{homeName}}",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ fn('asset_url', 'logo.png', 'img/') }}"
+      "url": "{{ site_logo }}"
     }
   }
 }
 </script>
 {% endif %}
 
-{% if fn('is_page') and post.post_name == 'product' %}
+
+
+{% if fn('is_post_type_archive','projects') %}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
-  "@type": "WebPage",
-  "name": "{{post.title}}",
+  "@type": "CollectionPage",
+  "name": "{{Title}}",
   "description": "{{Description}}",
   "url": "{{current_url}}",
   "publisher": {
@@ -195,7 +211,72 @@ PostDescription ? PostDescription : homeDescription
     "name": "{{homeName}}",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ fn('asset_url', 'logo.png', 'img/') }}"
+      "url": "{{ site_logo }}"
+    }
+  }
+}
+</script>
+{% endif %}
+
+{% if fn('is_post_type_archive','jobs') %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{Title}}",
+  "description": "{{Description}}",
+  "url": "{{current_url}}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{homeName}}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site_logo }}"
+    }
+  }
+}
+</script>
+{% endif %}
+
+{% if fn('is_singular') and post.post_type == 'jobs' %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "JobPosting",
+  "title": "{{Title}}",
+  "description": "{{Description}}",
+  "url": "{{current_url}}",
+  "datePosted": "{{post.date}}",
+  "dateModified": "{{post.modified}}",
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "{{homeName}}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site_logo }}"
+    }
+  }
+}
+</script>
+{% endif %}
+
+{% if fn('is_singular') and post.post_type == 'projects' %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "CreativeWork",
+  "name": "{{post.title}}",
+  "description": "{{Description}}",
+  "url": "{{current_url}}",
+  "image": "{{thumbnail}}",
+  "datePublished": "{{post.date}}",
+  "dateModified": "{{post.modified}}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{homeName}}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site_logo }}"
     }
   }
 }

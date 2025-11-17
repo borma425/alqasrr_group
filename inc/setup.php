@@ -209,8 +209,8 @@ add_filter( 'timber/context', function( $context ) {
         $context['contact_methods'] = get_option('contact_methods_ar', array());
     }
 
-    // Get Blog settings based on current language — only on blog archive or single
-    if (is_post_type_archive('blog') || is_singular('blog')) {
+    // Get Blog settings based on current language — only on blog archive
+    if (is_post_type_archive('blog')) {
         if (is_english_version()) {
             $context['blog_hero_title'] = get_option('blog_hero_title_en', get_option('blog_hero_title', ''));
             $context['blog_hero_description'] = get_option('blog_hero_description_en', get_option('blog_hero_description', ''));
@@ -218,6 +218,83 @@ add_filter( 'timber/context', function( $context ) {
             $context['blog_hero_title'] = get_option('blog_hero_title', '');
             $context['blog_hero_description'] = get_option('blog_hero_description', '');
         }
+        // Blog background image - only on blog archive
+        $context['blog_background_image'] = get_option('archive_blogs_hero_background_image', '');
+    }
+
+    // Get Projects settings based on current language — only on projects archive
+    if (is_post_type_archive('projects')) {
+        if (is_english_version()) {
+            $context['projects_hero_title'] = get_option('projects_hero_title_en', get_option('projects_hero_title', ''));
+            $context['projects_hero_description'] = get_option('projects_hero_description_en', get_option('projects_hero_description', ''));
+        } else {
+            $context['projects_hero_title'] = get_option('projects_hero_title', '');
+            $context['projects_hero_description'] = get_option('projects_hero_description', '');
+        }
+        // Projects background image - only on projects archive
+        $context['projects_background_image'] = get_option('projects_background_image', '');
+    }
+
+    // Get Projects excerpt and title for single projects
+    if (is_singular('projects')) {
+        $project_id = get_the_ID();
+        if ($project_id) {
+            if (is_english_version()) {
+                $context['projects_excerpt'] = get_post_meta($project_id, '_projects_excerpt_en', true);
+                $context['projects_title'] = get_post_meta($project_id, '_projects_title_en', true);
+            } else {
+                $context['projects_excerpt'] = get_post_meta($project_id, '_projects_excerpt_ar', true);
+            }
+        }
+    }
+
+    // Get Blog title and excerpt for single blog (English only)
+    if (is_singular('blog')) {
+        $blog_id = get_the_ID();
+        if ($blog_id && is_english_version()) {
+            $context['blog_title'] = get_post_meta($blog_id, 'blog_title_en', true);
+            $context['blog_excerpt'] = get_post_meta($blog_id, 'blog_excerpt_en', true);
+        }
+    }
+
+    // Get Jobs title and excerpt for single jobs (English only)
+    if (is_singular('jobs')) {
+        $job_id = get_the_ID();
+        if ($job_id && is_english_version()) {
+            $context['job_title'] = get_post_meta($job_id, 'job_title_en', true);
+            $context['job_excerpt'] = get_post_meta($job_id, 'job_excerpt_en', true);
+        }
+    }
+
+    // Get Contact page background image - only on contact_us page
+    if (is_page() && get_post_field('post_name', get_the_ID()) == 'contact_us') {
+        $context['contact_background_image'] = get_option('contact_background_image', '');
+    }
+
+    // Get About page settings - only on about page
+    if (is_page() && get_post_field('post_name', get_the_ID()) == 'about') {
+        if (is_english_version()) {
+            $context['about_hero_title'] = get_option('about_hero_title_en', get_option('about_hero_title_ar', ''));
+            $context['about_hero_description'] = get_option('about_hero_description_en', get_option('about_hero_description_ar', ''));
+        } else {
+            $context['about_hero_title'] = get_option('about_hero_title_ar', '');
+            $context['about_hero_description'] = get_option('about_hero_description_ar', '');
+        }
+        // About page background image
+        $context['about_hero_background'] = get_option('about_hero_background', '');
+    }
+
+    // Get Jobs settings based on current language — only on jobs archive
+    if (is_post_type_archive('jobs')) {
+        if (is_english_version()) {
+            $context['jobs_main_title'] = get_option('jobs_main_title_en', get_option('jobs_main_title', ''));
+            $context['jobs_main_description'] = get_option('jobs_main_description_en', get_option('jobs_main_description', ''));
+        } else {
+            $context['jobs_main_title'] = get_option('jobs_main_title', '');
+            $context['jobs_main_description'] = get_option('jobs_main_description', '');
+        }
+        // Jobs archive highlight image
+        $context['jobs_highlight_image'] = get_option('jobs_highlight_image', '');
     }
 
     return $context;
@@ -264,12 +341,6 @@ add_filter( 'timber/twig', function( $twig ) {
 
 
 
-
-function header_gallery_cards(){
-
-
-    
-}
 
 
 

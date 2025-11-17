@@ -195,11 +195,11 @@ function AlQasrGroup_register_project_taxonomies() {
 }
 add_action('init', 'AlQasrGroup_register_project_taxonomies', 0);
 
-// Register Category and Tags for Blog CPT
-// تسجيل الكاتيجوري والعلامات للمدونة
+// Register Project Type and Tags for Blog CPT
+// تسجيل project_type والعلامات للمدونة
 function AlQasrGroup_register_blog_taxonomies() {
-    // Register category taxonomy for blog post type
-    register_taxonomy_for_object_type('category', 'blog');
+    // Register project_type taxonomy for blog post type
+    register_taxonomy_for_object_type('project_type', 'blog');
     
     // Register post_tag taxonomy for blog post type
     register_taxonomy_for_object_type('post_tag', 'blog');
