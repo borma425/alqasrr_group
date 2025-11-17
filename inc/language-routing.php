@@ -192,6 +192,35 @@ add_action('template_redirect', function() {
     if (preg_match('#/en(/|$)#', $path)) {
         return;
     }
+    
+    // Force taxonomy template for project-type URLs
+    // فرض استخدام قالب taxonomy لروابط project-type
+    if (preg_match('#/project-type/#', $path)) {
+        $taxonomy_template = get_template_directory() . '/taxonomy-project_type.php';
+        if (file_exists($taxonomy_template)) {
+            // Set query vars to help WordPress recognize this as taxonomy archive
+            global $wp_query;
+            $path_parts = explode('/', trim(parse_url($path, PHP_URL_PATH), '/'));
+            $project_type_index = array_search('project-type', $path_parts);
+            if ($project_type_index !== false && isset($path_parts[$project_type_index + 1])) {
+                $term_slug_raw = $path_parts[$project_type_index + 1];
+                $term_slug = urldecode($term_slug_raw);
+                if (strpos($term_slug, '%') !== false) {
+                    $term_slug = urldecode($term_slug);
+                }
+                $term = get_term_by('slug', $term_slug, 'project_type');
+                if (!$term || is_wp_error($term)) {
+                    $term = get_term_by('slug', sanitize_title($term_slug), 'project_type');
+                }
+                if ($term && !is_wp_error($term)) {
+                    $wp_query->set('taxonomy', 'project_type');
+                    $wp_query->set('term', $term->slug);
+                    $wp_query->is_tax = true;
+                    $wp_query->is_archive = true;
+                }
+            }
+        }
+    }
 }, 1);
 
 // Disable canonical redirects for language URLs
@@ -520,6 +549,69 @@ add_filter('timber/template', 'select_language_template', 10, 2);
 add_filter('template_include', function($template) {
     global $wp_query;
     $path = $_SERVER['REQUEST_URI'] ?? '';
+    
+    // PRIORITY 1: Check URL pattern for project-type taxonomy FIRST (before anything else)
+    // الأولوية 1: التحقق من نمط URL لـ taxonomy project-type أولاً (قبل أي شيء آخر)
+    if (preg_match('#/project-type/#', $path)) {
+        // Use locate_template to find the taxonomy template (WordPress way)
+        $taxonomy_template = locate_template(['taxonomy-project_type.php']);
+        if (!empty($taxonomy_template)) {
+            // Check if WordPress already recognizes this as a taxonomy archive
+            $queried_object = get_queried_object();
+            if ($queried_object instanceof WP_Term && $queried_object->taxonomy === 'project_type') {
+                return $taxonomy_template;
+            }
+            // If queried object is not set yet, try to get it from the URL
+            $path_parts = explode('/', trim(parse_url($path, PHP_URL_PATH), '/'));
+            $project_type_index = array_search('project-type', $path_parts);
+            if ($project_type_index !== false && isset($path_parts[$project_type_index + 1])) {
+                $term_slug_raw = $path_parts[$project_type_index + 1];
+                // Decode URL-encoded term slug (handle double encoding)
+                $term_slug = urldecode($term_slug_raw);
+                if (strpos($term_slug, '%') !== false) {
+                    $term_slug = urldecode($term_slug);
+                }
+                // Try to find term by slug
+                $term = get_term_by('slug', $term_slug, 'project_type');
+                if ($term && !is_wp_error($term)) {
+                    return $taxonomy_template;
+                }
+                // If not found, try with sanitized slug
+                $term = get_term_by('slug', sanitize_title($term_slug), 'project_type');
+                if ($term && !is_wp_error($term)) {
+                    return $taxonomy_template;
+                }
+                // If still not found, try to find by name (for Arabic terms)
+                $all_terms = get_terms([
+                    'taxonomy' => 'project_type',
+                    'hide_empty' => false,
+                ]);
+                if (!is_wp_error($all_terms)) {
+                    foreach ($all_terms as $t) {
+                        if (urldecode($t->slug) === $term_slug || $t->slug === $term_slug) {
+                            return $taxonomy_template;
+                        }
+                    }
+                }
+            }
+            // If we found project-type in URL, use the template anyway
+            return $taxonomy_template;
+        }
+    }
+    
+    // PRIORITY 2: Check if this is a taxonomy archive (e.g., project_type)
+    // الأولوية 2: التحقق من أن هذه صفحة أرشيف taxonomy
+    if (is_tax()) {
+        $queried_object = get_queried_object();
+        if ($queried_object instanceof WP_Term) {
+            $taxonomy = $queried_object->taxonomy;
+            $taxonomy_template = get_template_directory() . '/taxonomy-' . $taxonomy . '.php';
+            if (file_exists($taxonomy_template)) {
+                return $taxonomy_template;
+            }
+        }
+        return $template;
+    }
 
     // Check if this is a post type archive (blog, projects, etc.)
     // التحقق من أن هذه صفحة أرشيف لنوع المقالات (blog, projects, إلخ)
@@ -537,11 +629,6 @@ add_filter('template_include', function($template) {
         if (file_exists($template_404)) {
             return $template_404;
         }
-    }
-    
-    // Check if this is a taxonomy archive (e.g., project_type)
-    if (is_tax()) {
-        return $template;
     }
 
     if (preg_match('#/en(/|$)#', $path)) {
@@ -610,7 +697,7 @@ add_filter('template_include', function($template) {
     }
     
     return $template;
-}, 99);
+}, 1); // Use priority 1 to run before other template filters
 
 /**
  * Automatically select language-specific template

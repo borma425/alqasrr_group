@@ -164,7 +164,19 @@ if( !is_admin() ) {
     }
 
     // Load projects archive page assets (only on archive, not single posts)
-    if (is_post_type_archive('projects') || is_tax('project_type')) {
+    // تحميل ملفات CSS و JS لصفحة أرشيف المشاريع
+    $is_projects_archive = is_post_type_archive('projects') || is_tax('project_type');
+    
+    // Fallback: Check URL pattern for project-type taxonomy
+    // حل بديل: التحقق من نمط URL لـ taxonomy project-type
+    if (!$is_projects_archive) {
+        $path = $_SERVER['REQUEST_URI'] ?? '';
+        if (preg_match('#/project-type/#', $path)) {
+            $is_projects_archive = true;
+        }
+    }
+    
+    if ($is_projects_archive) {
         wp_enqueue_style( 'projects-css', asset_url('projects.css', get_language_asset_path('css/projects')), [], $ver, 'all' );
         wp_enqueue_script("projects-filter-js", asset_url('projects-filter.js', get_language_asset_path('js/projects')), [], $ver, true );
     }
