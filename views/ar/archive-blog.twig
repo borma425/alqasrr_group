@@ -42,7 +42,7 @@
                                 <img src="{{ first_post.thumbnail.src('full') }}" alt="{{ first_post.title }}"
                                     class="featured-image">
                             {% else %}
-                                <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ first_post.title }}"
+                                <img src="{{ asset_url('no_image_1200x627.png', 'img/default/') }}" alt="{{ first_post.title }}"
                                     class="featured-image">
                             {% endif %}
                             <div class="featured-overlay">
@@ -71,7 +71,7 @@
                             {% if second_post.thumbnail %}
                                 <img src="{{ second_post.thumbnail.src('full') }}" alt="{{ second_post.title }}" class="small-image">
                             {% else %}
-                                <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ second_post.title }}" class="small-image">
+                                <img src="{{ asset_url('no_image_1200x627.png', 'img/default/') }}" alt="{{ second_post.title }}" class="small-image">
                             {% endif %}
                             <div class="small-content">
                                 <time class="article-date">{{ second_post.date('j F Y') }}</time>
@@ -90,7 +90,7 @@
                             {% if third_post.thumbnail %}
                                 <img src="{{ third_post.thumbnail.src('full') }}" alt="{{ third_post.title }}" class="small-image">
                             {% else %}
-                                <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ third_post.title }}" class="small-image">
+                                <img src="{{ asset_url('no_image_1200x627.png', 'img/default/') }}" alt="{{ third_post.title }}" class="small-image">
                             {% endif %}
                             <div class="small-content">
                                 <time class="article-date">{{ third_post.date('j F Y') }}</time>
@@ -118,7 +118,7 @@
                                 {% if post.thumbnail %}
                                     <img src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}" class="card-image">
                                 {% else %}
-                                    <img src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ post.title }}" class="card-image">
+                                    <img src="{{ asset_url('no_image_1200x627.png', 'img/default/') }}" alt="{{ post.title }}" class="card-image">
                                 {% endif %}
                                 <div class="card-content">
                                     <time class="article-date">{{ post.date('j F Y') }}</time>

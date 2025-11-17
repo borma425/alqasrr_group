@@ -79,7 +79,7 @@ if ($post && has_post_thumbnail($job_id)) {
 
 if (!$context['job_featured_image']) {
     if (function_exists('asset_url')) {
-        $context['job_featured_image'] = asset_url('rectangle-4.png', '/img/main/');
+        $context['job_featured_image'] = asset_url('rectangle-4.png', 'img/main/');
     } else {
         $context['job_featured_image'] = get_template_directory_uri() . '/assets/img/main/rectangle-4.png';
     }

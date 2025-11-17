@@ -23,7 +23,7 @@
                     {% if post.thumbnail %}
                         <img class="hero-image" src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}" />
                     {% else %}
-                        <img class="hero-image" src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ post.title }}" />
+                        <img class="hero-image" src="{{ asset_url('no_image_1200x627.png', 'img/default/') }}" alt="{{ post.title }}" />
                     {% endif %}
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 <div class="section-header">
                     <div class="section-label">
                         <span>Stay Informed With Our Latest Stories</span>
-                        <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" />
+                        <img src="{{ asset_url('line-8.svg', 'img/main/') }}" alt="" />
                     </div>
                     <h2 class="section-heading">Latest Real Estate Insights</h2>
                 </div>
@@ -75,7 +75,7 @@
                                 {% if related_post.thumbnail %}
                                     <img class="card-image" src="{{ related_post.thumbnail.src('full') }}" alt="{{ related_post.title }}" />
                                 {% else %}
-                                    <img class="card-image" src="{{ asset_url('no_image_1200x627.png', '/img/default/') }}" alt="{{ related_post.title }}" />
+                                    <img class="card-image" src="{{ asset_url('no_image_1200x627.png', 'img/default/') }}" alt="{{ related_post.title }}" />
                                 {% endif %}
                                 <div class="card-content">
                                     <p class="card-date">{{ related_post.english_date ?? related_post.date('j F Y') }}</p>

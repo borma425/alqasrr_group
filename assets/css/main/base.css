@@ -19,13 +19,13 @@
 
    :root {
     --primary: #282828;
-    --secondary: #FF5A00;
+    --secondary: #ff5a00;
     --secondary-orange: #FF5A00;
     --text-gray: #616161;
     --paragraph-grey: #4A4949;
     --gray-light: #BDBDBD;
     --gray-dark: #828282;
-    --white: #FBFBFB;
+    --white: #fbfbfb;
     --black: #141415;
     --secandary-color: rgba(237, 134, 59, 1);
     --gray-400: rgba(152, 162, 179, 1);

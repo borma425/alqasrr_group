@@ -13,7 +13,7 @@
                 {% if post.thumbnail %}
                     <img src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}">
                 {% else %}
-                    <img src="{{ asset_url('rectangle-4.png', '/img/main/') }}" alt="{{ post.title }}">
+                    <img src="{{ asset_url('rectangle-4.png', 'img/main/') }}" alt="{{ post.title }}">
                 {% endif %}
             </div>
             <div class="hero-content">
@@ -21,7 +21,7 @@
                 {% if top_image %}
                     <img class="hero-logo" src="{{ fn('esc_url', top_image) }}" alt="{{ post.title }}">
                 {% else %}
-                    <img class="hero-logo" src="{{ asset_url('group-122.png', '/img/main/') }}" alt="{{ post.title }}">
+                    <img class="hero-logo" src="{{ asset_url('group-122.png', 'img/main/') }}" alt="{{ post.title }}">
                 {% endif %}
             </div>
         </section>
@@ -34,7 +34,7 @@
                     <div class="section-header">
                         <div class="section-label">
                             <span class="subheading">Project Description</span>
-                            <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                            <img src="{{ asset_url('line-8.svg', 'img/main/') }}" alt="">
                         </div>
                         <h2 class="heading">{{ post.title }}</h2>
                     </div>
@@ -123,12 +123,12 @@
                         </div>
                         <div class="project-actions">
                             <a href="{{ has_download ? download_url : '#' }}" class="btn btn-outline" {% if has_download %}target="_blank" rel="noopener" download{% else %}aria-disabled="true"{% endif %}>
-                                <img src="{{ asset_url('interface---download.png', '/img/main/') }}" alt="">
+                                <img src="{{ asset_url('interface---download.png', 'img/main/') }}" alt="">
                             </a>
 
                             <a href="{{ site.url }}/en/contact_us" class="btn btn-primary">
                                 <span>Contact Us</span>
-                                <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="">
+                                <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="">
 
                             </a>
                         </div>
@@ -140,7 +140,7 @@
                     {% if separator_image %}
                         <img src="{{ separator_image }}" alt="{{ post.title }}">
                     {% else %}
-                        <img src="{{ asset_url('rectangle-4.png', '/img/main/') }}" alt="{{ post.title }}">
+                        <img src="{{ asset_url('rectangle-4.png', 'img/main/') }}" alt="{{ post.title }}">
                     {% endif %}
                 </div>
             </div>
@@ -163,7 +163,7 @@
                                     {% if item.icon %}
                                         <img src="{{ item.icon }}" alt="{{ item.title ?: post.title }}" class="feature-icon">
                                     {% else %}
-                                        <img src="{{ asset_url('group-1.svg', '/img/main/') }}" alt="{{ item.title ?: post.title }}" class="feature-icon">
+                                        <img src="{{ asset_url('group-1.svg', 'img/main/') }}" alt="{{ item.title ?: post.title }}" class="feature-icon">
                                     {% endif %}
                                     <div class="feature-content">
                                         {% if item.title %}
@@ -186,7 +186,7 @@
                                     {{ features.section_title }}
                                 {% endif %}
                             </span>
-                            <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                            <img src="{{ asset_url('line-8.svg', 'img/main/') }}" alt="">
                         </div>
                         <h2 class="heading">
                             {% if features.main_title %}
@@ -243,7 +243,7 @@
                             {% endif %}
                         </div>
 
-                        <img class="location-map" src="{{ asset_url('car.png', '/img/main/') }}" alt="">
+                        <img class="location-map" src="{{ asset_url('car.png', 'img/main/') }}" alt="">
                     </div>
                 </section>
             {% endfor %}
@@ -268,7 +268,7 @@
                 <div class="section-header centered">
                     <div class="section-label">
                         <span class="subheading">{{ gallery_subtitle }}</span>
-                        <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                        <img src="{{ asset_url('line-8.svg', 'img/main/') }}" alt="">
                     </div>
                     <h2 class="heading">{{ gallery_title }}</h2>
                 </div>
@@ -282,7 +282,7 @@
 
                         <div class="carousel-main">
                             <button class="carousel-btn prev" id="carousel-prev">
-                                <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', '/img/main/') }}" alt="Previous">
+                                <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', 'img/main/') }}" alt="Previous">
                             </button>
                             <div class="carousel-images-wrapper">
                                 {% for image in gallery_images_full %}
@@ -291,7 +291,7 @@
                                 {% endfor %}
                             </div>
                             <button class="carousel-btn next" id="carousel-next">
-                                <img src="{{ asset_url('vuesax-linear-arrow-right.svg', '/img/main/') }}" alt="Next">
+                                <img src="{{ asset_url('vuesax-linear-arrow-right.svg', 'img/main/') }}" alt="Next">
                             </button>
                         </div>
 
@@ -300,7 +300,7 @@
 
                     <div class="carousel-footer">
                         <button class="carousel-btn prev carousel-footer-btn" id="carousel-prev-footer">
-                            <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', '/img/main/') }}" alt="Previous">
+                            <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', 'img/main/') }}" alt="Previous">
                         </button>
                         {% set total_images = gallery_images_full|length %}
                         <p class="carousel-counter">
@@ -308,7 +308,7 @@
                             <span class="total">/ {{ '%02d'|format(total_images) }}</span>
                         </p>
                         <button class="carousel-btn next carousel-footer-btn" id="carousel-next-footer">
-                            <img src="{{ asset_url('vuesax-linear-arrow-right.svg', '/img/main/') }}" alt="Next">
+                            <img src="{{ asset_url('vuesax-linear-arrow-right.svg', 'img/main/') }}" alt="Next">
                         </button>
                     </div>
                 {% endif %}

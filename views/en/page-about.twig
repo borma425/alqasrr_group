@@ -9,7 +9,7 @@
         {% if about_hero_background %}
             <img src="{{ about_hero_background }}" alt="Hero Background" class="hero-image">
         {% else %}
-            <img src="{{ asset_url('about-hero.png', '/img/about/hero/') }}" alt="Hero Background" class="hero-image">
+            <img src="{{ asset_url('about-hero.png', 'img/about/hero/') }}" alt="Hero Background" class="hero-image">
         {% endif %}
     </div>
     <div class="hero-content">
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="about-grid">
             <div class="about-content">
-                <img src="{{ asset_url('group-1392.png', '/img/about/about/') }}" alt="Decorative" class="about-decoration">
+                <img src="{{ asset_url('group-1392.png', 'img/about/about/') }}" alt="Decorative" class="about-decoration">
                 <div class="section-header">
                     <div class="section-label">
                         {% if about_us_subtitle %}
@@ -39,7 +39,7 @@
                         {% else %}
                             <span class="label-text">About Us</span>
                         {% endif %}
-                        <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="" class="label-line">
+                        <img src="{{ asset_url('line-8.svg', 'img/main/') }}" alt="" class="label-line">
                     </div>
                     {% if about_us_title %}
                         <h2 class="section-title">{{ about_us_title }}</h2>
@@ -77,7 +77,7 @@
                             </div>
                         {% else %}
                             <div class="card-icon">
-                                <img src="{{ asset_url('frame-1.png', '/img/about/mission-vision/') }}" alt="{{ item.title_en|default(item.title_ar)|default('Identity item') }}">
+                                <img src="{{ asset_url('frame-1.png', 'img/about/mission-vision/') }}" alt="{{ item.title_en|default(item.title_ar)|default('Identity item') }}">
                             </div>
                         {% endif %}
                         {% if item.title_en or item.title_ar %}
@@ -109,7 +109,7 @@
                 {% else %}
                     <span class="label-text">What Makes Us Different</span>
                 {% endif %}
-                <img src="{{ asset_url('about-hero.png', '/img/about/hero/') }}" alt="" class="label-line">
+                <img src="{{ asset_url('about-hero.png', 'img/about/hero/') }}" alt="" class="label-line">
             </div>
             {% if why_choose_title %}
                 <h2 class="section-title">{{ why_choose_title|nl2br }}</h2>
@@ -129,7 +129,7 @@
                                         {% if item.image %}
                                             <img src="{{ item.image }}" alt="{{ item.title_en|default(item.title_ar)|default('Slide item') }}">
                                         {% else %}
-                                            <img src="{{ asset_url('image-13.png', '/img/about/why-choose/') }}" alt="{{ item.title_en|default(item.title_ar)|default('Slide item') }}">
+                                            <img src="{{ asset_url('image-13.png', 'img/about/why-choose/') }}" alt="{{ item.title_en|default(item.title_ar)|default('Slide item') }}">
                                         {% endif %}
                                     </div>
                                     <div class="slide-text">
@@ -216,7 +216,7 @@
                 {% if our_values_subtitle %}
                     <span class="label-text">{{ our_values_subtitle }}</span>
                 {% endif %}
-                <img src="{{ asset_url('line-8.svg', '/img/main') }}" alt="" class="label-line">
+                <img src="{{ asset_url('line-8.svg', 'img/main') }}" alt="" class="label-line">
             </div>
             {% if our_values_title %}
                 <h2 class="section-title">{{ our_values_title }}</h2>

@@ -28,7 +28,7 @@
                     <div class="contact-info">
                         <div class="section-label">
                             <span class="subheading">{{ subheading }}</span>
-                            <img src="{{ asset_url('line-8.svg', '/img/main/') }}" alt="">
+                            <img src="{{ asset_url('line-8.svg', 'img/main/') }}" alt="">
                         </div>
                         <h2 class="heading">{{ form_heading|raw }}</h2>
                         {% if not is_english %}
@@ -81,7 +81,7 @@
                         <div class="form-message" style="display: none; margin-bottom: 20px; padding: 15px; border-radius: 5px;"></div>
 
                         <button type="submit" class="btn btn-primary">
-                            <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="btn-icon">
+                            <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" class="btn-icon">
                             <span class="submit-text">{{ submit_label }}</span>
                             <span class="loading-text" style="display: none;">{{ submitting_label }}</span>
                         </button>

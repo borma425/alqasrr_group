@@ -9,7 +9,7 @@
             <div class="nav-right">
                 <button class="menu-icon" aria-label="Menu">
                     <div class="w-[34px] h-[34px] bg-[100%_100%]"
-                         style="background-image: url('{{ asset_url('vuesax-linear-textalign-right.svg', '/img/main/') }}');">
+                         style="background-image: url('{{ asset_url('vuesax-linear-textalign-right.svg', 'img/main/') }}');">
                     </div>
                 </button>
                 <span class="nav-text">Menu</span>
@@ -43,12 +43,12 @@
             <!-- Left side - Language & CTA -->
             <div class="nav-left">
                 <a href="{{ arabic_url }}" class="language-selector" aria-label="Switch to Arabic">
-                    <img src="{{ asset_url('vuesax-linear-global.svg', '/img/main/') }}" alt="" class="w-6 h-6">
+                    <img src="{{ asset_url('vuesax-linear-global.svg', 'img/main/') }}" alt="" class="w-6 h-6">
                     <span class="nav-text">العربية</span>
                 </a>
                 <a href="{{ site.url }}/en/contact_us" class="btn-outline-white">
                     <span>Learn More</span>
-                    <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="w-6 h-6">
+                    <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" class="w-6 h-6">
                 </a>
             </div>
         </nav>
@@ -80,14 +80,14 @@
                         {% if project_type.image_url %}
                             <img src="{{ project_type.image_url }}" alt="{{ project_type.name }}" class="gallery-image">
                         {% else %}
-                            <img src="{{ asset_url('rectangle-3.png', '/img/main/') }}" alt="{{ project_type.name }}" class="gallery-image">
+                            <img src="{{ asset_url('rectangle-3.png', 'img/main/') }}" alt="{{ project_type.name }}" class="gallery-image">
                         {% endif %}
                         <div class="gallery-overlay">
                             <div class="gallery-content">
                                 <h2 class="gallery-title">{{ project_type.name }}</h2>
                                 <a href="{{ project_type.link }}" class="gallery-link">
                                     <span>معرفه المزيد</span>
-                                    <img src="{{ asset_url('arrow-right.svg', '/img/main/') }}" alt="" class="arrow-icon">
+                                    <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" class="arrow-icon">
                                 </a>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                 <div class="sidebar-content">
                     <!-- Close Button -->
                 <button class="close-btn" aria-label="Close menu">
-                    <img src="{{ asset_url('icons---close.svg', '/img/main/') }}" alt="">
+                    <img src="{{ asset_url('icons---close.svg', 'img/main/') }}" alt="">
                 </button>
 
                     <!-- Navigation Menu -->
@@ -122,7 +122,7 @@
                         <li class="nav-item {{ item.current ? 'active' }}">
                             <a href="{{ item.link }}" class="nav-link">
                                 {% if item.current %}
-                                <img src="{{ asset_url('line-8.png', '/img/main/') }}" alt="" class="nav-underline">
+                                <img src="{{ asset_url('line-8.png', 'img/main/') }}" alt="" class="nav-underline">
                                 {% endif %}
                                 <span>{{ item.title }}</span>
                             </a>
