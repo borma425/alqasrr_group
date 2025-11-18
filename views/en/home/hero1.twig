@@ -2,7 +2,7 @@
     {% set hero_bg = function('get_option','hero_bg_image') %}
     {% set hero_title_en = function('get_option','hero_title_en') %}
     {% set hero_subtitle_en = function('get_option','hero_subtitle_en') %}
-    <section class="hero-section min-h-screen flex items-center" style="background-image: url('{{ function('esc_url', hero_bg) }}');">
+    <section class="hero-section min-h-screen flex items-center">
         <div class="hero-bg">
             {# في حال رغبتك بالاحتفاظ بعنصر <img> بدلاً من CSS background #}
             <img src="{{ function('esc_url', hero_bg)|default(asset_url('image.png', 'img/home/hero/')) }}" alt="{{ function('get_bloginfo','name') }}" class="hero-image" width="2314" height="929">

@@ -68,7 +68,7 @@
     width: 100%;
     max-width: 1296px;
     height: auto;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
     border-radius: 0;
 }
