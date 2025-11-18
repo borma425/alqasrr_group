@@ -33,14 +33,26 @@
                             <p  class="footer-contact">{{ contact_company_address }}</p>
                         {% endif %}
                         {% if contact_methods %}
+                            {% set emails = [] %}
+                            {% set phones = [] %}
+                            {% set others = [] %}
                             {% for key, value in contact_methods %}
                                 {% if '@' in value %}
-                                    <a href="mailto:{{ value }}" class="footer-contact">{{ value }}</a>
+                                    {% set emails = emails|merge([{key: key, value: value}]) %}
                                 {% elseif '+' in value or value matches '/^[0-9]/' %}
-                                    <a href="tel:{{ value }}" class="footer-contact">{{ value }}</a>
+                                    {% set phones = phones|merge([{key: key, value: value}]) %}
                                 {% else %}
-                                    <p class="footer-contact">{{ key }}: {{ value }}</p>
+                                    {% set others = others|merge([{key: key, value: value}]) %}
                                 {% endif %}
+                            {% endfor %}
+                            {% for item in emails %}
+                                <a href="mailto:{{ item.value }}" class="footer-contact">{{ item.value }}</a>
+                            {% endfor %}
+                            {% for item in others %}
+                                <p class="footer-contact">{{ item.key }}: {{ item.value }}</p>
+                            {% endfor %}
+                            {% for item in phones %}
+                                <a href="tel:{{ item.value }}" class="footer-contact">{{ item.value }}</a>
                             {% endfor %}
                         {% endif %}
                     </div>
