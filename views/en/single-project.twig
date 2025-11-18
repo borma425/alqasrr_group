@@ -11,17 +11,17 @@
         <section class="hero">
             <div class="hero-bg">
                 {% if post.thumbnail %}
-                    <img src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}">
+                    <img src="{{ post.thumbnail.src('full') }}" alt="{{ post.title }}"{% if post.thumbnail.width %} width="{{ post.thumbnail.width }}"{% endif %}{% if post.thumbnail.height %} height="{{ post.thumbnail.height }}"{% endif %}>
                 {% else %}
-                    <img src="{{ asset_url('rectangle-4.png', 'img/main/') }}" alt="{{ post.title }}">
+                    <img src="{{ asset_url('rectangle-4.png', 'img/main/') }}" alt="{{ post.title }}" width="1920" height="1080">
                 {% endif %}
             </div>
             <div class="hero-content">
                 {% set top_image = project_media.small_top_image ?? null %}
                 {% if top_image %}
-                    <img class="hero-logo" src="{{ fn('esc_url', top_image) }}" alt="{{ post.title }}">
+                    <img class="hero-logo" src="{{ fn('esc_url', top_image) }}" alt="{{ post.title }}" width="200" height="200">
                 {% else %}
-                    <img class="hero-logo" src="{{ asset_url('group-122.png', 'img/main/') }}" alt="{{ post.title }}">
+                    <img class="hero-logo" src="{{ asset_url('group-122.png', 'img/main/') }}" alt="{{ post.title }}" width="200" height="200">
                 {% endif %}
             </div>
         </section>
@@ -61,7 +61,7 @@
                 <div class="image-gallery fade-in-up animated">
                         {% set first_image = gallery_images[0] %}
 
-                    <img src="{{ first_image.url }}" alt="{{ post.title }}" class="gallery-img-large fade-in-up animated" style="transition: transform 0.5s, opacity 0.3s;">
+                    <img src="{{ first_image.url }}" alt="{{ post.title }}" class="gallery-img-large fade-in-up animated" style="transition: transform 0.5s, opacity 0.3s;"{% if first_image.width %} width="{{ first_image.width }}"{% endif %}{% if first_image.height %} height="{{ first_image.height }}"{% endif %}>
                 </div>
                 {% endif %}
             </div>
@@ -123,12 +123,12 @@
                         </div>
                         <div class="project-actions">
                             <a href="{{ has_download ? download_url : '#' }}" class="btn btn-outline" {% if has_download %}target="_blank" rel="noopener" download{% else %}aria-disabled="true"{% endif %}>
-                                <img src="{{ asset_url('interface---download.png', 'img/main/') }}" alt="">
+                                <img src="{{ asset_url('interface---download.png', 'img/main/') }}" alt="" width="24" height="24">
                             </a>
 
                             <a href="{{ site.url }}/en/contact_us" class="btn btn-primary">
                                 <span>Contact Us</span>
-                                <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="">
+                                <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" width="24" height="24">
 
                             </a>
                         </div>
@@ -278,29 +278,29 @@
                     {% set last_image = gallery_images_full[gallery_images_full|length - 1] %}
                     <!-- Image Carousel -->
                     <div class="carousel" id="tour-carousel">
-                        <img src="{{ (gallery_images_full[1] ?? last_image).url }}" alt="{{ (gallery_images_full[1] ?? last_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-prev">
+                        <img src="{{ (gallery_images_full[1] ?? last_image).url }}" alt="{{ (gallery_images_full[1] ?? last_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-prev" loading="lazy">
 
                         <div class="carousel-main">
                             <button class="carousel-btn prev" id="carousel-prev">
-                                <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', 'img/main/') }}" alt="Previous">
+                                <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', 'img/main/') }}" alt="Previous" width="24" height="24">
                             </button>
                             <div class="carousel-images-wrapper">
                                 {% for image in gallery_images_full %}
                                     <img src="{{ image.url }}" alt="{{ image.alt ?: gallery_title }}"
-                                        class="carousel-image{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}">
+                                        class="carousel-image{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}"{% if image.width %} width="{{ image.width }}"{% endif %}{% if image.height %} height="{{ image.height }}"{% endif %}>
                                 {% endfor %}
                             </div>
                             <button class="carousel-btn next" id="carousel-next">
-                                <img src="{{ asset_url('vuesax-linear-arrow-right.svg', 'img/main/') }}" alt="Next">
+                                <img src="{{ asset_url('vuesax-linear-arrow-right.svg', 'img/main/') }}" alt="Next" width="24" height="24">
                             </button>
                         </div>
 
-                        <img src="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).url }}" alt="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-next">
+                        <img src="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).url }}" alt="{{ (gallery_images_full[gallery_images_full|length - 2] ?? first_image).alt ?: gallery_title }}" class="carousel-thumb carousel-thumb-next" loading="lazy">
                     </div>
 
                     <div class="carousel-footer">
                         <button class="carousel-btn prev carousel-footer-btn" id="carousel-prev-footer">
-                            <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', 'img/main/') }}" alt="Previous">
+                            <img src="{{ asset_url('vuesax-linear-arrow-right-1.svg', 'img/main/') }}" alt="Previous" width="24" height="24">
                         </button>
                         {% set total_images = gallery_images_full|length %}
                         <p class="carousel-counter">
@@ -308,7 +308,7 @@
                             <span class="total">/ {{ '%02d'|format(total_images) }}</span>
                         </p>
                         <button class="carousel-btn next carousel-footer-btn" id="carousel-next-footer">
-                            <img src="{{ asset_url('vuesax-linear-arrow-right.svg', 'img/main/') }}" alt="Next">
+                            <img src="{{ asset_url('vuesax-linear-arrow-right.svg', 'img/main/') }}" alt="Next" width="24" height="24">
                         </button>
                     </div>
                 {% endif %}

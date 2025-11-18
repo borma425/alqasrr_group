@@ -10,6 +10,7 @@
         url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.woff")format("woff"),
         url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.ttf")format("truetype"),
         url("https://db.onlinewebfonts.com/t/60268e22405a5a6968edd7e0d90cd448.svg#Aktiv Grotesk VF Trial")format("svg");
+    font-display: swap;
 }
 
 
@@ -82,6 +83,33 @@
     --font-size-large-mobile: 24px;
     --font-size-medium-mobile: 16px;
     --font-size-small-mobile: 13px;
+}
+
+/* Fix deprecated API warning: h1 inside section, article, aside, or nav needs explicit font-size */
+/* Browser requires explicit font-size value, not CSS variable */
+section h1,
+article h1,
+aside h1,
+nav h1 {
+    font-size: 65px !important;
+}
+
+@media (max-width: 1024px) {
+    section h1,
+    article h1,
+    aside h1,
+    nav h1 {
+        font-size: 55px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    section h1,
+    article h1,
+    aside h1,
+    nav h1 {
+        font-size: 35px !important;
+    }
 }
 
 
@@ -165,6 +193,32 @@ img {
 /* ===================================
    Typography
    =================================== */
+
+/* Fix deprecated API: h1.section-title inside section needs explicit font-size */
+section h1.section-title,
+article h1.section-title,
+aside h1.section-title,
+nav h1.section-title {
+    font-size: 65px !important;
+}
+
+@media (max-width: 1024px) {
+    section h1.section-title,
+    article h1.section-title,
+    aside h1.section-title,
+    nav h1.section-title {
+        font-size: 55px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    section h1.section-title,
+    article h1.section-title,
+    aside h1.section-title,
+    nav h1.section-title {
+        font-size: 35px !important;
+    }
+}
 
 .section-title {
     font-family: 'Aktiv Grotesk VF Trial', Helvetica, sans-serif;

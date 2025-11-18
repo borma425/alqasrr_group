@@ -32,11 +32,13 @@
     transform: translateY(30px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     contain: layout;
+    will-change: transform, opacity;
 }
 
 .fade-in-up.animated {
     opacity: 1;
     transform: translateY(0);
+    will-change: auto;
 }
 
 /* Fade In Down */
@@ -416,14 +418,22 @@ a, button, .btn-primary, .btn-outline-primary, .btn-outline-secondary, .btn-outl
 /* Hero section */
 .hero-section {
     animation: fadeIn 1s ease-out;
+    will-change: opacity;
 }
 
 .hero-title {
     animation: slideUp 1s ease-out 0.2s backwards;
+    will-change: transform, opacity;
+}
+
+.hero-title.animated,
+.hero-subtitle.animated {
+    will-change: auto;
 }
 
 .hero-subtitle {
     animation: slideUp 1s ease-out 0.4s backwards;
+    will-change: transform, opacity;
 }
 
 /* ===================================

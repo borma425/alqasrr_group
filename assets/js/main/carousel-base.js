@@ -325,7 +325,7 @@
 
         document.addEventListener('touchend', () => {
           this.state.isDragging = false;
-        });
+        }, { passive: true });
       }
 
       // Wheel scrolling
@@ -340,19 +340,19 @@
       // Track hover state for keyboard navigation
       carousel.addEventListener('mouseenter', () => {
         this.state.isHovered = true;
-      });
+      }, { passive: true });
       carousel.addEventListener('mouseleave', () => {
         this.state.isHovered = false;
-      });
+      }, { passive: true });
 
       // Scroll tracking
-      carousel.addEventListener('scroll', this.handleScroll);
+      carousel.addEventListener('scroll', this.handleScroll, { passive: true });
 
       // Keyboard navigation
       document.addEventListener('keydown', this.handleKeyboard);
 
       // Resize
-      window.addEventListener('resize', this.handleResize);
+      window.addEventListener('resize', this.handleResize, { passive: true });
     }
 
     init() {

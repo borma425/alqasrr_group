@@ -21,7 +21,7 @@
                         {% if social_icons %}
                             {% for icon in social_icons %}
                                 <a href="{{ icon.url }}" class="footer-social" target="_blank" rel="noopener noreferrer" aria-label="{{ icon.title }}">
-                                    <img src="{{ icon.icon }}" alt="{{ icon.title }}">
+                                    <img src="{{ icon.icon }}" alt="" width="24" height="24">
                                     <span>{{ icon.title }}</span>
                                 </a>
                             {% endfor %}

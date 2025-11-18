@@ -5,7 +5,7 @@
     <section class="hero-section min-h-screen flex items-center" style="background-image: url('{{ function('esc_url', hero_bg) }}');">
         <div class="hero-bg">
             {# في حال رغبتك بالاحتفاظ بعنصر <img> بدلاً من CSS background #}
-            <img src="{{ function('esc_url', hero_bg)|default(asset_url('image.png', 'img/home/hero/')) }}" alt="{{ function('get_bloginfo','name') }}" class="hero-image">
+            <img src="{{ function('esc_url', hero_bg)|default(asset_url('image.png', 'img/home/hero/')) }}" alt="{{ function('get_bloginfo','name') }}" class="hero-image" width="2314" height="929">
         </div>
         <div class="hero-content">
             <h1 class="hero-title">{{ hero_title_en|default('Luxury Beyond Borders') }}</h1>

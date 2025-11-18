@@ -30,19 +30,19 @@
             <!-- Center - Logo -->
             <div class="nav-center">
                 <a href="{{ site.url }}" class="logo-link" aria-label="{{ site_title }}">
-                    <img  style="    filter: initial !important; " src="{{ function('esc_url', function('get_option','AlQasrGroup_site_logo_small')) }}" alt="{{ site_title }}" class="logo">
+                    <img  style="    filter: initial !important; " src="{{ function('esc_url', function('get_option','AlQasrGroup_site_logo_small')) }}" alt="{{ site_title }}" class="logo" width="200" height="60">
                 </a>
             </div>
 
             <!-- Left side - Language & CTA -->
             <div class="nav-left">
                 <a href="{{ english_url }}" class="language-selector" aria-label="Change language">
-                    <img src="{{ asset_url('vuesax-linear-global.svg', 'img/main/') }}" alt="" class="w-6 h-6">
+                    <img src="{{ asset_url('vuesax-linear-global.svg', 'img/main/') }}" alt="" class="w-6 h-6" width="24" height="24">
                     <span class="nav-text">English</span>
                 </a>
                 <a href="{{ site.url }}/contact_us" class="btn-outline-white">
                     <span>معرفه المزيد</span>
-                    <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" class="w-6 h-6">
+                    <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" class="w-6 h-6" width="24" height="24">
                 </a>
             </div>
         </nav>
@@ -128,7 +128,7 @@
                         {% if social_icons %}
                             {% for icon in social_icons %}
                                 <a href="{{ icon.url }}" class="social-link" aria-label="{{ icon.title }}" target="_blank" rel="noopener noreferrer">
-                                    <img src="{{ icon.icon }}" alt="{{ icon.title }}" >
+                                    <img src="{{ icon.icon }}" alt="" width="24" height="24">
                                 </a>
                             {% endfor %}
                         {% endif %}

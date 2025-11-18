@@ -21,7 +21,7 @@
                     {% if partner.image %}
                     {% set partner_title = partner.name ?: (is_english ? 'Partner' : 'شريك') %}
                     <div class="partner-logo">
-                        <img src="{{ function('esc_url', partner.image) }}" alt="{{ partner_title }}" class="partner-logo-img">
+                        <img src="{{ function('esc_url', partner.image) }}" alt="{{ partner_title }}" class="partner-logo-img" width="150" height="150" loading="lazy">
                     </div>
                     {% endif %}
                 {% endfor %}

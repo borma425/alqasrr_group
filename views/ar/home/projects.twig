@@ -30,7 +30,9 @@
 {% if projects %}
   {% for post in projects %}
     <a href="{{ post.link }}" class="project-card">
-        <img src="{{ post.thumbnail.src }}" alt="{{ post.title }}" class="project-image">
+        {% if post.thumbnail %}
+            <img src="{{ post.thumbnail.src }}" alt="{{ post.title }}" class="project-image"{% if post.thumbnail.width %} width="{{ post.thumbnail.width }}"{% endif %}{% if post.thumbnail.height %} height="{{ post.thumbnail.height }}"{% endif %} loading="lazy">
+        {% endif %}
         <div class="project-info">
             <h3 class="project-title">{{ post.title }}</h3>
 
@@ -99,17 +101,17 @@
                 {% endif %}
                 <a href="{{ site.link ~ '/projects' }}" class="btn-primary">
                     <span>معرفه المزيد</span>
-                    <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" class="w-6 h-6">
+                    <img src="{{ asset_url('arrow-right.svg', 'img/main/') }}" alt="" class="w-6 h-6" width="24" height="24">
                 </a>
             </div>
 
             <div class="international-map">
                 <img src="{{ asset_url('group-1385.png', 'img/home/international/') }}" alt="خريطة المشاريع الدولية"
-                    class="map-base">
-                <img src="{{ asset_url('group-1387.png', 'img/home/international/') }}" alt="" class="map-marker marker-1">
-                <img src="{{ asset_url('group-1388.png', 'img/home/international/') }}" alt="" class="map-marker marker-2">
-                <img src="{{ asset_url('group-1389.png', 'img/home/international/') }}" alt="" class="map-marker marker-3">
-                <img src="{{ asset_url('group-1390.png', 'img/home/international/') }}" alt="" class="map-marker marker-4">
+                    class="map-base" width="800" height="600" loading="lazy">
+                <img src="{{ asset_url('group-1387.png', 'img/home/international/') }}" alt="" class="map-marker marker-1" width="40" height="40" loading="lazy">
+                <img src="{{ asset_url('group-1388.png', 'img/home/international/') }}" alt="" class="map-marker marker-2" width="40" height="40" loading="lazy">
+                <img src="{{ asset_url('group-1389.png', 'img/home/international/') }}" alt="" class="map-marker marker-3" width="40" height="40" loading="lazy">
+                <img src="{{ asset_url('group-1390.png', 'img/home/international/') }}" alt="" class="map-marker marker-4" width="40" height="40" loading="lazy">
             </div>
         </div>
     </div>

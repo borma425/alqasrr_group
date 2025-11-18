@@ -20,7 +20,9 @@
 
 {% for news in news %}
                 <article class="news-card">
-                    <img src="{{ news.thumbnail.src('full') }}" alt="{{ news.title }}" class="news-image">
+                    {% if news.thumbnail %}
+                        <img src="{{ news.thumbnail.src('full') }}" alt="{{ news.title }}" class="news-image"{% if news.thumbnail.width %} width="{{ news.thumbnail.width }}"{% endif %}{% if news.thumbnail.height %} height="{{ news.thumbnail.height }}"{% endif %} loading="lazy">
+                    {% endif %}
                     <div class="news-content">
                         <time class="news-date">{{ news.date }}</time>
                         <h3 class="news-title">{{ news.title }}</h3>
