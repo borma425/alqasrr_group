@@ -837,7 +837,7 @@ html[dir="rtl"] .carousel-progress-fill {
 .footer-copyright {
     font-family: 'Aktiv Grotesk VF Trial', Helvetica, sans-serif;
     font-size: 13px;
-    color: var(--gray-light);
+    color: #E6E6E6; /* Changed from var(--gray-light) #BDBDBD to #E6E6E6 for better contrast ratio (WCAG AA compliant) */
 }
 
 @media (max-width: 1024px) {

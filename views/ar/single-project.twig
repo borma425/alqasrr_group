@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         <div class="project-actions">
-                            <a href="{{ has_download ? download_url : '#' }}" class="btn btn-outline" {% if has_download %}target="_blank" rel="noopener" download{% else %}aria-disabled="true"{% endif %}>
+                            <a href="{{ has_download ? download_url : '#' }}" class="btn btn-outline" {% if has_download %}target="_blank" rel="noopener" download{% else %}aria-disabled="true"{% endif %} aria-label="تحميل الملف">
                                 <img src="{{ asset_url('interface---download.png', 'img/main/') }}" alt="" width="24" height="24">
                             </a>
 
