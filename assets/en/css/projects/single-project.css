@@ -653,7 +653,7 @@
 
 /* ===== Amenities ===== */
 .amenities {
-    margin-top: var(--spacing-3xl);
+    margin-top: calc(var(--spacing-3xl) * 2);
     display: flex;
     gap: var(--spacing-xl);
 }
@@ -677,6 +677,7 @@
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: start;
+    gap: var(--spacing-3xl);
     min-height: 584px;
 }
 
