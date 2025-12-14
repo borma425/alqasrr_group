@@ -130,9 +130,12 @@ function AlQasrGroup_handle_contact_form() {
         // Send email notification to admin
         AlQasrGroup_send_contact_notification_email($first_name, $second_name, $email, $phone, $message, $ip_address);
         
-        // Success message based on language
-        $success_message = $is_english ? 'Your message has been sent successfully!' : 'تم إرسال رسالتك بنجاح!';
-        wp_send_json_success($success_message);
+        // Return redirect URL based on language
+        $redirect_url = $is_english ? home_url('/en/thank_you/') : home_url('/thank_you/');
+        wp_send_json_success(array(
+            'message' => $is_english ? 'Your message has been sent successfully!' : 'تم إرسال رسالتك بنجاح!',
+            'redirect' => $redirect_url
+        ));
     } else {
         $error_message = is_wp_error($post_id) ? $post_id->get_error_message() : 'حدث خطأ أثناء إرسال الرسالة';
         wp_send_json_error($error_message);

@@ -56,7 +56,12 @@
             return response.json();
         }).then(function (data) {
             if (data && data.success) {
-                var successText = typeof data.data === 'string' && data.data.trim() ? data.data : getFallbackMessage(formData.get('current_language'), true);
+                // Check if redirect URL is provided
+                if (data.data && data.data.redirect) {
+                    window.location.href = data.data.redirect;
+                    return;
+                }
+                var successText = (data.data && data.data.message) ? data.data.message : (typeof data.data === 'string' && data.data.trim() ? data.data : getFallbackMessage(formData.get('current_language'), true));
                 showMessage(messageBox, successText, 'success');
                 form.reset();
             } else {

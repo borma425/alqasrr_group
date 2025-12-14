@@ -1,0 +1,172 @@
+{% extends "en/base.twig" %}
+
+{% block grid_content %}
+<section class="thank-you-section">
+    <div class="container">
+        <div class="thank-you-wrapper">
+            <div class="thank-you-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+            
+            <h1 class="thank-you-title">{{ post.title|default('Thank You for Contacting Us') }}</h1>
+            
+            <div class="thank-you-message">
+                {% if post.content %}
+                    {{ post.content|raw }}
+                {% else %}
+                    <p>Your message has been received successfully. Our team will get back to you as soon as possible.</p>
+                {% endif %}
+            </div>
+            
+            <div class="thank-you-actions">
+                <a href="{{ site.url }}/en" class="btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                    <span>Back to Home</span>
+                </a>
+                <a href="{{ site.url }}/en/projects" class="btn-secondary">
+                    Browse Our Projects
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Header fix for light background */
+.header-nav {
+    background: #1a1a1a;
+    position: fixed;
+    padding: 20px 0;
+}
+
+.thank-you-section {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    margin-top: 80px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.thank-you-wrapper {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.thank-you-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s ease-out;
+}
+
+.thank-you-icon svg {
+    width: 50px;
+    height: 50px;
+    color: #fff;
+}
+
+.thank-you-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.thank-you-message {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.thank-you-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0,123,255,0.4);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 30px;
+    background: transparent;
+    color: #007bff;
+    text-decoration: none;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 576px) {
+    .thank-you-wrapper {
+        padding: 40px 25px;
+    }
+    
+    .thank-you-title {
+        font-size: 1.5rem;
+    }
+    
+    .thank-you-actions {
+        flex-direction: column;
+    }
+    
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}
